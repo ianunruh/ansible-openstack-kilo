@@ -1,0 +1,19 @@
+- name: add apt key
+  apt_key:
+    id: 1BB943DB
+    keyserver: hkp://keyserver.ubuntu.com:80
+
+- name: add apt repository
+  apt_repository:
+    repo: "deb http://mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main"
+    update_cache: yes
+
+- name: install mysql
+  apt:
+    pkg: mariadb-server
+    state: present
+
+- name: install python mysql client
+  apt:
+    pkg: python-mysqldb
+    state: present

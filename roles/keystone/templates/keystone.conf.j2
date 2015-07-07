@@ -1,0 +1,13 @@
+[DEFAULT]
+log_dir = /var/log/keystone
+
+admin_token = {{ keystone_admin_token }}
+
+[database]
+connection = mysql://{{ keystone_mysql_user }}:{{ keystone_mysql_password }}@{{ keystone_mysql_host }}/{{ keystone_mysql_db }}
+
+[memcache]
+servers = {{ keystone_memcache_servers|join(',') }}
+
+[token]
+driver = keystone.token.persistence.backends.memcache.Token

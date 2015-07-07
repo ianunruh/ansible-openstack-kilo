@@ -1,0 +1,14 @@
+keystone_configure_mysql: true
+
+keystone_mysql_user: keystone
+keystone_mysql_password: keystone
+keystone_mysql_db: keystone
+keystone_mysql_host: "{{ openstack_mysql_host }}"
+keystone_mysql_login_password: password
+
+keystone_memcache_servers:
+  - localhost:11211
+
+keystone_endpoint_identity_public: "http://{{ openstack_controller_public_host }}:5000/v2.0"
+keystone_endpoint_identity_internal: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
+keystone_endpoint_identity_admin: "http://{{ openstack_controller_internal_host }}:35357/v2.0"

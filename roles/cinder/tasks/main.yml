@@ -1,0 +1,39 @@
+- include: configure_keystone.yml
+  when: cinder_configure_keystone
+
+- include: configure_mysql.yml
+  when: cinder_configure_mysql
+
+- include: configure_rabbitmq.yml
+  when: cinder_configure_rabbitmq
+
+- name: install cinder-common
+  apt:
+    pkg: cinder-common
+    state: present
+
+- name: configure cinder
+  template:
+    src: cinder.conf.j2
+    dest: /etc/cinder/cinder.conf
+  notify:
+    - sync cinder db
+    - restart cinder-api
+    - restart cinder-scheduler
+    - restart cinder-volume
+
+- include: component_api.yml
+  when: cinder_component_api
+
+- include: component_scheduler.yml
+  when: cinder_component_scheduler
+
+- include: component_volume.yml
+  when: cinder_component_volume
+
+- meta: flush_handlers
+
+- name: ensure sqlite db absent
+  file:
+    path: /var/lib/cinder/cinder.sqlite
+    state: absent

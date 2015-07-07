@@ -1,0 +1,55 @@
+- include: configure_keystone.yml
+  when: nova_configure_keystone
+
+- include: configure_mysql.yml
+  when: nova_configure_mysql
+
+- include: configure_rabbitmq.yml
+  when: nova_configure_rabbitmq
+
+- name: install nova-common
+  apt:
+    pkg: nova-common
+    state: present
+
+- name: configure nova
+  template:
+    src: nova.conf.j2
+    dest: /etc/nova/nova.conf
+  notify:
+    - sync nova db
+    - restart nova-api
+    - restart nova-cert
+    - restart nova-compute
+    - restart nova-conductor
+    - restart nova-consoleauth
+    - restart nova-novncproxy
+    - restart nova-scheduler
+
+- include: component_api.yml
+  when: nova_component_api
+
+- include: component_cert.yml
+  when: nova_component_cert
+
+- include: component_compute.yml
+  when: nova_component_compute
+
+- include: component_conductor.yml
+  when: nova_component_conductor
+
+- include: component_consoleauth.yml
+  when: nova_component_consoleauth
+
+- include: component_novncproxy.yml
+  when: nova_component_novncproxy
+
+- include: component_scheduler.yml
+  when: nova_component_scheduler
+
+- meta: flush_handlers
+
+- name: ensure sqlite db absent
+  file:
+    path: /var/lib/nova/nova.sqlite
+    state: absent

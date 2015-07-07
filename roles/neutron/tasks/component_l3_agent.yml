@@ -1,0 +1,11 @@
+- name: install neutron-l3-agent
+  apt:
+    pkg: neutron-l3-agent
+    state: present
+
+- name: configure neutron-l3-agent
+  template:
+    src: l3_agent.ini.j2
+    dest: /etc/neutron/l3_agent.ini
+  notify:
+    - restart neutron-l3-agent

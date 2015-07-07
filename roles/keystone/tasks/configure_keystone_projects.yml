@@ -1,0 +1,15 @@
+- name: ensure admin project
+  keystone_v3_project:
+    name: admin
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure service project
+  keystone_v3_project:
+    name: service
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

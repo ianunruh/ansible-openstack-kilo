@@ -1,0 +1,7 @@
+- name: ensure keystone region
+  keystone_v3_region:
+    name: "{{ openstack_region }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

@@ -1,0 +1,4 @@
+- name: install openvswitch
+  apt:
+    pkg: openvswitch-switch
+    state: present

@@ -1,0 +1,7 @@
+- name: configure admin environment script
+  template:
+    src: openrc-admin.j2
+    dest: /root/openrc-admin
+    owner: root
+    group: root
+    mode: 0700

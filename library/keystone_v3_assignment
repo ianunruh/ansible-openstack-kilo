@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+from keystoneclient.v3 import Client
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            role=dict(required=True),
+
+            user=dict(),
+            user_domain=dict(default='default'),
+            group=dict(),
+            group_domain=dict(default='default'),
+
+            project=dict(),
+            project_domain=dict(default='default'),
+            domain=dict(),
+
+            state=dict(choices=['present', 'absent'], default='present'),
+            endpoint=dict(default='http://localhost:35357/v3'),
+            token=dict(),
+        ),
+        mutually_exclusive=[
+            ['user', 'group'],
+            ['project', 'domain'],
+        ],
+        supports_check_mode=True,
+    )
+
+    role_name = module.params['role']
+
+    user_name = module.params['user']
+    user_domain_name = module.params['group_domain']
+    group_name = module.params['group']
+    group_domain_name = module.params['group_domain']
+    
+    project_name = module.params['project']
+    project_domain_name = module.params['project_domain']
+    domain_name = module.params['domain']
+
+    state = module.params['state']
+
+    endpoint = module.params['endpoint']
+    token = module.params['token']
+
+    client = Client(endpoint=endpoint, token=token)
+
+    if user_name:
+        user_domain = client.domains.find(name=user_domain_name)
+        user = client.users.find(name=user_name, domain=user_domain)
+    else:
+        user = None
+    
+    if group_name:
+        group_domain = client.domains.find(name=group_domain_name)
+        group = client.groups.find(name=group_name, domain=group_domain)
+    else:
+        group = None
+
+    if project_name:
+        project_domain = client.domains.find(name=project_domain_name)
+        project = client.projects.find(name=project_name, domain=project_domain)
+    else:
+        project = None
+
+    if domain_name:
+        domain = client.domains.find(name=domain_name)
+    else:
+        domain = None
+
+    role = client.roles.find(name=role_name)
+
+    try:
+        client.roles.check(role=role, user=user, group=group, project=project, domain=domain)
+        present = True
+    except:
+        present = False
+
+    changed = False
+
+    if state == 'present':
+        if not present:
+            if not module.check_mode:
+                client.roles.grant(role=role, user=user, group=group, project=project, domain=domain)
+
+            changed = True
+    elif role:
+        if not module.check_mode:
+            client.roles.revoke(role=role, user=user, group=group, project=project, domain=domain)
+
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

@@ -1,0 +1,14 @@
+- name: disable reverse path filtering
+  sysctl:
+    name: "{{ item }}"
+    value: 0
+  with_items:
+    - net.ipv4.conf.all.rp_filter
+    - net.ipv4.conf.default.rp_filter
+  when: neutron_component_ovs_agent
+
+- name: enable ip forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+  when: neutron_component_l3_agent

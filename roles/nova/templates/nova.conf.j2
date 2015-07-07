@@ -1,0 +1,56 @@
+[DEFAULT]
+logdir = /var/log/nova
+lock_path = /var/lock/nova
+state_path = /var/lib/nova
+
+auth_strategy = keystone
+rpc_backend = rabbit
+
+my_ip = {{ nova_my_ip }}
+
+host = {{ nova_host }}
+
+{% if nova_component_compute %}
+vnc_enabled = True
+vncserver_listen = 0.0.0.0
+vncserver_proxyclient_address = {{ nova_my_ip }}
+novncproxy_base_url = {{ nova_novncproxy_base_url }}
+{% endif %}
+
+network_api_class = nova.network.neutronv2.api.API
+security_group_api = neutron
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
+[database]
+connection = mysql://{{ nova_mysql_user }}:{{ nova_mysql_password }}@{{ nova_mysql_host }}/{{ nova_mysql_db }}
+
+[glance]
+host = {{ nova_glance_host }}
+
+[keystone_authtoken]
+identity_uri = {{ nova_keystone_identity_uri }}
+auth_uri = {{ nova_keystone_auth_uri }}
+admin_user = {{ nova_keystone_user }}
+admin_password = {{ nova_keystone_password }}
+admin_tenant_name = {{ nova_keystone_project }}
+
+[neutron]
+url = {{ nova_neutron_url }}
+auth_strategy = keystone
+admin_auth_url = {{ nova_neutron_auth_url }}
+admin_tenant_name = {{ nova_neutron_project }}
+admin_username = {{ nova_neutron_user }}
+admin_password = {{ nova_neutron_password }}
+
+service_metadata_proxy = True
+metadata_proxy_shared_secret = {{ nova_metadata_proxy_shared_secret }}
+
+[oslo_messaging_rabbit]
+rabbit_hosts = {{ nova_rabbitmq_hosts|join(',') }}
+rabbit_userid = {{ nova_rabbitmq_user }}
+rabbit_password = {{ nova_rabbitmq_password }}
+rabbit_virtual_host = {{ nova_rabbitmq_vhost }}
+
+[oslo_concurrency]
+lock_path = $state_path/lock

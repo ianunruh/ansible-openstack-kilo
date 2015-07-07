@@ -1,0 +1,3 @@
+lvm_filters:
+  - a/sd/
+  - r/.*/

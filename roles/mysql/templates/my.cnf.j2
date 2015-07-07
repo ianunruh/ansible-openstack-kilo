@@ -1,0 +1,51 @@
+[client]
+port = 3306
+socket = /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket = /var/run/mysqld/mysqld.sock
+nice = 0
+
+[mysqld]
+user = mysql
+socket = /var/run/mysqld/mysqld.sock
+pid-file = /var/run/mysqld/mysqld.pid
+tmpdir = /tmp
+basedir = /usr
+datadir = /var/lib/mysql
+lc-messages-dir = /usr/share/mysql
+
+bind-address = 0.0.0.0
+port = 3306
+
+skip-external-locking
+
+key_buffer = 16M
+max_allowed_packet = 16M
+thread_stack = 192K
+thread_cache_size = 8
+myisam-recover = BACKUP
+max_connections = {{ mysql_max_connections }}
+query_cache_limit = 1M
+query_cache_size = 16M
+
+log_error = /var/log/mysql/error.log
+
+expire_logs_days = 10
+max_binlog_size = 100M
+
+default-storage-engine = innodb
+innodb_file_per_table
+collation-server = utf8_general_ci
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[isamchk]
+key_buffer = 16M
+
+!includedir /etc/mysql/conf.d/

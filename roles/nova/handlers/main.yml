@@ -1,0 +1,45 @@
+- name: sync nova db
+  command: nova-manage db sync
+  when: nova_component_api
+
+- name: restart nova-api
+  service:
+    name: nova-api
+    state: restarted
+  when: nova_component_api
+
+- name: restart nova-cert
+  service:
+    name: nova-cert
+    state: restarted
+  when: nova_component_cert
+
+- name: restart nova-compute
+  service:
+    name: nova-compute
+    state: restarted
+  when: nova_component_compute
+
+- name: restart nova-conductor
+  service:
+    name: nova-conductor
+    state: restarted
+  when: nova_component_conductor
+
+- name: restart nova-consoleauth
+  service:
+    name: nova-consoleauth
+    state: restarted
+  when: nova_component_consoleauth
+
+- name: restart nova-novncproxy
+  service:
+    name: nova-novncproxy
+    state: restarted
+  when: nova_component_novncproxy
+
+- name: restart nova-scheduler
+  service:
+    name: nova-scheduler
+    state: restarted
+  when: nova_component_scheduler

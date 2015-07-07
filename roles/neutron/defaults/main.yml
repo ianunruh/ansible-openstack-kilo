@@ -1,0 +1,77 @@
+neutron_configure_keystone: true
+neutron_configure_mysql: true
+neutron_configure_rabbitmq: true
+
+neutron_component_dhcp_agent: true
+neutron_component_l3_agent: true
+neutron_component_metadata_agent: true
+neutron_component_ovs_agent: true
+neutron_component_server: true
+
+# MySQL configuration
+neutron_mysql_user: neutron
+neutron_mysql_password: neutron
+neutron_mysql_db: neutron
+neutron_mysql_host: "{{ openstack_mysql_host }}"
+neutron_mysql_login_password: password
+
+# RabbitMQ configuration
+neutron_rabbitmq_user: neutron
+neutron_rabbitmq_password: neutron
+neutron_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+neutron_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
+# Keystone configuration
+keystone_endpoint_network_public: "http://{{ openstack_controller_public_host }}:9696"
+keystone_endpoint_network_internal: "http://{{ openstack_controller_internal_host }}:9696"
+keystone_endpoint_network_admin: "http://{{ openstack_controller_internal_host }}:9696"
+
+neutron_keystone_user: neutron
+neutron_keystone_password: neutron
+neutron_keystone_project: service
+neutron_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+neutron_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Nova integration
+neutron_nova_url: "http://{{ openstack_controller_internal_host }}:8774/v2"
+neutron_nova_auth_url: "http://{{ openstack_controller_internal_host }}:35357"
+neutron_nova_user: nova
+neutron_nova_password: nova
+neutron_nova_project: service
+
+# Neutron configuration
+neutron_core_plugin: ml2
+neutron_service_plugins:
+  - router
+
+neutron_host: "{{ ansible_hostname }}"
+
+# ML2 plugin configuration
+neutron_ml2_type_drivers:
+  - flat
+  - vxlan
+  - vlan
+  - gre
+
+neutron_ml2_mechanism_drivers:
+  - openvswitch
+
+neutron_ml2_tenant_network_types:
+  - vxlan
+
+neutron_ml2_flat_networks: []
+neutron_ml2_vlan_ranges: []
+neutron_ml2_gre_ranges: []
+neutron_ml2_vxlan_ranges: []
+neutron_ml2_vxlan_group: null
+
+# OVS agent configuration
+neutron_ovs_local_ip: "{{ openstack_internal_host }}"
+neutron_ovs_bridge_mappings: []
+
+neutron_ovs_tunnel_types:
+  - vxlan
+
+# Metadata agent configuration
+neutron_metadata_proxy_shared_secret: "{{ openstack_metadata_proxy_shared_secret }}"
+neutron_nova_metadata_ip: "{{ openstack_controller_internal_host }}"

@@ -1,0 +1,51 @@
+nova_configure_keystone: true
+nova_configure_mysql: true
+nova_configure_rabbitmq: true
+
+nova_component_api: true
+nova_component_cert: true
+nova_component_compute: true
+nova_component_conductor: true
+nova_component_consoleauth: true
+nova_component_novncproxy: true
+nova_component_scheduler: true
+
+# MySQL configuration
+nova_mysql_user: nova
+nova_mysql_password: nova
+nova_mysql_db: nova
+nova_mysql_host: "{{ openstack_mysql_host }}"
+nova_mysql_login_password: password
+
+# RabbitMQ configuration
+nova_rabbitmq_user: nova
+nova_rabbitmq_password: nova
+nova_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+nova_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
+# Keystone configuration
+keystone_endpoint_compute_public: "http://{{ openstack_controller_public_host }}:8774/v2/%(tenant_id)s"
+keystone_endpoint_compute_internal: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
+keystone_endpoint_compute_admin: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
+
+nova_keystone_user: nova
+nova_keystone_password: nova
+nova_keystone_project: service
+nova_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+nova_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Neutron integration
+nova_neutron_url: "http://{{ openstack_controller_internal_host }}:9696"
+nova_neutron_auth_url: "http://{{ openstack_controller_internal_host }}:35357/v2.0"
+nova_neutron_user: neutron
+nova_neutron_password: neutron
+nova_neutron_project: service
+nova_metadata_proxy_shared_secret: "{{ openstack_metadata_proxy_shared_secret }}"
+
+# Nova configuration
+nova_host: "{{ ansible_hostname }}"
+nova_my_ip: "{{ openstack_internal_host }}"
+
+nova_glance_host: "{{ openstack_controller_internal_host }}"
+
+nova_novncproxy_base_url: "http://{{ openstack_controller_public_host }}:6080/vnc_auto.html"

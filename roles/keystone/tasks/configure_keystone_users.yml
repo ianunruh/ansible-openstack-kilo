@@ -1,0 +1,29 @@
+- name: ensure admin user
+  keystone_v3_user:
+    name: admin
+    email: "{{ keystone_admin_email }}"
+    password: "{{ keystone_admin_password }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure admin user has admin role on default domain
+  keystone_v3_assignment:
+    user: admin
+    domain: default
+    role: admin
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure admin user has admin role on admin project
+  keystone_v3_assignment:
+    user: admin
+    project: admin
+    role: admin
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

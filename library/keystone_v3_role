@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+from keystoneclient.v3 import Client
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            name=dict(required=True),
+            state=dict(choices=['present', 'absent'], default='present'),
+            endpoint=dict(default='http://localhost:35357/v3'),
+            token=dict(),
+        ),
+        supports_check_mode=True,
+    )
+
+    name = module.params['name']
+    state = module.params['state']
+
+    endpoint = module.params['endpoint']
+    token = module.params['token']
+
+    client = Client(endpoint=endpoint, token=token)
+
+    try:
+        role = client.roles.find(name=name)
+    except:
+        role = None
+
+    changed = False
+
+    if state == 'present':
+        if not role:
+            if not module.check_mode:
+                role = client.roles.create(name=name)
+
+            changed = True
+    elif role:
+        if not module.check_mode:
+            role.delete()
+
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

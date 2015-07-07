@@ -1,0 +1,16 @@
+- name: install nova-compute-qemu
+  apt:
+    pkg: nova-compute-qemu
+    state: present
+
+- name: install sysfsutils
+  apt:
+    pkg: sysfsutils
+    state: present
+
+- name: configure nova-compute
+  template:
+    src: nova-compute.conf.j2
+    dest: /etc/nova/nova-compute.conf
+  notify:
+    - restart nova-compute

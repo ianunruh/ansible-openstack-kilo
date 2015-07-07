@@ -1,0 +1,65 @@
+- name: ensure keystone volume service
+  keystone_v3_service:
+    name: cinder
+    type: volume
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone volume endpoints
+  keystone_v3_endpoint:
+    service: cinder
+    region: "{{ openstack_region }}"
+    interface: "{{ item.key }}"
+    url: "{{ item.value }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+  with_dict:
+    public: "{{ keystone_endpoint_volume_public }}"
+    internal: "{{ keystone_endpoint_volume_internal }}"
+    admin: "{{ keystone_endpoint_volume_admin }}"
+
+- name: ensure keystone volumev2 service
+  keystone_v3_service:
+    name: cinderv2
+    type: volumev2
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone volume endpoints
+  keystone_v3_endpoint:
+    service: cinderv2
+    region: "{{ openstack_region }}"
+    interface: "{{ item.key }}"
+    url: "{{ item.value }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+  with_dict:
+    public: "{{ keystone_endpoint_volume_public }}"
+    internal: "{{ keystone_endpoint_volume_internal }}"
+    admin: "{{ keystone_endpoint_volume_admin }}"
+
+- name: ensure keystone service user
+  keystone_v3_user:
+    name: "{{ cinder_keystone_user }}"
+    password: "{{ cinder_keystone_password }}"
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone service user has admin role on service project
+  keystone_v3_assignment:
+    user: "{{ cinder_keystone_user }}"
+    project: "{{ cinder_keystone_project }}"
+    role: admin
+   
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

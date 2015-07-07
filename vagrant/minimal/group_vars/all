@@ -1,0 +1,14 @@
+openstack_controller_internal_host: 10.0.44.10
+openstack_controller_public_host: 10.0.44.10
+
+openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
+openstack_public_host: "{{ ansible_eth1.ipv4.address }}"
+
+neutron_ml2_flat_networks:
+  - external
+
+neutron_ml2_vxlan_ranges:
+  - 10000:20000
+
+neutron_ovs_bridge_mappings:
+  - external:br-ex

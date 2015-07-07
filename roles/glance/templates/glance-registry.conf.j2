@@ -1,0 +1,14 @@
+[DEFAULT]
+
+[database]
+connection = mysql://{{ glance_mysql_user }}:{{ glance_mysql_password }}@{{ glance_mysql_host }}/{{ glance_mysql_db }}
+
+[keystone_authtoken]
+identity_uri = {{ glance_keystone_identity_uri }}
+auth_uri = {{ glance_keystone_auth_uri }}
+admin_user = {{ glance_keystone_user }}
+admin_password = {{ glance_keystone_password }}
+admin_tenant_name = {{ glance_keystone_project }}
+
+[paste_deploy]
+flavor = keystone

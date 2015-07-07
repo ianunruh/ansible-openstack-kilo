@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+from keystoneclient.v3 import Client
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            name=dict(required=True),
+            type=dict(required=True),
+            state=dict(choices=['present', 'absent'], default='present'),
+            endpoint=dict(default='http://localhost:35357/v3'),
+            token=dict(),
+        ),
+        supports_check_mode=True,
+    )
+
+    name = module.params['name']
+    type = module.params['type']
+    state = module.params['state']
+
+    endpoint = module.params['endpoint']
+    token = module.params['token']
+
+    client = Client(endpoint=endpoint, token=token)
+
+    try:
+        service = client.services.find(name=name)
+    except:
+        service = None
+
+    changed = False
+
+    if state == 'present':
+        if not service:
+            if not module.check_mode:
+                client.services.create(name=name, type=type)
+
+            changed = True
+    elif service:
+        if not module.check_mode:
+            service.delete()
+
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

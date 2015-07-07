@@ -1,0 +1,135 @@
+- name: ensure demo user
+  keystone_v3_user:
+    name: demo
+    password: demo
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure demo project
+  keystone_v3_project:
+    name: demo
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure demo user has user role on demo project
+  keystone_v3_assignment:
+    user: demo
+    project: demo
+    role: user
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: create external network
+  quantum_network:
+    name: ext-net
+    router_external: true
+    provider_network_type: flat
+    provider_physical_network: external
+    tenant_name: service
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: create external subnet
+  quantum_subnet:
+    name: ext-subnet
+    network_name: ext-net
+    cidr: 10.0.55.0/24
+    gateway_ip: 10.0.55.1
+    allocation_pool_start: 10.0.55.100
+    allocation_pool_end: 10.0.55.250
+    enable_dhcp: false
+    tenant_name: service
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: create demo network
+  quantum_network:
+    name: demo-net
+    tenant_name: demo
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: create demo subnet
+  quantum_subnet:
+    name: demo-subnet
+    network_name: demo-net
+    cidr: 192.168.111.0/24
+    dns_nameservers:
+      - 8.8.8.8
+      - 8.8.4.4
+    tenant_name: demo
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: create demo router
+  quantum_router:
+    name: demo-router
+    tenant_name: demo
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: attach demo router to demo subnet
+  quantum_router_interface:
+    router_name: demo-router
+    subnet_name: demo-subnet
+    tenant_name: demo
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: set demo router gateway
+  quantum_router_gateway:
+    router_name: demo-router
+    network_name: ext-net
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: upload cirros image
+  glance_image:
+    name: cirros-0.3.4-i386
+    copy_from: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-i386-disk.img
+    disk_format: raw
+    container_format: bare
+    is_public: true
+    state: present
+
+    login_username: admin
+    login_password: "{{ keystone_admin_password }}"
+    login_tenant_name: admin
+
+- name: launch demo instance
+  nova_compute:
+    name: demo
+    image_name: cirros-0.3.4-i386
+    flavor_ram: 512
+    state: present
+
+    login_username: demo
+    login_password: demo
+    login_tenant_name: demo

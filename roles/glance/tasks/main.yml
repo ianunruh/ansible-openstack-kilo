@@ -1,0 +1,32 @@
+- include: configure_keystone.yml
+  when: glance_configure_keystone
+
+- include: configure_mysql.yml
+  when: glance_configure_mysql
+
+- name: install glance
+  apt:
+    pkg: glance
+    state: present
+
+- name: configure glance-api
+  template:
+    src: glance-api.conf.j2
+    dest: /etc/glance/glance-api.conf
+  notify:
+    - sync glance db
+    - restart glance-api
+
+- name: configure glance-registry
+  template:
+    src: glance-registry.conf.j2
+    dest: /etc/glance/glance-registry.conf
+  notify:
+    - restart glance-registry
+
+- meta: flush_handlers
+
+- name: ensure sqlite db absent
+  file:
+    path: /var/lib/glance/glance.sqlite
+    state: absent

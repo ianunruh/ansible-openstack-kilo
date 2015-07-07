@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+from keystoneclient.v3 import Client
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            user=dict(required=True),
+            user_domain=dict(default='default'),
+            group=dict(required=True),
+            group_domain=dict(default='default'),
+
+            state=dict(choices=['present', 'absent'], default='present'),
+            endpoint=dict(default='http://localhost:35357/v3'),
+            token=dict(),
+        ),
+        supports_check_mode=True,
+    )
+
+    user_name = module.params['user']
+    user_domain_name = module.params['group_domain']
+    group_name = module.params['group']
+    group_domain_name = module.params['group_domain']
+    
+    state = module.params['state']
+
+    endpoint = module.params['endpoint']
+    token = module.params['token']
+
+    client = Client(endpoint=endpoint, token=token)
+
+    if user_name:
+        user_domain = client.domains.find(name=user_domain_name)
+        user = client.users.find(name=user_name, domain=user_domain)
+    else:
+        user = None
+    
+    if group_name:
+        group_domain = client.domains.find(name=group_domain_name)
+        group = client.groups.find(name=group_name, domain=group_domain)
+    else:
+        group = None
+
+    try:
+        client.users.check_in_group(user, group)
+        present = True
+    except:
+        present = False
+
+    changed = False
+
+    if state == 'present':
+        if not present:
+            if not module.check_mode:
+                client.users.add_to_group(user, group)
+
+            changed = True
+    elif role:
+        if not module.check_mode:
+            client.users.remove_from_group(user, group)
+
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

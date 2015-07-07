@@ -1,0 +1,4 @@
+- name: install nova-novncproxy
+  apt:
+    pkg: nova-novncproxy
+    state: present

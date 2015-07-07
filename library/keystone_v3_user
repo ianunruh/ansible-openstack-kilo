@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+from keystoneclient.v3 import Client
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            name=dict(required=True),
+            email=dict(),
+            password=dict(),
+            domain=dict(default='default'),
+            default_project=dict(),
+            default_project_domain=dict(default='default'),
+            force=dict(default=False, type='bool'),
+            state=dict(choices=['present', 'absent'], default='present'),
+            endpoint=dict(default='http://localhost:35357/v3'),
+            token=dict(),
+        ),
+        supports_check_mode=True,
+    )
+
+    name = module.params['name']
+    email = module.params['email']
+    password = module.params['password']
+    domain_name = module.params['domain']
+    default_project_name = module.params['default_project']
+    default_project_domain_name = module.params['default_project_domain']
+    force = module.params['force']
+    state = module.params['state']
+
+    endpoint = module.params['endpoint']
+    token = module.params['token']
+
+    client = Client(endpoint=endpoint, token=token)
+
+    domain = client.domains.find(name=domain_name)
+
+    if default_project_name:
+        default_project_domain = client.domains.find(name=default_project_domain_name)
+        default_project = client.projects.find(name=default_project_name, domain=default_project_domain)
+        default_project_id = default_project.id
+    else:
+        default_project = None
+        default_project_id = None
+
+    try:
+        user = client.users.find(name=name, domain=domain)
+    except:
+        user = None
+
+    changed = False
+
+    if state == 'present':
+        if user:
+            if force:
+                client.users.update(user, password=password)
+        else:
+            if not module.check_mode:
+                user = client.users.create(name=name, email=email, password=password,
+                                           default_project=default_project, domain=domain)
+
+            changed = True
+    elif user:
+        if not module.check_mode:
+            user.delete()
+
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

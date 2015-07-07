@@ -1,0 +1,4 @@
+- name: install nova-conductor
+  apt:
+    pkg: nova-conductor
+    state: present

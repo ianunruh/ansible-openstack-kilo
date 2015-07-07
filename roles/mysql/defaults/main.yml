@@ -1,0 +1,2 @@
+mysql_root_password: password
+mysql_max_connections: 1024

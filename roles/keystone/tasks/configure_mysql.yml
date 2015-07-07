@@ -1,0 +1,20 @@
+- name: ensure mysql db
+  mysql_db:
+    name: "{{ keystone_mysql_db }}"
+    state: present
+
+    login_host: "{{ keystone_mysql_host }}"
+    login_user: root
+    login_password: "{{ keystone_mysql_login_password }}"
+
+- name: ensure mysql user
+  mysql_user:
+    name: "{{ keystone_mysql_user }}"
+    host: "%"
+    password: "{{ keystone_mysql_password }}"
+    priv: "{{ keystone_mysql_db }}.*:ALL"
+    state: present
+
+    login_host: "{{ keystone_mysql_host }}"
+    login_user: root
+    login_password: "{{ keystone_mysql_login_password }}"

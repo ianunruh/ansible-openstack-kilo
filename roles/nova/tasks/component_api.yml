@@ -1,0 +1,4 @@
+- name: install nova-api
+  apt:
+    pkg: nova-api
+    state: present

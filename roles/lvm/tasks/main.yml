@@ -1,0 +1,4 @@
+- name: install lvm
+  apt:
+    pkg: lvm2
+    state: present

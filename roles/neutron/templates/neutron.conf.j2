@@ -1,0 +1,44 @@
+[DEFAULT]
+core_plugin = {{ neutron_core_plugin }}
+service_plugins = {{ neutron_service_plugins|join(',') }}
+allow_overlapping_ips = True
+
+auth_strategy = keystone
+rpc_backend = rabbit
+
+host = {{ neutron_host }}
+
+notify_nova_on_port_status_changes = True
+notify_nova_on_port_data_changes = True
+nova_url = {{ neutron_nova_url }}
+
+[nova]
+auth_url = {{ neutron_nova_auth_url }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+username = {{ neutron_nova_user }}
+password = {{ neutron_nova_password }}
+project_name = {{ neutron_nova_project }}
+
+[agent]
+root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+
+[database]
+connection = mysql://{{ neutron_mysql_user }}:{{ neutron_mysql_password }}@{{ neutron_mysql_host }}/{{ neutron_mysql_db }}
+
+[keystone_authtoken]
+identity_uri = {{ neutron_keystone_identity_uri }}
+auth_uri = {{ neutron_keystone_auth_uri }}
+admin_user = {{ neutron_keystone_user }}
+admin_password = {{ neutron_keystone_password }}
+admin_tenant_name = {{ neutron_keystone_project }}
+
+[oslo_messaging_rabbit]
+rabbit_hosts = {{ neutron_rabbitmq_hosts|join(',') }}
+rabbit_userid = {{ neutron_rabbitmq_user }}
+rabbit_password = {{ neutron_rabbitmq_password }}
+rabbit_virtual_host = {{ neutron_rabbitmq_vhost }}
+
+[oslo_concurrency]
+lock_path = $state_path/lock

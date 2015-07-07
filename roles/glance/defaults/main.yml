@@ -1,0 +1,18 @@
+glance_configure_keystone: true
+glance_configure_mysql: true
+
+glance_mysql_user: glance
+glance_mysql_password: glance
+glance_mysql_db: glance
+glance_mysql_host: "{{ openstack_mysql_host }}"
+glance_mysql_login_password: password
+
+keystone_endpoint_image_public: "http://{{ openstack_controller_public_host }}:9292"
+keystone_endpoint_image_internal: "http://{{ openstack_controller_internal_host }}:9292"
+keystone_endpoint_image_admin: "http://{{ openstack_controller_internal_host }}:9292"
+
+glance_keystone_user: glance
+glance_keystone_password: glance
+glance_keystone_project: service
+glance_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+glance_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"

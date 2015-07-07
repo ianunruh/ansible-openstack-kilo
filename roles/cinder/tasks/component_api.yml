@@ -1,0 +1,4 @@
+- name: install cinder-api
+  apt:
+    pkg: cinder-api
+    state: present

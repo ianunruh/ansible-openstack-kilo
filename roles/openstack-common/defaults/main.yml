@@ -1,0 +1,21 @@
+openstack_region: sjc1
+
+openstack_internal_host: "{{ ansible_default_ipv4.address }}"
+openstack_public_host: "{{ ansible_default_ipv4.address }}"
+
+openstack_controller_internal_host: localhost
+openstack_controller_public_host: localhost
+
+openstack_mysql_host: "{{ openstack_controller_internal_host }}"
+openstack_rabbitmq_hosts:
+  - "{{ openstack_controller_internal_host }}:5672"
+
+openstack_rabbitmq_vhost: openstack
+
+keystone_admin_token: ADMIN
+keystone_admin_endpoint: "http://{{ openstack_controller_internal_host }}:35357/v3"
+
+keystone_admin_email: admin@example.com
+keystone_admin_password: password
+
+openstack_metadata_proxy_shared_secret: secret

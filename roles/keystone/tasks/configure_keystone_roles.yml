@@ -1,0 +1,15 @@
+- name: ensure admin role
+  keystone_v3_role:
+    name: admin
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure user role
+  keystone_v3_role:
+    name: user
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

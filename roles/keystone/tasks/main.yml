@@ -1,0 +1,34 @@
+- include: configure_mysql.yml
+  when: keystone_configure_mysql
+
+- name: install keystone
+  apt:
+    pkg: keystone
+    state: present
+
+- name: configure keystone
+  template:
+    src: keystone.conf.j2
+    dest: /etc/keystone/keystone.conf
+  notify:
+    - sync keystone db
+    - restart keystone
+
+- meta: flush_handlers
+
+- name: ensure sqlite db absent
+  file:
+    path: /var/lib/keystone/keystone.db
+    state: absent
+
+- name: wait for keystone api
+  wait_for:
+    port: 5000
+
+- include: configure_keystone_region.yml
+- include: configure_keystone_service.yml
+- include: configure_keystone_projects.yml
+- include: configure_keystone_roles.yml
+- include: configure_keystone_users.yml
+
+- include: configure_openrc.yml
