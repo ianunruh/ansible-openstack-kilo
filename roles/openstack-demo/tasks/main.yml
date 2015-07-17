@@ -69,9 +69,7 @@
     name: demo-subnet
     network_name: demo-net
     cidr: 192.168.111.0/24
-    dns_nameservers:
-      - 8.8.8.8
-      - 8.8.4.4
+    dns_nameservers: 8.8.8.8,8.8.4.4
     tenant_name: demo
     state: present
 
