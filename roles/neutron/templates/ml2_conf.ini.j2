@@ -30,4 +30,7 @@ bridge_mappings = {{ neutron_ovs_bridge_mappings|join(',') }}
 
 [agent]
 tunnel_types = {{ neutron_ovs_tunnel_types|join(',') }}
+{% if neutron_ovs_l2_population %}
+l2_population = True
+{% endif %}
 {% endif %}

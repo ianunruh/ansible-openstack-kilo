@@ -55,6 +55,7 @@ neutron_ml2_type_drivers:
 
 neutron_ml2_mechanism_drivers:
   - openvswitch
+  - l2population
 
 neutron_ml2_tenant_network_types:
   - vxlan
@@ -71,6 +72,8 @@ neutron_ovs_bridge_mappings: []
 
 neutron_ovs_tunnel_types:
   - vxlan
+
+neutron_ovs_l2_population: true
 
 # Metadata agent configuration
 neutron_metadata_proxy_shared_secret: "{{ openstack_metadata_proxy_shared_secret }}"
