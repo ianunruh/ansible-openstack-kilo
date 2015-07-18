@@ -3,6 +3,10 @@ log_dir = /var/log/keystone
 
 admin_token = {{ keystone_admin_token }}
 
+[eventlet_server]
+admin_workers = {{ keystone_workers }}
+public_workers = {{ keystone_workers }}
+
 [database]
 connection = mysql://{{ keystone_mysql_user }}:{{ keystone_mysql_password }}@{{ keystone_mysql_host }}/{{ keystone_mysql_db }}
 

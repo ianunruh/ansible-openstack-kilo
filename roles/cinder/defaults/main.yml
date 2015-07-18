@@ -36,6 +36,8 @@ cinder_my_ip: "{{ openstack_internal_host }}"
 
 cinder_glance_host: "{{ openstack_controller_internal_host }}"
 
+cinder_api_workers: 2
+
 # Volume configuration
 cinder_backends:
   lvm:

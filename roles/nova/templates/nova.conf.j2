@@ -22,6 +22,16 @@ security_group_api = neutron
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
+{% if nova_component_api %}
+metadata_workers = {{ nova_api_workers }}
+osapi_compute_workers = {{ nova_api_workers }}
+{% endif %}
+
+{% if nova_component_conductor %}
+[conductor]
+workers = {{ nova_conductor_workers }}
+{% endif %}
+
 [database]
 connection = mysql://{{ nova_mysql_user }}:{{ nova_mysql_password }}@{{ nova_mysql_host }}/{{ nova_mysql_db }}
 

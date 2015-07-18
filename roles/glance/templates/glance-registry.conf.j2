@@ -1,4 +1,5 @@
 [DEFAULT]
+workers = {{ glance_registry_workers }}
 
 [database]
 connection = mysql://{{ glance_mysql_user }}:{{ glance_mysql_password }}@{{ glance_mysql_host }}/{{ glance_mysql_db }}

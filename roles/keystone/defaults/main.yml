@@ -12,3 +12,5 @@ keystone_memcache_servers:
 keystone_endpoint_identity_public: "http://{{ openstack_controller_public_host }}:5000/v2.0"
 keystone_endpoint_identity_internal: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
 keystone_endpoint_identity_admin: "http://{{ openstack_controller_internal_host }}:35357/v2.0"
+
+keystone_workers: 2

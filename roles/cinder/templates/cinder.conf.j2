@@ -20,6 +20,10 @@ enabled_backends = {{ cinder_backends.keys()|join(',') }}
 {% endif %}
 {% endif %}
 
+{% if cinder_component_api %}
+osapi_volume_workers = {{ cinder_api_workers }}
+{% endif %}
+
 [database]
 connection = mysql://{{ cinder_mysql_user }}:{{ cinder_mysql_password }}@{{ cinder_mysql_host }}/{{ cinder_mysql_db }}
 
