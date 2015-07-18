@@ -49,3 +49,6 @@ nova_my_ip: "{{ openstack_internal_host }}"
 nova_glance_host: "{{ openstack_controller_internal_host }}"
 
 nova_novncproxy_base_url: "http://{{ openstack_controller_public_host }}:6080/vnc_auto.html"
+
+# Compute configuration
+nova_compute_libvirt_virt_type: qemu
