@@ -31,7 +31,7 @@
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
-- name: ensure keystone volume endpoints
+- name: ensure keystone volumev2 endpoints
   keystone_v3_endpoint:
     service: cinderv2
     region: "{{ openstack_region }}"
