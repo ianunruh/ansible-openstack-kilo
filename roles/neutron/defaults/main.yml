@@ -1,12 +1,12 @@
-neutron_configure_keystone: true
-neutron_configure_mysql: true
-neutron_configure_rabbitmq: true
+neutron_configure_keystone: "{{ openstack_role_controller }}"
+neutron_configure_mysql: "{{ openstack_role_controller }}"
+neutron_configure_rabbitmq: "{{ openstack_role_controller }}"
 
-neutron_component_dhcp_agent: true
-neutron_component_l3_agent: true
-neutron_component_metadata_agent: true
-neutron_component_ovs_agent: true
-neutron_component_server: true
+neutron_component_dhcp_agent: "{{ openstack_role_network }}"
+neutron_component_l3_agent: "{{ openstack_role_network }}"
+neutron_component_metadata_agent: "{{ openstack_role_network }}"
+neutron_component_ovs_agent: "{{ openstack_role_network or openstack_role_compute }}"
+neutron_component_server: "{{ openstack_role_controller }}"
 
 # MySQL configuration
 neutron_mysql_user: neutron

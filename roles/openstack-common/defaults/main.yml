@@ -1,5 +1,10 @@
 openstack_region: sjc1
 
+openstack_role_compute: false
+openstack_role_controller: false
+openstack_role_network: false
+openstack_role_storage: false
+
 openstack_internal_host: "{{ ansible_default_ipv4.address }}"
 openstack_public_host: "{{ ansible_default_ipv4.address }}"
 

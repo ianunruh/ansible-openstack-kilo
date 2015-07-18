@@ -1,3 +1,8 @@
+openstack_role_compute: true
+openstack_role_controller: true
+openstack_role_network: true
+openstack_role_storage: true
+
 openstack_controller_internal_host: 10.0.44.10
 openstack_controller_public_host: 10.0.44.10
 
