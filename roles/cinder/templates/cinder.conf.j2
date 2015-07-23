@@ -5,6 +5,12 @@ rpc_backend = rabbit
 host = {{ cinder_host }}
 my_ip = {{ cinder_my_ip }}
 
+storage_availability_zone = {{ cinder_az }}
+
+{% if cinder_component_api %}
+osapi_volume_workers = {{ cinder_api_workers }}
+{% endif %}
+
 {% if cinder_component_volume %}
 glance_host = {{ cinder_glance_host }}
 
@@ -19,12 +25,6 @@ enabled_backends = {{ cinder_backends.keys()|join(',') }}
 {% endfor %}
 {% endif %}
 {% endif %}
-
-{% if cinder_component_api %}
-osapi_volume_workers = {{ cinder_api_workers }}
-{% endif %}
-
-storage_availability_zone = {{ cinder_az }}
 
 [database]
 connection = mysql://{{ cinder_mysql_user }}:{{ cinder_mysql_password }}@{{ cinder_mysql_host }}/{{ cinder_mysql_db }}
