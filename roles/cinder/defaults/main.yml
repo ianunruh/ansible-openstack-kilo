@@ -3,6 +3,7 @@ cinder_configure_mysql: "{{ openstack_role_controller }}"
 cinder_configure_rabbitmq: "{{ openstack_role_controller }}"
 
 cinder_component_api: "{{ openstack_role_controller }}"
+cinder_component_backup: "{{ openstack_role_controller }}"
 cinder_component_scheduler: "{{ openstack_role_controller }}"
 cinder_component_volume: "{{ openstack_role_storage }}"
 

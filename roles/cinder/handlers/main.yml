@@ -8,6 +8,12 @@
     state: restarted
   when: cinder_component_api
 
+- name: restart cinder-backup
+  service:
+    name: cinder-backup
+    state: restarted
+  when: cinder_component_backup
+
 - name: restart cinder-scheduler
   service:
     name: cinder-scheduler

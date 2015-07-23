@@ -19,11 +19,15 @@
   notify:
     - sync cinder db
     - restart cinder-api
+    - restart cinder-backup
     - restart cinder-scheduler
     - restart cinder-volume
 
 - include: component_api.yml
   when: cinder_component_api
+
+- include: component_backup.yml
+  when: cinder_component_backup
 
 - include: component_scheduler.yml
   when: cinder_component_scheduler
