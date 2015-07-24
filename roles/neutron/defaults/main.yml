@@ -46,6 +46,8 @@ neutron_service_plugins:
 
 neutron_host: "{{ ansible_hostname }}"
 
+neutron_router_distributed: false
+
 neutron_api_workers: 2
 
 # ML2 plugin configuration
@@ -77,6 +79,11 @@ neutron_ovs_tunnel_types:
 
 neutron_ovs_l2_population: true
 
+neutron_ovs_distributed_routing: false
+
 # Metadata agent configuration
 neutron_metadata_proxy_shared_secret: "{{ openstack_metadata_proxy_shared_secret }}"
 neutron_nova_metadata_ip: "{{ openstack_controller_internal_host }}"
+
+# L3 agent configuration
+neutron_l3_agent_mode: legacy
