@@ -27,6 +27,10 @@ metadata_workers = {{ nova_api_workers }}
 osapi_compute_workers = {{ nova_api_workers }}
 {% endif %}
 
+{% if nova_component_scheduler %}
+scheduler_default_filters = {{ nova_scheduler_default_filters|join(',') }}
+{% endif %}
+
 {% if nova_component_conductor %}
 [conductor]
 workers = {{ nova_conductor_workers }}
