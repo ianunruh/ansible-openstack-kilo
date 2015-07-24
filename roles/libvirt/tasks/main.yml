@@ -1,0 +1,20 @@
+- name: install libvirt
+  apt:
+    pkg: libvirt-bin
+    state: present
+
+- name: configure libvirtd
+  template:
+    src: libvirtd.conf.j2
+    dest: /etc/libvirt/libvirtd.conf
+  notify:
+    - restart libvirtd
+
+- name: configure libvirtd defaults
+  copy:
+    src: libvirt-bin
+    dest: /etc/default/libvirt-bin
+  notify:
+    - restart libvirtd
+
+- meta: flush_handlers
