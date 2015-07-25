@@ -12,20 +12,6 @@
     pkg: nova-common
     state: present
 
-- name: configure nova
-  template:
-    src: nova.conf.j2
-    dest: /etc/nova/nova.conf
-  notify:
-    - sync nova db
-    - restart nova-api
-    - restart nova-cert
-    - restart nova-compute
-    - restart nova-conductor
-    - restart nova-consoleauth
-    - restart nova-novncproxy
-    - restart nova-scheduler
-
 - include: component_api.yml
   when: nova_component_api
 
@@ -46,6 +32,20 @@
 
 - include: component_scheduler.yml
   when: nova_component_scheduler
+
+- name: configure nova
+  template:
+    src: nova.conf.j2
+    dest: /etc/nova/nova.conf
+  notify:
+    - sync nova db
+    - restart nova-api
+    - restart nova-cert
+    - restart nova-compute
+    - restart nova-conductor
+    - restart nova-consoleauth
+    - restart nova-novncproxy
+    - restart nova-scheduler
 
 - meta: flush_handlers
 

@@ -19,6 +19,21 @@
     pkg: neutron-plugin-ml2
     state: present
 
+- include: component_server.yml
+  when: neutron_component_server
+
+- include: component_dhcp_agent.yml
+  when: neutron_component_dhcp_agent
+
+- include: component_l3_agent.yml
+  when: neutron_component_l3_agent
+
+- include: component_metadata_agent.yml
+  when: neutron_component_metadata_agent
+
+- include: component_ovs_agent.yml
+  when: neutron_component_ovs_agent
+
 - name: configure neutron
   template:
     src: neutron.conf.j2
@@ -42,20 +57,5 @@
     - restart neutron-l3-agent
     - restart neutron-metadata-agent
     - restart neutron-plugin-openvswitch-agent
-
-- include: component_server.yml
-  when: neutron_component_server
-
-- include: component_dhcp_agent.yml
-  when: neutron_component_dhcp_agent
-
-- include: component_l3_agent.yml
-  when: neutron_component_l3_agent
-
-- include: component_metadata_agent.yml
-  when: neutron_component_metadata_agent
-
-- include: component_ovs_agent.yml
-  when: neutron_component_ovs_agent
 
 - meta: flush_handlers
