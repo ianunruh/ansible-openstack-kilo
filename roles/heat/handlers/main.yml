@@ -1,5 +1,6 @@
 - name: sync heat db
   command: heat-manage db_sync
+  when: heat_component_api
 
 - name: restart heat-api
   service:
