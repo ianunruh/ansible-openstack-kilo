@@ -29,7 +29,7 @@ def main():
     role_name = module.params['role']
 
     user_name = module.params['user']
-    user_domain_name = module.params['group_domain']
+    user_domain_name = module.params['user_domain']
     group_name = module.params['group']
     group_domain_name = module.params['group_domain']
     
