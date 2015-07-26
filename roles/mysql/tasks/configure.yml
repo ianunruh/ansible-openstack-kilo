@@ -22,3 +22,10 @@
   template:
     src: client.cnf.j2
     dest: /root/.my.cnf
+
+- name: allow root access from everywhere
+  mysql_user:
+    name: root
+    host: "%"
+    password: "{{ mysql_root_password }}"
+    priv: "*.*:ALL,GRANT"
