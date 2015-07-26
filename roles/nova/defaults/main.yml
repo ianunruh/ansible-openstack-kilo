@@ -66,3 +66,5 @@ nova_scheduler_default_filters:
 
 # Compute configuration
 nova_compute_libvirt_virt_type: qemu
+
+nova_compute_group: compute

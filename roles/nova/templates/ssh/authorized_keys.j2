@@ -1,0 +1,5 @@
+{% if nova_compute_group in groups %}
+{% for host in groups[nova_compute_group] %}
+{{ hostvars[host].nova_user.ssh_public_key }}
+{% endfor %}
+{% endif %}

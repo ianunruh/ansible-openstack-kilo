@@ -1,0 +1,5 @@
+{% if nova_compute_group in groups %}
+{% for host in groups[nova_compute_group] %}
+{{ hostvars[host].openstack_internal_host }} ssh-rsa {{ hostvars[host].ansible_ssh_host_key_rsa_public }}
+{% endfor %}
+{% endif %}

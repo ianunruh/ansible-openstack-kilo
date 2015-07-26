@@ -10,3 +10,31 @@
     dest: /etc/nova/nova-compute.conf
   notify:
     - restart nova-compute
+
+- name: ensure nova user has ssh key pair
+  user:
+    name: nova
+    generate_ssh_key: yes
+    ssh_key_type: ecdsa
+    ssh_key_bits: 256
+  register: nova_user
+
+- name: configure authorized keys
+  template:
+    src: ssh/authorized_keys.j2
+    dest: /var/lib/nova/.ssh/authorized_keys
+    owner: nova
+    group: nova
+    mode: 0600
+  tags:
+    - nova-ssh-distribute
+
+- name: configure known hosts
+  template:
+    src: ssh/known_hosts.j2
+    dest: /var/lib/nova/.ssh/known_hosts
+    owner: nova
+    group: nova
+    mode: 0600
+  tags:
+    - nova-ssh-distribute
