@@ -1,0 +1,34 @@
+- include: configure_keystone.yml
+  when: swift_configure_keystone
+
+- name: install swift
+  apt:
+    pkg: swift
+    state: present
+
+- name: install python swift client
+  apt:
+    pkg: python-swiftclient
+    state: present
+
+- name: ensure config directory
+  file:
+    path: /etc/swift
+    state: directory
+
+- include: role_controller.yml
+  when: swift_role_controller
+
+- include: role_storage.yml
+  when: swift_role_storage
+
+- name: configure swift
+  template:
+    src: swift.conf.j2
+    dest: /etc/swift/swift.conf
+  notify:
+    - restart swift services
+
+- include: build_rings.yml
+
+- meta: flush_handlers

@@ -1,0 +1,90 @@
+- name: ensure cache directory
+  file:
+    path: /var/cache/swift
+    owner: swift
+    group: swift
+    state: directory
+
+- name: ensure data directory
+  file:
+    path: /var/lib/swift
+    owner: swift
+    group: swift
+    recurse: yes
+    state: directory
+
+- name: install rsync
+  apt:
+    pkg: rsync
+    state: present
+
+- name: configure rsync
+  template:
+    src: rsyncd.conf.j2
+    dest: /etc/rsyncd.conf
+  notify:
+    - restart rsync
+
+- name: configure rsync defaults
+  copy:
+    src: rsync
+    dest: /etc/default/rsync
+  notify:
+    - restart rsync
+
+- name: install swift-account
+  apt:
+    pkg: swift-account
+    state: present
+
+- name: install swift-container
+  apt:
+    pkg: swift-container
+    state: present
+
+- name: install swift-object
+  apt:
+    pkg: swift-object
+    state: present
+
+- name: install swift-object-expirer
+  apt:
+    pkg: swift-object-expirer
+    state: present
+
+- name: configure account-server
+  template:
+    src: account-server.conf.j2
+    dest: /etc/swift/account-server.conf
+  notify:
+    - restart swift services
+
+- name: configure container-reconciler
+  template:
+    src: container-reconciler.conf.j2
+    dest: /etc/swift/container-reconciler.conf
+  notify:
+    - restart swift services
+
+- name: configure container-server
+  template:
+    src: container-server.conf.j2
+    dest: /etc/swift/container-server.conf
+  notify:
+    - restart swift services
+
+- name: configure object-expirer
+  template:
+    src: object-expirer.conf.j2
+    dest: /etc/swift/object-expirer.conf
+  notify:
+    - restart swift services
+
+- name: configure object-server
+  template:
+    src: object-server.conf.j2
+    dest: /etc/swift/object-server.conf
+  notify:
+    - restart swift services
+
+

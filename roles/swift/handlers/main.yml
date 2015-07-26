@@ -1,0 +1,8 @@
+- name: restart swift services
+  command: swift-init all restart
+  failed_when: false
+
+- name: restart rsync
+  service:
+    name: rsync
+    state: restarted

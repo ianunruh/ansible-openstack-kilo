@@ -1,0 +1,77 @@
+- name: check account ring
+  stat:
+    path: /etc/swift/account.ring.gz
+  register: result
+
+- name: create account ring
+  command: swift-ring-builder account.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
+  args:
+    chdir: /etc/swift
+  when: not result.stat.exists
+
+- name: add device to ring
+  command: swift-ring-builder account.builder add {{ item }} 100
+  args:
+    chdir: /etc/swift
+  with_items: swift_account_devices
+  when: not result.stat.exists
+
+- name: rebalance ring
+  command: swift-ring-builder account.builder rebalance
+  args:
+    chdir: /etc/swift
+  notify:
+    - restart swift services
+  when: not result.stat.exists
+
+- name: check container ring
+  stat:
+    path: /etc/swift/container.ring.gz
+  register: result
+
+- name: create container ring
+  command: swift-ring-builder container.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
+  args:
+    chdir: /etc/swift
+  when: not result.stat.exists
+
+- name: add device to ring
+  command: swift-ring-builder container.builder add {{ item }} 100
+  args:
+    chdir: /etc/swift
+  with_items: swift_container_devices
+  when: not result.stat.exists
+
+- name: rebalance ring
+  command: swift-ring-builder container.builder rebalance
+  args:
+    chdir: /etc/swift
+  notify:
+    - restart swift services
+  when: not result.stat.exists
+
+- name: check object ring
+  stat:
+    path: /etc/swift/object.ring.gz
+  register: result
+
+- name: create object ring
+  command: swift-ring-builder object.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
+  args:
+    chdir: /etc/swift
+  when: not result.stat.exists
+
+- name: add device to ring
+  command: swift-ring-builder object.builder add {{ item }} 100
+  args:
+    chdir: /etc/swift
+  with_items: swift_object_devices
+  when: not result.stat.exists
+
+- name: rebalance ring
+  command: swift-ring-builder object.builder rebalance
+  args:
+    chdir: /etc/swift
+  notify:
+    - restart swift services
+  when: not result.stat.exists
