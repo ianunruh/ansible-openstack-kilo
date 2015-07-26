@@ -7,14 +7,14 @@
   command: swift-ring-builder account.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
   args:
     chdir: /etc/swift
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: add device to ring
   command: swift-ring-builder account.builder add {{ item }} 100
   args:
     chdir: /etc/swift
   with_items: swift_account_devices
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: rebalance ring
   command: swift-ring-builder account.builder rebalance
@@ -22,7 +22,7 @@
     chdir: /etc/swift
   notify:
     - restart swift services
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: check container ring
   stat:
@@ -33,14 +33,14 @@
   command: swift-ring-builder container.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
   args:
     chdir: /etc/swift
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: add device to ring
   command: swift-ring-builder container.builder add {{ item }} 100
   args:
     chdir: /etc/swift
   with_items: swift_container_devices
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: rebalance ring
   command: swift-ring-builder container.builder rebalance
@@ -48,7 +48,7 @@
     chdir: /etc/swift
   notify:
     - restart swift services
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: check object ring
   stat:
@@ -59,14 +59,14 @@
   command: swift-ring-builder object.builder create {{ swift_part_power }} {{ swift_replicas }} {{ swift_min_part_hours }}
   args:
     chdir: /etc/swift
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: add device to ring
   command: swift-ring-builder object.builder add {{ item }} 100
   args:
     chdir: /etc/swift
   with_items: swift_object_devices
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
 
 - name: rebalance ring
   command: swift-ring-builder object.builder rebalance
@@ -74,4 +74,4 @@
     chdir: /etc/swift
   notify:
     - restart swift services
-  when: not result.stat.exists
+  when: swift_force_rebalance or not result.stat.exists
