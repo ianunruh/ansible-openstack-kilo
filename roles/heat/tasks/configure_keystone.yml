@@ -1,0 +1,110 @@
+- name: ensure keystone orchestration service
+  keystone_v3_service:
+    name: heat
+    type: orchestration
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone orchestration endpoints
+  keystone_v3_endpoint:
+    service: heat
+    region: "{{ openstack_region }}"
+    interface: "{{ item.key }}"
+    url: "{{ item.value }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+  with_dict:
+    public: "{{ keystone_endpoint_orchestration_public }}"
+    internal: "{{ keystone_endpoint_orchestration_internal }}"
+    admin: "{{ keystone_endpoint_orchestration_admin }}"
+
+- name: ensure keystone cloudformation service
+  keystone_v3_service:
+    name: heat-cfn
+    type: cloudformation
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone cloudformation endpoints
+  keystone_v3_endpoint:
+    service: heat-cfn
+    region: "{{ openstack_region }}"
+    interface: "{{ item.key }}"
+    url: "{{ item.value }}"
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+  with_dict:
+    public: "{{ keystone_endpoint_cloudformation_public }}"
+    internal: "{{ keystone_endpoint_cloudformation_internal }}"
+    admin: "{{ keystone_endpoint_cloudformation_admin }}"
+
+- name: ensure keystone service user
+  keystone_v3_user:
+    name: "{{ heat_keystone_user }}"
+    password: "{{ heat_keystone_password }}"
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone service user has admin role on service project
+  keystone_v3_assignment:
+    user: "{{ heat_keystone_user }}"
+    project: "{{ heat_keystone_project }}"
+    role: admin
+   
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure heat_stack_owner role
+  keystone_v3_role:
+    name: heat_stack_owner
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure heat_stack_user role
+  keystone_v3_role:
+    name: heat_stack_user
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure heat domain
+  keystone_v3_domain:
+    name: heat
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure heat_domain_admin user
+  keystone_v3_user:
+    name: heat_domain_admin
+    password: "{{ heat_keystone_password }}"
+    domain: heat
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure heat_domain_admin user has admin role on heat domain
+  keystone_v3_assignment:
+    role: admin
+    user: heat_domain_admin
+    user_domain: heat
+    domain: heat
+    state: present
+
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

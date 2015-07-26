@@ -1,0 +1,20 @@
+- name: ensure mysql db
+  mysql_db:
+    name: "{{ heat_mysql_db }}"
+    state: present
+
+    login_host: "{{ heat_mysql_host }}"
+    login_user: root
+    login_password: "{{ heat_mysql_login_password }}"
+
+- name: ensure mysql user
+  mysql_user:
+    name: "{{ heat_mysql_user }}"
+    host: "%"
+    password: "{{ heat_mysql_password }}"
+    priv: "{{ heat_mysql_db }}.*:ALL"
+    state: present
+
+    login_host: "{{ heat_mysql_host }}"
+    login_user: root
+    login_password: "{{ heat_mysql_login_password }}"

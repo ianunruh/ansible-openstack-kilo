@@ -1,0 +1,39 @@
+- include: configure_keystone.yml
+  when: heat_configure_keystone
+
+- include: configure_mysql.yml
+  when: heat_configure_mysql
+
+- include: configure_rabbitmq.yml
+  when: heat_configure_rabbitmq
+
+- name: install heat-common
+  apt:
+    pkg: heat-common
+    state: present
+
+- include: component_api.yml
+  when: heat_component_api
+
+- include: component_api_cfn.yml
+  when: heat_component_api_cfn
+
+- include: component_engine.yml
+  when: heat_component_engine
+
+- name: configure heat
+  template:
+    src: heat.conf.j2
+    dest: /etc/heat/heat.conf
+  notify:
+    - sync heat db
+    - restart heat-api
+    - restart heat-api-cfn
+    - restart heat-engine
+
+- meta: flush_handlers
+
+- name: ensure sqlite db absent
+  file:
+    path: /var/lib/heat/heat.sqlite
+    state: absent

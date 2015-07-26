@@ -1,0 +1,29 @@
+[DEFAULT]
+auth_strategy = keystone
+rpc_backend = rabbit
+
+heat_metadata_server_url = http://{{ openstack_controller_public_host }}:8000
+heat_waitcondition_server_url = http://{{ openstack_controller_public_host }}:8000/v1/waitcondition
+
+stack_domain_admin = heat_domain_admin
+stack_domain_admin_password = {{ heat_keystone_password }}
+stack_user_domain_name = heat
+
+[database]
+connection = mysql://{{ heat_mysql_user }}:{{ heat_mysql_password }}@{{ heat_mysql_host }}/{{ heat_mysql_db }}
+
+[keystone_authtoken]
+identity_uri = {{ heat_keystone_identity_uri }}
+auth_uri = {{ heat_keystone_auth_uri }}
+admin_user = {{ heat_keystone_user }}
+admin_password = {{ heat_keystone_password }}
+admin_tenant_name = {{ heat_keystone_project }}
+
+[ec2authtoken]
+auth_uri = {{ heat_keystone_auth_uri }}
+
+[oslo_messaging_rabbit]
+rabbit_hosts = {{ heat_rabbitmq_hosts|join(',') }}
+rabbit_userid = {{ heat_rabbitmq_user }}
+rabbit_password = {{ heat_rabbitmq_password }}
+rabbit_virtual_host = {{ heat_rabbitmq_vhost }}

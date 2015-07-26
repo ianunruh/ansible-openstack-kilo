@@ -1,0 +1,4 @@
+- name: install heat-api
+  apt:
+    pkg: heat-api
+    state: present
