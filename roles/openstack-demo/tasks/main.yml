@@ -120,14 +120,3 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
-
-- name: launch demo instance
-  nova_compute:
-    name: demo
-    image_name: cirros-0.3.4-i386
-    flavor_ram: 512
-    state: present
-
-    login_username: demo
-    login_password: demo
-    login_tenant_name: demo

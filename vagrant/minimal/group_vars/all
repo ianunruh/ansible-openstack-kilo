@@ -17,3 +17,14 @@ neutron_ml2_vxlan_ranges:
 
 neutron_ovs_bridge_mappings:
   - external:br-ex
+
+swift_replicas: 1
+
+swift_account_devices:
+  - r1z1-10.0.2.15:6002/sdc
+
+swift_container_devices:
+  - r1z1-10.0.2.15:6001/sdc
+
+swift_object_devices:
+  - r1z1-10.0.2.15:6000/sdc
