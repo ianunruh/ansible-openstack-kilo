@@ -2,3 +2,5 @@
   apt:
     pkg: heat-api-cfn
     state: present
+  tags:
+    - heat-install

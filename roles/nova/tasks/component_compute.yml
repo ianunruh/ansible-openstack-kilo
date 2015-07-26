@@ -3,6 +3,8 @@
     pkg: "{{ item }}"
     state: present
   with_items: nova_compute_packages[nova_compute_libvirt_virt_type]
+  tags:
+    - nova-install
 
 - name: configure nova-compute
   template:
@@ -10,6 +12,8 @@
     dest: /etc/nova/nova-compute.conf
   notify:
     - restart nova-compute
+  tags:
+    - nova-configure
 
 - name: ensure nova user has ssh key pair
   user:
@@ -18,6 +22,8 @@
     ssh_key_type: ecdsa
     ssh_key_bits: 256
   register: nova_user
+  tags:
+    - nova-configure
 
 - name: configure authorized keys
   template:
@@ -27,7 +33,8 @@
     group: nova
     mode: 0600
   tags:
-    - nova-ssh-distribute
+    - nova-configure
+    - nova-distribute-ssh
 
 - name: configure known hosts
   template:
@@ -37,4 +44,5 @@
     group: nova
     mode: 0600
   tags:
-    - nova-ssh-distribute
+    - nova-configure
+    - nova-distribute-ssh

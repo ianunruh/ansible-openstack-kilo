@@ -2,3 +2,5 @@
   apt:
     pkg: cinder-backup
     state: present
+  tags:
+    - cinder-install

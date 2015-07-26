@@ -2,3 +2,5 @@
   apt:
     pkg: cinder-volume
     state: present
+  tags:
+    - cinder-install

@@ -2,8 +2,14 @@
   apt:
     pkg: lvm2
     state: present
+  tags:
+    - lvm
+    - lvm-install
 
 - name: configure lvm
   template:
     src: lvm.conf.j2
     dest: /etc/lvm/lvm.conf
+  tags:
+    - lvm
+    - lvm-configure

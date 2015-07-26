@@ -1,25 +1,40 @@
 - include: configure_keystone.yml
   when: heat_configure_keystone
+  tags:
+    - heat
 
 - include: configure_mysql.yml
   when: heat_configure_mysql
+  tags:
+    - heat
 
 - include: configure_rabbitmq.yml
   when: heat_configure_rabbitmq
+  tags:
+    - heat
 
 - name: install heat-common
   apt:
     pkg: heat-common
     state: present
+  tags:
+    - heat
+    - heat-install
 
 - include: component_api.yml
   when: heat_component_api
+  tags:
+    - heat
 
 - include: component_api_cfn.yml
   when: heat_component_api_cfn
+  tags:
+    - heat
 
 - include: component_engine.yml
   when: heat_component_engine
+  tags:
+    - heat
 
 - name: configure heat
   template:
@@ -30,6 +45,9 @@
     - restart heat-api
     - restart heat-api-cfn
     - restart heat-engine
+  tags:
+    - heat
+    - heat-configure
 
 - meta: flush_handlers
 
@@ -37,3 +55,5 @@
   file:
     path: /var/lib/heat/heat.sqlite
     state: absent
+  tags:
+    - heat

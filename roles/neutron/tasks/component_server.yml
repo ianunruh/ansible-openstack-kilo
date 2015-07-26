@@ -2,3 +2,5 @@
   apt:
     pkg: neutron-server
     state: present
+  tags:
+    - neutron-install

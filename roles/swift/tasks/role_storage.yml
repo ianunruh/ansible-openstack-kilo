@@ -4,6 +4,8 @@
     owner: swift
     group: swift
     state: directory
+  tags:
+    - swift-install
 
 - name: ensure data directory
   file:
@@ -12,11 +14,15 @@
     group: swift
     recurse: yes
     state: directory
+  tags:
+    - swift-install
 
 - name: install rsync
   apt:
     pkg: rsync
     state: present
+  tags:
+    - swift-install
 
 - name: configure rsync
   template:
@@ -24,6 +30,8 @@
     dest: /etc/rsyncd.conf
   notify:
     - restart rsync
+  tags:
+    - swift-configure
 
 - name: configure rsync defaults
   copy:
@@ -31,26 +39,15 @@
     dest: /etc/default/rsync
   notify:
     - restart rsync
+  tags:
+    - swift-configure
 
 - name: install swift-account
   apt:
     pkg: swift-account
     state: present
-
-- name: install swift-container
-  apt:
-    pkg: swift-container
-    state: present
-
-- name: install swift-object
-  apt:
-    pkg: swift-object
-    state: present
-
-- name: install swift-object-expirer
-  apt:
-    pkg: swift-object-expirer
-    state: present
+  tags:
+    - swift-install
 
 - name: configure account-server
   template:
@@ -58,6 +55,15 @@
     dest: /etc/swift/account-server.conf
   notify:
     - restart swift services
+  tags:
+    - swift-configure
+
+- name: install swift-container
+  apt:
+    pkg: swift-container
+    state: present
+  tags:
+    - swift-install
 
 - name: configure container-reconciler
   template:
@@ -65,6 +71,8 @@
     dest: /etc/swift/container-reconciler.conf
   notify:
     - restart swift services
+  tags:
+    - swift-configure
 
 - name: configure container-server
   template:
@@ -72,13 +80,15 @@
     dest: /etc/swift/container-server.conf
   notify:
     - restart swift services
+  tags:
+    - swift-configure
 
-- name: configure object-expirer
-  template:
-    src: object-expirer.conf.j2
-    dest: /etc/swift/object-expirer.conf
-  notify:
-    - restart swift services
+- name: install swift-object
+  apt:
+    pkg: swift-object
+    state: present
+  tags:
+    - swift-install
 
 - name: configure object-server
   template:
@@ -86,5 +96,21 @@
     dest: /etc/swift/object-server.conf
   notify:
     - restart swift services
+  tags:
+    - swift-configure
 
+- name: install swift-object-expirer
+  apt:
+    pkg: swift-object-expirer
+    state: present
+  tags:
+    - swift-install
 
+- name: configure object-expirer
+  template:
+    src: object-expirer.conf.j2
+    dest: /etc/swift/object-expirer.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift-configure

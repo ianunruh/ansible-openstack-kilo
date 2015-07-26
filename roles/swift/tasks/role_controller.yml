@@ -2,6 +2,8 @@
   apt:
     pkg: swift-proxy
     state: present
+  tags:
+    - swift-install
 
 - name: configure swift-proxy
   template:
@@ -9,8 +11,12 @@
     dest: /etc/swift/proxy-server.conf
   notify:
     - restart swift services
+  tags:
+    - swift-configure
 
 - name: configure dispersion
   template:
     src: dispersion.conf.j2
     dest: /etc/swift/dispersion.conf
+  tags:
+    - swift-configure

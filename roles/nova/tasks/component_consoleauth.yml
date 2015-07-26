@@ -2,3 +2,5 @@
   apt:
     pkg: nova-consoleauth
     state: present
+  tags:
+    - nova-install

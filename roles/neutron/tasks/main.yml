@@ -1,41 +1,67 @@
 - include: configure_keystone.yml
   when: neutron_configure_keystone
+  tags:
+    - neutron
 
 - include: configure_mysql.yml
   when: neutron_configure_mysql
+  tags:
+    - neutron
 
 - include: configure_rabbitmq.yml
   when: neutron_configure_rabbitmq
+  tags:
+    - neutron
 
 - include: configure_sysctl.yml
+  tags:
+    - neutron
 
 - name: install neutron-common
   apt:
     pkg: neutron-common
     state: present
+  tags:
+    - neutron
+    - neutron-install
 
 - name: install neutron-plugin-ml2
   apt:
     pkg: neutron-plugin-ml2
     state: present
+  tags:
+    - neutron
+    - neutron-install
 
 - include: component_server.yml
   when: neutron_component_server
+  tags:
+    - neutron
 
 - include: component_dhcp_agent.yml
   when: neutron_component_dhcp_agent
+  tags:
+    - neutron
 
 - include: component_l3_agent.yml
   when: neutron_component_l3_agent
+  tags:
+    - neutron
 
 - include: component_lbaas_agent.yml
   when: neutron_component_lbaas_agent
+  tags:
+    - neutron
 
 - include: component_metadata_agent.yml
   when: neutron_component_metadata_agent
+  tags:
+    - neutron
 
 - include: component_ovs_agent.yml
   when: neutron_component_ovs_agent
+  tags:
+    - neutron
 
 - name: configure neutron
   template:
@@ -49,6 +75,9 @@
     - restart neutron-lbaas-agent
     - restart neutron-metadata-agent
     - restart neutron-plugin-openvswitch-agent
+  tags:
+    - neutron
+    - neutron-configure
 
 - name: configure ml2 plugin
   template:
@@ -62,5 +91,8 @@
     - restart neutron-lbaas-agent
     - restart neutron-metadata-agent
     - restart neutron-plugin-openvswitch-agent
+  tags:
+    - neutron
+    - neutron-configure
 
 - meta: flush_handlers

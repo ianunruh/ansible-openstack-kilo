@@ -2,3 +2,5 @@
   apt:
     pkg: memcached
     state: present
+  tags:
+    - memcached

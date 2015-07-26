@@ -2,3 +2,6 @@
   apt:
     pkg: apache2
     state: present
+  tags:
+    - apache2
+    - apache2-install

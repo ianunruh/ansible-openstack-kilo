@@ -2,3 +2,5 @@
   apt:
     pkg: nova-conductor
     state: present
+  tags:
+    - nova-install

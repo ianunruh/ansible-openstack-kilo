@@ -2,3 +2,5 @@
   apt:
     pkg: nova-novncproxy
     state: present
+  tags:
+    - nova-install

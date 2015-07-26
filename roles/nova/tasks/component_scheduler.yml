@@ -2,3 +2,5 @@
   apt:
     pkg: nova-scheduler
     state: present
+  tags:
+    - nova-install

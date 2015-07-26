@@ -2,3 +2,5 @@
   apt:
     pkg: nova-cert
     state: present
+  tags:
+    - nova-install

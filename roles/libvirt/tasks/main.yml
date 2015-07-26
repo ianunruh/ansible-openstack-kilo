@@ -2,6 +2,9 @@
   apt:
     pkg: libvirt-bin
     state: present
+  tags:
+    - libvirt
+    - libvirt-install
 
 - name: configure libvirtd
   template:
@@ -9,6 +12,9 @@
     dest: /etc/libvirt/libvirtd.conf
   notify:
     - restart libvirtd
+  tags:
+    - libvirt
+    - libvirt-configure
 
 - name: configure libvirtd defaults
   copy:
@@ -16,5 +22,8 @@
     dest: /etc/default/libvirt-bin
   notify:
     - restart libvirtd
+  tags:
+    - libvirt
+    - libvirt-configure
 
 - meta: flush_handlers

@@ -1,10 +1,15 @@
 - include: configure_mysql.yml
   when: keystone_configure_mysql
+  tags:
+    - keystone
 
 - name: install keystone
   apt:
     pkg: keystone
     state: present
+  tags:
+    - keystone
+    - keystone-install
 
 - name: configure keystone
   template:
@@ -13,6 +18,9 @@
   notify:
     - sync keystone db
     - restart keystone
+  tags:
+    - keystone
+    - keystone-configure
 
 - meta: flush_handlers
 
@@ -20,15 +28,42 @@
   file:
     path: /var/lib/keystone/keystone.db
     state: absent
+  tags:
+    - keystone
 
 - name: wait for keystone api
   wait_for:
     port: 5000
+  tags:
+    - keystone
+    - keystone-configure
 
 - include: configure_keystone_region.yml
+  tags:
+    - keystone
+    - keystone-configure
+
 - include: configure_keystone_service.yml
+  tags:
+    - keystone
+    - keystone-configure
+
 - include: configure_keystone_projects.yml
+  tags:
+    - keystone
+    - keystone-configure
+
 - include: configure_keystone_roles.yml
+  tags:
+    - keystone
+    - keystone-configure
+
 - include: configure_keystone_users.yml
+  tags:
+    - keystone
+    - keystone-configure
 
 - include: configure_openrc.yml
+  tags:
+    - keystone
+    - keystone-configure

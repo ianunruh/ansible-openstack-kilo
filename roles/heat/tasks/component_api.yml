@@ -2,3 +2,5 @@
   apt:
     pkg: heat-api
     state: present
+  tags:
+    - heat-install

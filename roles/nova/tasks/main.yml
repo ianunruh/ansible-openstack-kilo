@@ -1,37 +1,60 @@
 - include: configure_keystone.yml
   when: nova_configure_keystone
+  tags:
+    - nova
 
 - include: configure_mysql.yml
   when: nova_configure_mysql
+  tags:
+    - nova
 
 - include: configure_rabbitmq.yml
   when: nova_configure_rabbitmq
+  tags:
+    - nova
 
 - name: install nova-common
   apt:
     pkg: nova-common
     state: present
+  tags:
+    - nova
+    - nova-install
 
 - include: component_api.yml
   when: nova_component_api
+  tags:
+    - nova
 
 - include: component_cert.yml
   when: nova_component_cert
+  tags:
+    - nova
 
 - include: component_compute.yml
   when: nova_component_compute
+  tags:
+    - nova
 
 - include: component_conductor.yml
   when: nova_component_conductor
+  tags:
+    - nova
 
 - include: component_consoleauth.yml
   when: nova_component_consoleauth
+  tags:
+    - nova
 
 - include: component_novncproxy.yml
   when: nova_component_novncproxy
+  tags:
+    - nova
 
 - include: component_scheduler.yml
   when: nova_component_scheduler
+  tags:
+    - nova
 
 - name: configure nova
   template:
@@ -46,6 +69,9 @@
     - restart nova-consoleauth
     - restart nova-novncproxy
     - restart nova-scheduler
+  tags:
+    - nova
+    - nova-configure
 
 - meta: flush_handlers
 
@@ -53,3 +79,5 @@
   file:
     path: /var/lib/nova/nova.sqlite
     state: absent
+  tags:
+    - nova

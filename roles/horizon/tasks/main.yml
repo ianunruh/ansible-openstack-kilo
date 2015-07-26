@@ -2,11 +2,17 @@
   apt:
     pkg: openstack-dashboard
     state: present
+  tags:
+    - horizon
+    - horizon-install
 
 - name: remove ubuntu theme
   apt:
     pkg: openstack-dashboard-ubuntu-theme
     state: absent
+  tags:
+    - horizon
+    - horizon-install
 
 - name: configure horizon
   template:
@@ -14,5 +20,8 @@
     dest: /etc/openstack-dashboard/local_settings.py
   notify:
     - restart apache2
+  tags:
+    - horizon
+    - horizon-configure
 
 - meta: flush_handlers

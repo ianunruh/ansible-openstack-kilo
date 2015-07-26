@@ -2,6 +2,8 @@
   apt:
     pkg: neutron-dhcp-agent
     state: present
+  tags:
+    - neutron-install
 
 - name: configure neutron-dhcp-agent
   template:
@@ -9,3 +11,5 @@
     dest: /etc/neutron/dhcp_agent.ini
   notify:
     - restart neutron-dhcp-agent
+  tags:
+    - neutron-configure
