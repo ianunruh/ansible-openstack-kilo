@@ -52,9 +52,6 @@ neutron_router_distributed: false
 
 neutron_api_workers: 2
 
-neutron_service_providers:
-  - LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-
 # ML2 plugin configuration
 neutron_ml2_type_drivers:
   - flat
@@ -92,3 +89,7 @@ neutron_nova_metadata_ip: "{{ openstack_controller_internal_host }}"
 
 # L3 agent configuration
 neutron_l3_agent_mode: legacy
+
+# LBaaS configuration
+neutron_lbaas_service_providers:
+  - LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default

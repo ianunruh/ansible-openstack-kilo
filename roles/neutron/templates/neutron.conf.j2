@@ -15,11 +15,6 @@ notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 nova_url = {{ neutron_nova_url }}
 
-[service_providers]
-{% for service_provider in neutron_service_providers %}
-service_provider = {{ service_provider }}
-{% endfor %}
-
 [nova]
 auth_url = {{ neutron_nova_auth_url }}
 auth_plugin = password

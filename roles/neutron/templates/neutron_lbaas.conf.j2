@@ -1,0 +1,6 @@
+[DEFAULT]
+
+[service_providers]
+{% for provider in neutron_lbaas_service_providers %}
+service_provider = {{ provider }}
+{% endfor %}
