@@ -2,7 +2,6 @@
   roles:
     - apt
     - openvswitch
-    - lvm
 
   post_tasks:
     - name: configure eth2
@@ -27,44 +26,6 @@
         port: eth2
         state: present
 
-    - name: check physical volume for cinder
-      command: pvdisplay /dev/sdb
-      failed_when: false
-      changed_when: false
-      register: result
-
-    - name: create physical volume for cinder
-      command: pvcreate /dev/sdb
-      when: result.rc == 5
-
-    - name: check volume group for cinder
-      command: vgdisplay cinder-volumes
-      failed_when: false
-      changed_when: false
-      register: result
-
-    - name: create volume group for cinder
-      command: vgcreate cinder-volumes /dev/sdb
-      when: result.rc == 5
-
-    - name: install xfs
-      apt:
-        pkg: xfsprogs
-        state: present
-
-    - name: ensure swift device has xfs filesystem
-      filesystem:
-        dev: /dev/sdc
-        fstype: xfs
-
-    - name: ensure swift device is mounted
-      mount:
-        src: /dev/sdc
-        name: /var/lib/swift/sdc
-        fstype: xfs
-        opts: noatime,nodiratime,nobarrier,logbufs=8
-        state: mounted
-
   handlers:
     - name: ifup eth2
       command: ifup eth2
@@ -76,9 +37,7 @@
     - memcached
     - keystone
     - glance
-    - cinder
     - nova
     - neutron
     - horizon
     - openstack-demo
-    - swift
