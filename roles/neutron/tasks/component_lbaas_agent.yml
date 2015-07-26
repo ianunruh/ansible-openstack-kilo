@@ -1,0 +1,11 @@
+- name: install neutron-lbaas-agent
+  apt:
+    pkg: neutron-lbaas-agent
+    state: present
+
+- name: configure neutron-lbaas-agent
+  template:
+    src: lbaas_agent.ini.j2
+    dest: /etc/neutron/lbaas_agent.ini
+  notify:
+    - restart neutron-lbaas-agent

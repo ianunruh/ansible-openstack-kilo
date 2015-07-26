@@ -4,6 +4,7 @@ neutron_configure_rabbitmq: "{{ openstack_role_controller }}"
 
 neutron_component_dhcp_agent: "{{ openstack_role_network }}"
 neutron_component_l3_agent: "{{ openstack_role_network }}"
+neutron_component_lbaas_agent: "{{ openstack_role_network }}"
 neutron_component_metadata_agent: "{{ openstack_role_network }}"
 neutron_component_ovs_agent: "{{ openstack_role_network or openstack_role_compute }}"
 neutron_component_server: "{{ openstack_role_controller }}"
@@ -43,12 +44,16 @@ neutron_nova_project: service
 neutron_core_plugin: ml2
 neutron_service_plugins:
   - router
+  - lbaas
 
 neutron_host: "{{ ansible_hostname }}"
 
 neutron_router_distributed: false
 
 neutron_api_workers: 2
+
+neutron_service_providers:
+  - LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
 
 # ML2 plugin configuration
 neutron_ml2_type_drivers:

@@ -22,6 +22,12 @@
     state: restarted
   when: neutron_component_l3_agent
 
+- name: restart neutron-lbaas-agent
+  service:
+    name: neutron-lbaas-agent
+    state: restarted
+  when: neutron_component_lbaas_agent
+
 - name: restart neutron-metadata-agent
   service:
     name: neutron-metadata-agent

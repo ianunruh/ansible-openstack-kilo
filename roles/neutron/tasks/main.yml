@@ -28,6 +28,9 @@
 - include: component_l3_agent.yml
   when: neutron_component_l3_agent
 
+- include: component_lbaas_agent.yml
+  when: neutron_component_lbaas_agent
+
 - include: component_metadata_agent.yml
   when: neutron_component_metadata_agent
 
@@ -43,6 +46,7 @@
     - restart neutron-server
     - restart neutron-dhcp-agent
     - restart neutron-l3-agent
+    - restart neutron-lbaas-agent
     - restart neutron-metadata-agent
     - restart neutron-plugin-openvswitch-agent
 
@@ -55,6 +59,7 @@
     - restart neutron-server
     - restart neutron-dhcp-agent
     - restart neutron-l3-agent
+    - restart neutron-lbaas-agent
     - restart neutron-metadata-agent
     - restart neutron-plugin-openvswitch-agent
 
