@@ -1,16 +1,28 @@
 keystone_configure_mysql: "{{ openstack_role_controller }}"
+keystone_configure_rabbitmq: "{{ openstack_role_controller }}"
 
+# MySQL configuration
 keystone_mysql_user: keystone
 keystone_mysql_password: keystone
 keystone_mysql_db: keystone
 keystone_mysql_host: "{{ openstack_mysql_host }}"
 keystone_mysql_login_password: password
 
+# Memcached configuration
 keystone_memcache_servers:
   - localhost:11211
 
+# RabbitMQ configuration
+keystone_rabbitmq_user: keystone
+keystone_rabbitmq_password: keystone
+keystone_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+keystone_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
+# Keystone configuration
 keystone_endpoint_identity_public: "http://{{ openstack_controller_public_host }}:5000/v2.0"
 keystone_endpoint_identity_internal: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
 keystone_endpoint_identity_admin: "http://{{ openstack_controller_internal_host }}:35357/v2.0"
 
 keystone_workers: 2
+
+keystone_ceilometer: false
