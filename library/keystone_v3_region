@@ -4,7 +4,7 @@ from keystoneclient.v3 import Client
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            name=dict(required=True),
+            id=dict(required=True),
             state=dict(choices=['present', 'absent'], default='present'),
             endpoint=dict(default='http://localhost:35357/v3'),
             token=dict(),
@@ -12,7 +12,7 @@ def main():
         supports_check_mode=True,
     )
 
-    name = module.params['name']
+    id = module.params['id']
     state = module.params['state']
 
     endpoint = module.params['endpoint']
@@ -21,7 +21,7 @@ def main():
     client = Client(endpoint=endpoint, token=token)
 
     try:
-        region = client.regions.find(name=name)
+        region = client.regions.get(id)
     except:
         region = None
 
@@ -30,7 +30,7 @@ def main():
     if state == 'present':
         if not region:
             if not module.check_mode:
-                region = client.regions.create(name=name)
+                region = client.regions.create(id=id)
 
             changed = True
     elif region:
