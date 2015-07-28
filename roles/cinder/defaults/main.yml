@@ -41,6 +41,8 @@ cinder_api_workers: 2
 
 cinder_az: nova
 
+cinder_ceilometer: false
+
 # Volume configuration
 cinder_backends:
   lvm:
