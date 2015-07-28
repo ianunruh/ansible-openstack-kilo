@@ -15,6 +15,10 @@ notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 nova_url = {{ neutron_nova_url }}
 
+{% if neutron_ceilometer %}
+notification_driver = messagingv2
+{% endif %}
+
 [nova]
 auth_url = {{ neutron_nova_auth_url }}
 auth_plugin = password
