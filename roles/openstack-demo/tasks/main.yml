@@ -120,3 +120,11 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+
+- name: configure demo environment script
+  template:
+    src: openrc-demo.j2
+    dest: /root/openrc-demo
+    mode: 0700
+    owner: root
+    group: root
