@@ -1,4 +1,4 @@
-openstack_region: sjc1
+openstack_region: RegionOne
 
 openstack_role_compute: false
 openstack_role_controller: false
