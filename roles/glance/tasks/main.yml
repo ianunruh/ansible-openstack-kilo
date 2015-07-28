@@ -8,6 +8,11 @@
   tags:
     - glance
 
+- include: configure_rabbitmq.yml
+  when: glance_configure_rabbitmq
+  tags:
+    - glance
+
 - name: install glance
   apt:
     pkg: glance

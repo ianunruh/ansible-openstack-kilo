@@ -1,6 +1,11 @@
 [DEFAULT]
 workers = {{ glance_api_workers }}
 
+{% if glance_ceilometer %}
+notification_driver = messagingv2
+rpc_backend = rabbit
+{% endif %}
+
 [glance_store]
 default_store = file
 filesystem_store_datadir = /var/lib/glance/images
@@ -17,3 +22,11 @@ admin_tenant_name = {{ glance_keystone_project }}
 
 [paste_deploy]
 flavor = keystone
+
+{% if glance_ceilometer %}
+[oslo_messaging_rabbit]
+rabbit_hosts = {{ glance_rabbitmq_hosts|join(',') }}
+rabbit_userid = {{ glance_rabbitmq_user }}
+rabbit_password = {{ glance_rabbitmq_password }}
+rabbit_virtual_host = {{ glance_rabbitmq_vhost }}
+{% endif %}
