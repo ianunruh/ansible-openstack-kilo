@@ -13,3 +13,11 @@
       
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
+
+- name: ensure reseller admin role
+  keystone_v3_role:
+    name: reseller_admin
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

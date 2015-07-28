@@ -72,6 +72,7 @@ use = egg:swift#xprofile
 [filter:keystoneauth]
 use = egg:swift#keystoneauth
 operator_roles = admin,user
+reseller_admin_role = reseller_admin
 
 [filter:authtoken]
 paste.filter_factory = keystonemiddleware.auth_token:filter_factory
