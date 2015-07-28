@@ -74,6 +74,7 @@
     - mysql
     - rabbitmq
     - memcached
+    - mongodb
     - keystone
     - glance
     - cinder
@@ -81,5 +82,6 @@
     - nova
     - neutron
     - heat
+    - ceilometer
     - horizon
     - openstack-demo
