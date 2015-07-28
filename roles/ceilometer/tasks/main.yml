@@ -1,0 +1,37 @@
+- include: configure_keystone.yml
+  when: ceilometer_configure_keystone
+  tags:
+    - ceilometer
+
+- include: configure_mongodb.yml
+  when: ceilometer_configure_mongodb
+  tags:
+    - ceilometer
+
+- include: configure_rabbitmq.yml
+  when: ceilometer_configure_rabbitmq
+  tags:
+    - ceilometer
+
+- include: install.yml
+  tags:
+    - ceilometer
+    - ceilometer-install
+
+- name: configure ceilometer
+  template:
+    src: ceilometer.conf.j2
+    dest: /etc/ceilometer/ceilometer.conf
+  notify:
+    - restart ceilometer-api
+    - restart ceilometer-agent-central
+    - restart ceilometer-agent-compute
+    - restart ceilometer-agent-notification
+    - restart ceilometer-alarm-evaluator
+    - restart ceilometer-alarm-notifier
+    - restart ceilometer-collector
+  tags:
+    - ceilometer
+    - ceilometer-configure
+
+- meta: flush_handlers

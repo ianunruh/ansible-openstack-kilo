@@ -4,3 +4,6 @@
 [submodule "roles/apt"]
 	path = roles/apt
 	url = git@github.com:ianunruh/ansible-role-apt.git
+[submodule "roles/mongodb"]
+	path = roles/mongodb
+	url = git@github.com:ianunruh/ansible-role-mongodb.git
