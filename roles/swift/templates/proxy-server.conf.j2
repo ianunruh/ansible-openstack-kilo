@@ -3,9 +3,9 @@ bind_port = 8080
 
 [pipeline:main]
 {% if swift_ceilometer %}
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging ceilometer proxy-server
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit tempurl authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging ceilometer proxy-server
 {% else %}
-pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging proxy-server
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit tempurl authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging proxy-server
 {% endif %}
 
 [app:proxy-server]
