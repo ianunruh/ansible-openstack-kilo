@@ -10,12 +10,16 @@
     pkg: python-pip
     state: present
   when: swift_ceilometer
+  tags:
+    - swift-install
 
 - name: install ceilometer middleware
   pip:
     name: ceilometermiddleware
     state: present
   when: swift_ceilometer
+  tags:
+    - swift-install
 
 - name: configure swift-proxy
   template:
