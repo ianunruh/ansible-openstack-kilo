@@ -1,4 +1,0 @@
-- name: restart libvirtd
-  service:
-    name: libvirt-bin
-    state: restarted

@@ -6,6 +6,24 @@
   tags:
     - nova-install
 
+- name: configure libvirtd
+  template:
+    src: libvirtd.conf.j2
+    dest: /etc/libvirt/libvirtd.conf
+  notify:
+    - restart libvirtd
+  tags:
+    - nova-configure
+
+- name: configure libvirtd defaults
+  copy:
+    src: libvirt-bin
+    dest: /etc/default/libvirt-bin
+  notify:
+    - restart libvirtd
+  tags:
+    - nova-configure
+
 - name: configure nova-compute
   template:
     src: nova-compute.conf.j2

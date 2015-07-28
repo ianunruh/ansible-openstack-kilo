@@ -43,3 +43,8 @@
     name: nova-scheduler
     state: restarted
   when: nova_component_scheduler
+
+- name: restart libvirtd
+  service:
+    name: libvirt-bin
+    state: restarted
