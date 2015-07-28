@@ -15,6 +15,13 @@ vnc_enabled = True
 vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = {{ nova_my_ip }}
 novncproxy_base_url = {{ nova_novncproxy_base_url }}
+
+{% if nova_ceilometer %}
+instance_usage_audit = True
+instance_usage_audit_period = hour
+notify_on_state_change = vm_and_task_state
+notification_driver = messagingv2
+{% endif %}
 {% endif %}
 
 network_api_class = nova.network.neutronv2.api.API
