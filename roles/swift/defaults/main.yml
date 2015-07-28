@@ -1,4 +1,5 @@
 swift_configure_keystone: "{{ openstack_role_controller }}"
+swift_configure_rabbitmq: "{{ openstack_role_controller }}"
 
 swift_role_controller: "{{ openstack_role_controller }}"
 swift_role_storage: "{{ openstack_role_storage }}"
@@ -18,7 +19,15 @@ swift_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35
 swift_memcache_servers:
   - localhost:11211
 
+# RabbitMQ configuration
+swift_rabbitmq_user: swift
+swift_rabbitmq_password: swift
+swift_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+swift_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
 # Swift configuration
+swift_ceilometer: false
+
 swift_management_ip: "{{ ansible_default_ipv4.address }}"
 
 swift_part_power: 10

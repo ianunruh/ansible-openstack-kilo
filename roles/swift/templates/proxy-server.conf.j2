@@ -2,7 +2,11 @@
 bind_port = 8080
 
 [pipeline:main]
+{% if swift_ceilometer %}
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging ceilometer proxy-server
+{% else %}
 pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo proxy-logging proxy-server
+{% endif %}
 
 [app:proxy-server]
 use = egg:swift#proxy
@@ -86,3 +90,13 @@ project_name = {{ swift_keystone_project }}
 username = {{ swift_keystone_user }}
 password = {{ swift_keystone_password }}
 delay_auth_decision = true
+
+{% if swift_ceilometer %}
+[filter:ceilometer]
+paste.filter_factory = ceilometermiddleware.swift:filter_factory
+control_exchange = swift
+url = rabbit://{{ swift_rabbitmq_user }}:{{ swift_rabbitmq_password }}@{{ swift_rabbitmq_hosts|join(',') }}/{{ swift_rabbitmq_vhost }}
+driver = messagingv2
+topic = notifications
+log_level = WARN
+{% endif %}

@@ -5,6 +5,18 @@
   tags:
     - swift-install
 
+- name: install pip
+  apt:
+    pkg: python-pip
+    state: present
+  when: swift_ceilometer
+
+- name: install ceilometer middleware
+  pip:
+    name: ceilometermiddleware
+    state: present
+  when: swift_ceilometer
+
 - name: configure swift-proxy
   template:
     src: proxy-server.conf.j2
