@@ -9,8 +9,7 @@ keystone_mysql_host: "{{ openstack_mysql_host }}"
 keystone_mysql_login_password: password
 
 # Memcached configuration
-keystone_memcache_servers:
-  - localhost:11211
+keystone_memcache_servers: "{{ openstack_memcache_hosts }}"
 
 # RabbitMQ configuration
 keystone_rabbitmq_user: keystone

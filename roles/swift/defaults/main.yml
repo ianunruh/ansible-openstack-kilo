@@ -16,8 +16,7 @@ swift_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
 swift_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
 
 # Memcache configuration
-swift_memcache_servers:
-  - localhost:11211
+swift_memcache_servers: "{{ openstack_memcache_hosts }}"
 
 # RabbitMQ configuration
 swift_rabbitmq_user: swift

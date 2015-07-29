@@ -11,7 +11,11 @@ openstack_public_host: "{{ ansible_default_ipv4.address }}"
 openstack_controller_internal_host: localhost
 openstack_controller_public_host: localhost
 
+openstack_memcache_hosts:
+  - "{{ openstack_controller_internal_host }}:11211"
+
 openstack_mysql_host: "{{ openstack_controller_internal_host }}"
+
 openstack_rabbitmq_hosts:
   - "{{ openstack_controller_internal_host }}:5672"
 
