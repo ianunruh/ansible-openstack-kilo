@@ -16,6 +16,9 @@ vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = {{ nova_my_ip }}
 novncproxy_base_url = {{ nova_novncproxy_base_url }}
 
+reserved_host_disk_mb = {{ nova_reserved_host_disk_mb }}
+reserved_host_memory_mb = {{ nova_reserved_host_memory_mb }}
+
 {% if nova_ceilometer %}
 instance_usage_audit = True
 instance_usage_audit_period = hour
@@ -36,6 +39,10 @@ osapi_compute_workers = {{ nova_api_workers }}
 
 {% if nova_component_scheduler %}
 scheduler_default_filters = {{ nova_scheduler_default_filters|join(',') }}
+cpu_allocation_ratio = {{ nova_cpu_allocation_ratio }}
+disk_allocation_ratio = {{ nova_disk_allocation_ratio }}
+ram_allocation_ratio = {{ nova_ram_allocation_ratio }}
+ram_weight_multiplier = {{ nova_ram_weight_multiplier }}
 {% endif %}
 
 {% if nova_component_conductor %}
