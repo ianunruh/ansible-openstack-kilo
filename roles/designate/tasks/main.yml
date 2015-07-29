@@ -1,0 +1,66 @@
+- include: configure_keystone.yml
+  when: designate_configure_keystone
+  tags:
+    - designate
+
+- include: configure_mysql.yml
+  when: designate_configure_mysql
+  tags:
+    - designate
+
+- include: configure_rabbitmq.yml
+  when: designate_configure_rabbitmq
+  tags:
+    - designate
+
+- name: install designate
+  apt:
+    pkg: python-designate
+    state: present
+  tags:
+    - designate
+    - designate-install
+
+- name: install python designate client
+  apt:
+    pkg: python-designateclient
+    state: present
+  tags:
+    - designate
+    - designate-install
+
+- include: component_api.yml
+  when: designate_component_api
+  tags:
+    - designate
+
+- include: component_central.yml
+  when: designate_component_central
+  tags:
+    - designate
+
+- include: component_mdns.yml
+  when: designate_component_mdns
+  tags:
+    - designate
+
+- include: component_pool_manager.yml
+  when: designate_component_pool_manager
+  tags:
+    - designate
+
+- name: configure designate
+  template:
+    src: designate.conf.j2
+    dest: /etc/designate/designate.conf
+  notify:
+    - sync designate db
+    - restart designate-api
+    - restart designate-central
+    - restart designate-mdns
+    - restart designate-pool-manager
+  tags:
+    - designate
+    - designate-configure
+
+- meta: flush_handlers

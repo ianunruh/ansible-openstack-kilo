@@ -1,0 +1,6 @@
+- name: install designate-central
+  apt:
+    pkg: designate-central
+    state: present
+  tags:
+    - designate-install

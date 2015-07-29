@@ -1,0 +1,6 @@
+- name: install designate-api
+  apt:
+    pkg: designate-api
+    state: present
+  tags:
+    - designate-install

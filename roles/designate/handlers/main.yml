@@ -1,0 +1,27 @@
+- name: sync designate db
+  command: designate-manage database sync
+  when: designate_component_api
+
+- name: restart designate-api
+  service:
+    name: designate-api
+    state: restarted
+  when: designate_component_api
+
+- name: restart designate-central
+  service:
+    name: designate-central
+    state: restarted
+  when: designate_component_central
+
+- name: restart designate-mdns
+  service:
+    name: designate-mdns
+    state: restarted
+  when: designate_component_mdns
+
+- name: restart designate-pool-manager
+  service:
+    name: designate-pool-manager
+    state: restarted
+  when: designate_component_pool_manager

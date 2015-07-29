@@ -7,3 +7,6 @@
 [submodule "roles/mongodb"]
 	path = roles/mongodb
 	url = git@github.com:ianunruh/ansible-role-mongodb.git
+[submodule "roles/bind"]
+	path = roles/bind
+	url = git@github.com:ianunruh/ansible-role-bind.git

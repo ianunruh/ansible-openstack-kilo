@@ -1,0 +1,6 @@
+- name: copy designate-pool-manager upstart script
+  copy:
+    src: designate-pool-manager.conf
+    dest: /etc/init/designate-pool-manager.conf
+  tags:
+    - designate-install

@@ -1,0 +1,6 @@
+- name: copy designate-mdns upstart script
+  copy:
+    src: designate-mdns.conf
+    dest: /etc/init/designate-mdns.conf
+  tags:
+    - designate-install

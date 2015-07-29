@@ -84,4 +84,6 @@
     - heat
     - ceilometer
     - horizon
+    - bind
+    - designate
     - openstack-demo

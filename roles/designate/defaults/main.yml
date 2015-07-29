@@ -1,0 +1,66 @@
+designate_configure_keystone: "{{ openstack_role_controller }}"
+designate_configure_mysql: "{{ openstack_role_controller }}"
+designate_configure_rabbitmq: "{{ openstack_role_controller }}"
+
+designate_component_api: "{{ openstack_role_controller }}"
+designate_component_central: "{{ openstack_role_controller }}"
+designate_component_mdns: "{{ openstack_role_controller }}"
+designate_component_pool_manager: "{{ openstack_role_controller }}"
+
+# MySQL configuration
+designate_mysql_user: designate
+designate_mysql_password: designate
+designate_mysql_db: designate
+designate_mysql_host: "{{ openstack_mysql_host }}"
+designate_mysql_login_password: password
+
+# Keystone configuration
+keystone_endpoint_dns_public: "http://{{ openstack_controller_public_host }}:9001"
+keystone_endpoint_dns_internal: "http://{{ openstack_controller_internal_host }}:9001"
+keystone_endpoint_dns_admin: "http://{{ openstack_controller_internal_host }}:9001"
+
+designate_keystone_user: designate
+designate_keystone_password: designate
+designate_keystone_project: service
+designate_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+designate_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Memcached configuration
+designate_memcache_servers: "{{ openstack_memcache_hosts }}"
+
+# RabbitMQ configuration
+designate_rabbitmq_user: designate
+designate_rabbitmq_password: designate
+designate_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+designate_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
+# Central configuration
+designate_central_default_pool_id: 98179d87-9c6f-408d-a795-bf9e92fd4019
+
+# Pool manager configuration
+designate_pool_manager_pool_id: 98179d87-9c6f-408d-a795-bf9e92fd4019
+
+designate_pools:
+  98179d87-9c6f-408d-a795-bf9e92fd4019:
+    nameservers:
+      - 3d3c374c-55ad-4c13-b49d-2ad99d68670f
+    targets:
+      - 6eb53f7b-afac-4591-9eca-cf35ba1d9b36
+
+designate_pool_nameservers:
+  3d3c374c-55ad-4c13-b49d-2ad99d68670f:
+    host: 127.0.0.1
+    port: 53
+
+designate_pool_targets:
+  6eb53f7b-afac-4591-9eca-cf35ba1d9b36:
+    type: bind9
+    host: 127.0.0.1
+    port: 53
+    masters:
+      - 127.0.0.1:5354
+    options:
+      rndc_host: 127.0.0.1
+      rndc_port: 953
+      rndc_key_file: /etc/bind/rndc.key
+      rndc_config_file: /etc/bind/rndc.conf
