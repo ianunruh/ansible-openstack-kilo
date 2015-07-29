@@ -7,7 +7,6 @@ openstack_controller_internal_host: 10.0.44.10
 openstack_controller_public_host: 10.0.44.10
 
 openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
-openstack_public_host: "{{ ansible_eth1.ipv4.address }}"
 
 neutron_ml2_flat_networks:
   - external

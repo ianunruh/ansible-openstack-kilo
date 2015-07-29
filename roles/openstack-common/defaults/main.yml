@@ -6,7 +6,6 @@ openstack_role_network: false
 openstack_role_storage: false
 
 openstack_internal_host: "{{ ansible_default_ipv4.address }}"
-openstack_public_host: "{{ ansible_default_ipv4.address }}"
 
 openstack_controller_internal_host: localhost
 openstack_controller_public_host: localhost
