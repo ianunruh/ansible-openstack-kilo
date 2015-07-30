@@ -3,11 +3,6 @@ log_dir = /var/log/keystone
 
 admin_token = {{ keystone_admin_token }}
 
-{% if keystone_ceilometer %}
-notification_driver = messagingv2
-rpc_backend = rabbit
-{% endif %}
-
 [eventlet_server]
 admin_workers = {{ keystone_workers }}
 public_workers = {{ keystone_workers }}
@@ -20,11 +15,3 @@ servers = {{ keystone_memcache_servers|join(',') }}
 
 [token]
 driver = keystone.token.persistence.backends.memcache.Token
-
-{% if keystone_ceilometer %}
-[oslo_messaging_rabbit]
-rabbit_hosts = {{ keystone_rabbitmq_hosts|join(',') }}
-rabbit_userid = {{ keystone_rabbitmq_user }}
-rabbit_password = {{ keystone_rabbitmq_password }}
-rabbit_virtual_host = {{ keystone_rabbitmq_vhost }}
-{% endif %}

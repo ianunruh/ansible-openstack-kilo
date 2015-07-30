@@ -3,11 +3,6 @@
   tags:
     - swift
 
-- include: configure_rabbitmq.yml
-  when: swift_configure_rabbitmq
-  tags:
-    - swift
-
 - name: install swift
   apt:
     pkg: swift

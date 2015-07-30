@@ -18,13 +18,6 @@ novncproxy_base_url = {{ nova_novncproxy_base_url }}
 
 reserved_host_disk_mb = {{ nova_reserved_host_disk_mb }}
 reserved_host_memory_mb = {{ nova_reserved_host_memory_mb }}
-
-{% if nova_ceilometer %}
-instance_usage_audit = True
-instance_usage_audit_period = hour
-notify_on_state_change = vm_and_task_state
-notification_driver = messagingv2
-{% endif %}
 {% endif %}
 
 network_api_class = nova.network.neutronv2.api.API

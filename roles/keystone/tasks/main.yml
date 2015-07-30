@@ -3,11 +3,6 @@
   tags:
     - keystone
 
-- include: configure_rabbitmq.yml
-  when: keystone_configure_rabbitmq
-  tags:
-    - keystone
-
 - name: install keystone
   apt:
     pkg: keystone

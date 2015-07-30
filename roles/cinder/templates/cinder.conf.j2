@@ -2,11 +2,6 @@
 auth_strategy = keystone
 rpc_backend = rabbit
 
-{% if cinder_ceilometer %}
-control_exchange = cinder
-notification_driver = messagingv2
-{% endif %}
-
 host = {{ cinder_host }}
 my_ip = {{ cinder_my_ip }}
 

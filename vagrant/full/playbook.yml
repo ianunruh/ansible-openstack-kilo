@@ -74,7 +74,6 @@
     - mysql
     - rabbitmq
     - memcached
-    - mongodb
     - keystone
     - glance
     - cinder
@@ -82,7 +81,6 @@
     - nova
     - neutron
     - heat
-    - ceilometer
     - horizon
     - bind
     - designate

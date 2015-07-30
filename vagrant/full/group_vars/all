@@ -27,10 +27,3 @@ swift_container_devices:
 
 swift_object_devices:
   - r1z1-10.0.2.15:6000/sdc
-
-cinder_ceilometer: true
-glance_ceilometer: true
-keystone_ceilometer: true
-neutron_ceilometer: true
-nova_ceilometer: true
-swift_ceilometer: true

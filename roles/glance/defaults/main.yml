@@ -1,6 +1,5 @@
 glance_configure_keystone: "{{ openstack_role_controller }}"
 glance_configure_mysql: "{{ openstack_role_controller }}"
-glance_configure_rabbitmq: "{{ openstack_role_controller }}"
 
 # MySQL configuration
 glance_mysql_user: glance
@@ -20,14 +19,6 @@ glance_keystone_project: service
 glance_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
 glance_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
 
-# RabbitMQ configuration
-glance_rabbitmq_user: glance
-glance_rabbitmq_password: glance
-glance_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
-glance_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
-
 # Glance configuration
 glance_api_workers: 2
 glance_registry_workers: 2
-
-glance_ceilometer: false
