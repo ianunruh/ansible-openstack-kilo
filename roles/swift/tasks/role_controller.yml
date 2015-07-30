@@ -16,6 +16,7 @@
 - name: install ceilometer middleware
   pip:
     name: ceilometermiddleware
+    version: 0.1.0 # stable/kilo
     state: present
   when: swift_ceilometer
   tags:
