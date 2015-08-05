@@ -22,3 +22,9 @@ glance_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:3
 # Glance configuration
 glance_api_workers: 2
 glance_registry_workers: 2
+
+glance_default_store: file
+
+glance_stores:
+  - file
+  - http
