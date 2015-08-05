@@ -16,6 +16,11 @@
     - glance
     - glance-install
 
+- include: configure_ceph.yml
+  when: glance_configure_ceph
+  tags:
+    - glance
+
 - name: configure glance-api
   template:
     src: glance-api.conf.j2

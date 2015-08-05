@@ -1,11 +1,16 @@
 [DEFAULT]
 workers = {{ glance_api_workers }}
 
+show_image_direct_url = True
+
 [glance_store]
 stores = {{ glance_stores|join(',') }}
 default_store = {{ glance_default_store }}
 
 filesystem_store_datadir = /var/lib/glance/images
+
+rbd_store_user = glance
+rbd_store_pool = images
 
 [database]
 connection = mysql://{{ glance_mysql_user }}:{{ glance_mysql_password }}@{{ glance_mysql_host }}/{{ glance_mysql_db }}
