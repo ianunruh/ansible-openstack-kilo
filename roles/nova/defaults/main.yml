@@ -1,3 +1,4 @@
+nova_configure_ceph: false
 nova_configure_keystone: "{{ openstack_role_controller }}"
 nova_configure_mysql: "{{ openstack_role_controller }}"
 nova_configure_rabbitmq: "{{ openstack_role_controller }}"
@@ -78,3 +79,5 @@ nova_compute_group: compute
 
 nova_reserved_host_disk_mb: 0
 nova_reserved_host_memory_mb: 512
+
+nova_rbd_secret_uuid: a0e9787e-2fcd-4172-a2dd-bd3139eabd14

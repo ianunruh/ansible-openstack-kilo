@@ -64,3 +64,13 @@
   tags:
     - nova-configure
     - nova-distribute-ssh
+
+- include: configure_ceph.yml
+  when: nova_configure_ceph
+  tags:
+    - nova-configure
+
+- include: set_libvirt_rbd_secret.yml
+  when: nova_configure_ceph
+  tags:
+    - nova-configure
