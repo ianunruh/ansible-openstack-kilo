@@ -11,6 +11,10 @@ storage_availability_zone = {{ cinder_az }}
 osapi_volume_workers = {{ cinder_api_workers }}
 {% endif %}
 
+{% if cinder_component_backup %}
+backup_driver = {{ cinder_backup_driver }}
+{% endif %}
+
 {% if cinder_component_volume %}
 glance_api_version = 2
 glance_host = {{ cinder_glance_host }}

@@ -41,6 +41,9 @@ cinder_api_workers: 2
 
 cinder_az: nova
 
+# Backup configuration
+cinder_backup_driver: cinder.backup.drivers.swift
+
 # Volume configuration
 cinder_backends:
   lvm:
