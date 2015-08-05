@@ -121,7 +121,7 @@ SECRET_KEY = secret_key.generate_or_read_from_file('/var/lib/openstack-dashboard
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': {{ horizon_memcache_servers|join(',') }},
+        'LOCATION': {{ horizon_memcache_servers|to_json }},
     }
 }
 
