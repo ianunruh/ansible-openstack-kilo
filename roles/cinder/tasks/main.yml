@@ -21,6 +21,11 @@
     - cinder
     - cinder-install
 
+- include: configure_ceph.yml
+  when: cinder_configure_ceph
+  tags:
+    - cinder
+
 - include: component_api.yml
   when: cinder_component_api
   tags:

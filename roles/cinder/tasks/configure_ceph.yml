@@ -1,0 +1,23 @@
+- name: ensure ceph backups pool
+  ceph_pool:
+    name: backups
+    state: present
+
+- name: ensure ceph volumes pool
+  ceph_pool:
+    name: volumes
+    state: present
+
+- name: ensure ceph vms pool
+  ceph_pool:
+    name: vms
+    state: present
+
+- name: retrieve ceph client keyring
+  command: >
+    ceph auth get-or-create client.cinder
+        mon 'allow r'
+        osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=backups, allow rwx pool=vms, allow rx pool=images'
+      -o /etc/ceph/ceph.client.cinder.keyring
+  args:
+    creates: /etc/ceph/ceph.client.cinder.keyring
