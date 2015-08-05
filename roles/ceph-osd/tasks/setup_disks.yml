@@ -1,0 +1,44 @@
+- name: fail if journal disks mismatch with disks
+  fail:
+    msg: ceph_osd_journal_disks should match ceph_osd_disks in size
+  when: ceph_osd_journal_disks and ceph_osd_disks|length != ceph_osd_journal_disks|length
+
+- name: check partition table
+  shell: parted -s {{ item }} print | grep -sq ceph
+  with_items: ceph_osd_disks
+  changed_when: false
+  failed_when: false
+  register: parted
+
+- name: zap disks
+  command: ceph-disk zap {{ item.0 }}
+  with_together:
+    - parted.results
+    - ceph_osd_disks
+  when: item.0.rc != 0 and ceph_osd_zap_disks
+
+- name: zap journal disks
+  command: ceph-disk zap {{ item.1 }}
+  with_together:
+    - parted.results
+    - ceph_osd_journal_disks
+  when: item.0.rc != 0 and ceph_osd_zap_disks and ceph_osd_journal_disks
+
+- name: prepare disks without journals
+  command: ceph-disk prepare {{ item.1 }}
+  with_together:
+    - parted.results
+    - ceph_osd_disks
+  when: item.0.rc != 0 and not ceph_osd_journal_disks
+  notify:
+    - activate osds
+
+- name: prepare disks with journals
+  command: ceph-disk prepare {{ item.1 }} {{ item.2 }}
+  with_together:
+    - parted.results
+    - ceph_osd_disks
+    - ceph_osd_journal_disks
+  when: item.0.rc != 0 and ceph_osd_journal_disks
+  notify:
+    - activate osds

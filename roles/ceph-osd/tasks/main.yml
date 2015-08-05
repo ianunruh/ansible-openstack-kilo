@@ -1,0 +1,36 @@
+- name: install ceph
+  apt:
+    pkg: ceph
+    state: present
+  tags:
+    - ceph
+    - ceph-osd
+
+- name: copy osd bootstrap keyring
+  copy:
+    src: fetch/ceph.client.bootstrap-osd.keyring
+    dest: /var/lib/ceph/bootstrap-osd/ceph.keyring
+  tags:
+    - ceph
+    - ceph-osd
+
+- name: configure osds
+  template:
+    src: osd.conf.j2
+    dest: /etc/ceph/conf.d/20-osd.conf
+  notify:
+    - assemble ceph config
+
+- meta: flush_handlers
+
+- include: setup_directories.yml
+  when: ceph_osd_directories
+  tags:
+    - ceph
+    - ceph-osd
+
+- include: setup_disks.yml
+  when: ceph_osd_disks
+  tags:
+    - ceph
+    - ceph-osd

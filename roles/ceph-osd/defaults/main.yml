@@ -1,0 +1,7 @@
+ceph_osd_directories: null
+ceph_osd_disks: null
+ceph_osd_journal_disks: null
+
+ceph_osd_zap_disks: false
+
+ceph_osd_journal_size: 5120

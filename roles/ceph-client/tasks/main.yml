@@ -1,0 +1,9 @@
+- name: copy admin keyring
+  copy:
+    src: fetch/ceph.client.admin.keyring
+    dest: /etc/ceph/ceph.client.admin.keyring
+    owner: root
+    group: root
+    mode: 0640
+  tags:
+    - ceph

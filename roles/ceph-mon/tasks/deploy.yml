@@ -1,0 +1,57 @@
+- name: check if monitor keyring present
+  delegate_to: 127.0.0.1
+  sudo: no
+  stat:
+    path: fetch/ceph.mon.keyring
+  register: stat_result
+
+- name: create initial keyring
+  run_once: yes
+  command: >
+    ceph-authtool /var/lib/ceph/tmp/ceph.mon.keyring
+      --create-keyring
+      --gen-key
+      --name mon.
+      --cap mon "allow *"
+  args:
+    creates: /var/lib/ceph/tmp/ceph.mon.keyring
+
+- name: fetch initial keyring
+  run_once: yes
+  fetch:
+    src: /var/lib/ceph/tmp/ceph.mon.keyring
+    dest: fetch/ceph.mon.keyring
+    flat: yes
+
+- name: copy initial keyring
+  copy:
+    src: fetch/ceph.mon.keyring
+    dest: /var/lib/ceph/tmp/ceph.mon.keyring
+
+- name: deploy monitor
+  command: >
+    ceph-mon -i {{ ansible_hostname }}
+      --mkfs
+      --fsid {{ ceph_fsid }}
+      --keyring /var/lib/ceph/tmp/ceph.mon.keyring
+  args:
+    creates: /var/lib/ceph/mon/ceph-{{ ansible_hostname }}
+
+- name: activate monitor
+  file:
+    path: /var/lib/ceph/mon/ceph-{{ ansible_hostname }}/{{ item }}
+    state: touch
+  with_items:
+    - done
+    - upstart
+  changed_when: false
+
+- name: ensure monitor started
+  service:
+    name: ceph-mon
+    args: id={{ ansible_hostname }}
+    state: started
+
+- name: wait for admin keyring
+  wait_for:
+    path: /etc/ceph/ceph.client.admin.keyring

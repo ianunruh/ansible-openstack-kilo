@@ -1,0 +1,19 @@
+- name: add apt key
+  apt_key:
+    id: 17ED316D
+    url: https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+
+- name: add apt repository
+  apt_repository:
+    repo: deb http://ceph.com/debian-{{ ceph_release }} trusty main
+    update_cache: yes
+
+- name: install ceph-common
+  apt:
+    pkg: ceph-common
+    state: present
+
+- name: ensure config fragment directory
+  file:
+    path: /etc/ceph/conf.d
+    state: directory

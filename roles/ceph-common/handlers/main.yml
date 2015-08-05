@@ -1,0 +1,12 @@
+- name: assemble ceph config
+  assemble:
+    src: /etc/ceph/conf.d
+    dest: /etc/ceph/ceph.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: restart ceph-all
+  service:
+    name: ceph-all
+    state: restarted

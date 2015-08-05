@@ -1,0 +1,17 @@
+[global]
+  fsid = {{ ceph_fsid }}
+
+{% if ceph_public_network %}
+  public network = {{ ceph_public_network }}
+{% endif %}
+
+{% if ceph_cluster_network %}
+  cluster network = {{ ceph_cluster_network }}
+{% endif %}
+
+  osd pool default size = {{ ceph_osd_pool_default_size }}
+
+{% for mon in groups[ceph_group_mon] %}
+[mon.{{ hostvars[mon]['ansible_hostname'] }}]
+  mon addr = {{ hostvars[mon]['ansible_' + ceph_mon_interface]['ipv4']['address'] }}
+{% endfor %}

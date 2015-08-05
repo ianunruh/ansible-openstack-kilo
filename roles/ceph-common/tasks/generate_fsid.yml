@@ -1,0 +1,17 @@
+- name: generate fsid
+  delegate_to: 127.0.0.1
+  sudo: no
+  shell: uuidgen | tee fetch/ceph-fsid.txt
+  args:
+    creates: fetch/ceph-fsid.txt
+
+- name: load fsid from file
+  delegate_to: 127.0.0.1
+  sudo: no
+  command: cat fetch/ceph-fsid.txt
+  register: result
+  changed_when: false
+
+- name: set fsid fact
+  set_fact:
+    ceph_fsid: "{{ result.stdout }}"

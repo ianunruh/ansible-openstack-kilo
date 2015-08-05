@@ -1,0 +1,28 @@
+- name: install ceph
+  apt:
+    pkg: ceph
+    state: present
+  tags:
+    - ceph
+    - ceph-mon
+
+- include: deploy.yml
+  tags:
+    - ceph
+    - ceph-mon
+
+- name: copy motd hook
+  copy:
+    src: health-motd
+    dest: /etc/update-motd.d/80-ceph-health
+    mode: 755
+    owner: root
+    group: root
+  tags:
+    - ceph
+    - ceph-mon
+
+- include: fetch_keys.yml
+  tags:
+    - ceph
+    - ceph-mon

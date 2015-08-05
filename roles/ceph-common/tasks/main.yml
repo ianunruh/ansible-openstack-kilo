@@ -1,0 +1,30 @@
+- name: ensure fetch directory
+  delegate_to: 127.0.0.1
+  sudo: no
+  file:
+    path: fetch
+    state: directory
+  tags:
+    - always
+
+- include: generate_fsid.yml
+  when: not ceph_fsid
+  tags:
+    - always
+
+- include: install.yml
+  tags:
+    - ceph
+    - ceph-install
+
+- name: generate global config
+  template:
+    src: global.conf.j2
+    dest: /etc/ceph/conf.d/10-global.conf
+  notify:
+    - assemble ceph config
+  tags:
+    - ceph
+    - ceph-configure
+
+- meta: flush_handlers

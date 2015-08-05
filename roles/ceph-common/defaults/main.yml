@@ -1,0 +1,14 @@
+ceph_release: hammer
+
+# Groups
+ceph_group_mon: ceph-mon
+
+# Global configuration
+ceph_fsid: null
+
+ceph_public_network: null
+ceph_cluster_network: null
+
+ceph_osd_pool_default_size: 2
+
+ceph_mon_interface: eth0

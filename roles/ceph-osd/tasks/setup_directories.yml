@@ -1,0 +1,17 @@
+- name: ensure osd directories
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+  with_items: ceph_osd_directories
+
+- name: prepare osd directories
+  command: ceph-disk prepare {{ item }}
+  with_items: ceph_osd_directories
+  changed_when: false
+
+- name: activate osd directories
+  command: ceph-disk activate {{ item }}
+  with_items: ceph_osd_directories
+  changed_when: false
