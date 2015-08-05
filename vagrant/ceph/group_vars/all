@@ -1,0 +1,49 @@
+openstack_role_compute: true
+openstack_role_controller: true
+openstack_role_network: true
+openstack_role_storage: true
+
+openstack_controller_internal_host: 10.0.44.10
+openstack_controller_public_host: 10.0.44.10
+
+openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
+
+neutron_ml2_flat_networks:
+  - external
+
+neutron_ml2_vxlan_ranges:
+  - 10000:20000
+
+neutron_ovs_bridge_mappings:
+  - external:br-ex
+
+glance_configure_ceph: true
+cinder_configure_ceph: true
+nova_configure_ceph: true
+
+glance_default_store: rbd
+
+glance_stores:
+  - rbd
+  - http
+
+cinder_backends:
+  rbd:
+    volume_driver: cinder.volume.drivers.rbd.RBDDriver
+    rbd_ceph_conf: /etc/ceph/ceph.conf
+    rbd_user: cinder
+    rbd_pool: volumes
+    rbd_secret_uuid: a0e9787e-2fcd-4172-a2dd-bd3139eabd14
+
+cinder_backup_driver: cinder.backup.drivers.ceph
+
+nova_compute_libvirt_images_type: rbd
+
+# Ceph
+ceph_public_network: 10.0.44.0/24
+
+ceph_mon_interface: eth1
+
+ceph_osd_directories:
+  - /srv/ceph-osd-a
+  - /srv/ceph-osd-b
