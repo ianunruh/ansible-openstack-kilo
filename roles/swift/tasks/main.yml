@@ -1,8 +1,3 @@
-- include: configure_keystone.yml
-  when: swift_configure_keystone
-  tags:
-    - swift
-
 - name: install swift
   apt:
     pkg: swift

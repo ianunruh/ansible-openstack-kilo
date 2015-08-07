@@ -15,9 +15,10 @@ designate_mysql_host: "{{ openstack_mysql_host }}"
 designate_mysql_login_password: password
 
 # Keystone configuration
-keystone_endpoint_dns_public: "http://{{ openstack_controller_public_host }}:9001"
-keystone_endpoint_dns_internal: "http://{{ openstack_controller_internal_host }}:9001"
-keystone_endpoint_dns_admin: "http://{{ openstack_controller_internal_host }}:9001"
+designate_keystone_dns_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:9001"
+  internal: "http://{{ openstack_controller_internal_host }}:9001"
+  admin: "http://{{ openstack_controller_internal_host }}:9001"
 
 designate_keystone_user: designate
 designate_keystone_password: designate

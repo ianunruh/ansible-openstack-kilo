@@ -1,2 +1,18 @@
 dependencies:
   - role: openstack-common
+
+  - role: openstack/keystone-service
+    service_name: nova
+    service_type: compute
+    service_endpoints: "{{ nova_keystone_compute_endpoints }}"
+    when: nova_configure_keystone
+    tags:
+      - nova
+
+  - role: openstack/keystone-service-user
+    user: "{{ nova_keystone_user }}"
+    password: "{{ nova_keystone_password }}"
+    project: "{{ nova_keystone_project }}"
+    when: nova_configure_keystone
+    tags:
+      - nova

@@ -1,2 +1,26 @@
 dependencies:
   - role: openstack-common
+
+  - role: openstack/keystone-service
+    service_name: cinder
+    service_type: volume
+    service_endpoints: "{{ cinder_keystone_volume_endpoints }}"
+    when: cinder_configure_keystone
+    tags:
+      - cinder
+
+  - role: openstack/keystone-service
+    service_name: cinderv2
+    service_type: volumev2
+    service_endpoints: "{{ cinder_keystone_volume_endpoints }}"
+    when: cinder_configure_keystone
+    tags:
+      - cinder
+
+  - role: openstack/keystone-service-user
+    user: "{{ cinder_keystone_user }}"
+    password: "{{ cinder_keystone_password }}"
+    project: "{{ cinder_keystone_project }}"
+    when: cinder_configure_keystone
+    tags:
+      - cinder

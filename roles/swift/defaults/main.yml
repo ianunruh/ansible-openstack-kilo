@@ -4,9 +4,10 @@ swift_role_controller: "{{ openstack_role_controller }}"
 swift_role_storage: "{{ openstack_role_storage }}"
 
 # Keystone configuration
-keystone_endpoint_object_store_public: "http://{{ openstack_controller_public_host }}:8080/v1/AUTH_%(tenant_id)s"
-keystone_endpoint_object_store_internal: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
-keystone_endpoint_object_store_admin: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
+swift_keystone_objectstore_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8080/v1/AUTH_%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
 
 swift_keystone_user: swift
 swift_keystone_password: swift

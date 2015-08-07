@@ -10,9 +10,10 @@ glance_mysql_host: "{{ openstack_mysql_host }}"
 glance_mysql_login_password: password
 
 # Keystone configuration
-keystone_endpoint_image_public: "http://{{ openstack_controller_public_host }}:9292"
-keystone_endpoint_image_internal: "http://{{ openstack_controller_internal_host }}:9292"
-keystone_endpoint_image_admin: "http://{{ openstack_controller_internal_host }}:9292"
+glance_keystone_image_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:9292"
+  internal: "http://{{ openstack_controller_internal_host }}:9292"
+  admin: "http://{{ openstack_controller_internal_host }}:9292"
 
 glance_keystone_user: glance
 glance_keystone_password: glance

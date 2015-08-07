@@ -25,9 +25,10 @@ nova_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
 nova_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
 
 # Keystone configuration
-keystone_endpoint_compute_public: "http://{{ openstack_controller_public_host }}:8774/v2/%(tenant_id)s"
-keystone_endpoint_compute_internal: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
-keystone_endpoint_compute_admin: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
+nova_keystone_compute_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8774/v2/%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8774/v2/%(tenant_id)s"
 
 nova_keystone_user: nova
 nova_keystone_password: nova

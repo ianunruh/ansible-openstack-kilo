@@ -1,0 +1,18 @@
+dependencies:
+  - role: openstack-common
+
+  - role: openstack/keystone-service
+    service_name: designate
+    service_type: dns
+    service_endpoints: "{{ designate_keystone_dns_endpoints }}"
+    when: designate_configure_keystone
+    tags:
+      - designate
+
+  - role: openstack/keystone-service-user
+    user: "{{ designate_keystone_user }}"
+    password: "{{ designate_keystone_password }}"
+    project: "{{ designate_keystone_project }}"
+    when: designate_configure_keystone
+    tags:
+      - designate

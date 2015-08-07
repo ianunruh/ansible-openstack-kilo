@@ -1,2 +1,26 @@
 dependencies:
   - role: openstack-common
+
+  - role: openstack/keystone-service
+    service_name: heat
+    service_type: orchestration
+    service_endpoints: "{{ heat_keystone_orchestration_endpoints }}"
+    when: heat_configure_keystone
+    tags:
+      - heat
+
+  - role: openstack/keystone-service
+    service_name: heat-cfn
+    service_type: cloudformation
+    service_endpoints: "{{ heat_keystone_cloudformation_endpoints }}"
+    when: heat_configure_keystone
+    tags:
+      - heat
+
+  - role: openstack/keystone-service-user
+    user: "{{ heat_keystone_user }}"
+    password: "{{ heat_keystone_password }}"
+    project: "{{ heat_keystone_project }}"
+    when: heat_configure_keystone
+    tags:
+      - heat

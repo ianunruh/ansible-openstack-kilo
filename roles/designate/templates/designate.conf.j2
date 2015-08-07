@@ -5,7 +5,7 @@ rpc_backend = rabbit
 enable_api_v1 = True
 enable_api_v2 = True
 
-api_base_uri = {{ keystone_endpoint_dns_public }}
+api_base_uri = {{ designate_keystone_dns_endpoints.public }}
 
 [keystone_authtoken]
 identity_uri = {{ designate_keystone_identity_uri }}

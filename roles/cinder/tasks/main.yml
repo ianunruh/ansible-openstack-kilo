@@ -1,8 +1,3 @@
-- include: configure_keystone.yml
-  when: cinder_configure_keystone
-  tags:
-    - cinder
-
 - include: configure_mysql.yml
   when: cinder_configure_mysql
   tags:

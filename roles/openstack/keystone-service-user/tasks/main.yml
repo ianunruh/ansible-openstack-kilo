@@ -1,0 +1,17 @@
+- name: ensure keystone user
+  keystone_v3_user:
+    name: "{{ user }}"
+    password: "{{ password }}"
+    state: present
+      
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"
+
+- name: ensure keystone user has admin role on project
+  keystone_v3_assignment:
+    user: "{{ user }}"
+    project: "{{ project }}"
+    role: admin
+   
+    endpoint: "{{ keystone_admin_endpoint }}"
+    token: "{{ keystone_admin_token }}"

@@ -1,2 +1,18 @@
 dependencies:
   - role: openstack-common
+
+  - role: openstack/keystone-service
+    service_name: glance
+    service_type: image
+    service_endpoints: "{{ glance_keystone_image_endpoints }}"
+    when: glance_configure_keystone
+    tags:
+      - glance
+
+  - role: openstack/keystone-service-user
+    user: "{{ glance_keystone_user }}"
+    password: "{{ glance_keystone_password }}"
+    project: "{{ glance_keystone_project }}"
+    when: glance_configure_keystone
+    tags:
+      - glance

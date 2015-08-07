@@ -1,8 +1,3 @@
-- include: configure_keystone.yml
-  when: nova_configure_keystone
-  tags:
-    - nova
-
 - include: configure_mysql.yml
   when: nova_configure_mysql
   tags:

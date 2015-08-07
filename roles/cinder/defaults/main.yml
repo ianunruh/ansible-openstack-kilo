@@ -22,9 +22,10 @@ cinder_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
 cinder_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
 
 # Keystone configuration
-keystone_endpoint_volume_public: "http://{{ openstack_controller_public_host }}:8776/v2/%(tenant_id)s"
-keystone_endpoint_volume_internal: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
-keystone_endpoint_volume_admin: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
+cinder_keystone_volume_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8776/v2/%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
 
 cinder_keystone_user: cinder
 cinder_keystone_password: cinder

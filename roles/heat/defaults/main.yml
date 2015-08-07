@@ -20,13 +20,15 @@ heat_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
 heat_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
 
 # Keystone configuration
-keystone_endpoint_orchestration_public: "http://{{ openstack_controller_public_host }}:8004/v1/%(tenant_id)s"
-keystone_endpoint_orchestration_internal: "http://{{ openstack_controller_internal_host }}:8004/v1/%(tenant_id)s"
-keystone_endpoint_orchestration_admin: "http://{{ openstack_controller_internal_host }}:8004/v1/%(tenant_id)s"
+heat_keystone_orchestration_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8004/v1/%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8004/v1/%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8004/v1/%(tenant_id)s"
 
-keystone_endpoint_cloudformation_public: "http://{{ openstack_controller_public_host }}:8000/v1"
-keystone_endpoint_cloudformation_internal: "http://{{ openstack_controller_internal_host }}:8000/v1"
-keystone_endpoint_cloudformation_admin: "http://{{ openstack_controller_internal_host }}:8000/v1"
+heat_keystone_cloudformation_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8000/v1"
+  internal: "http://{{ openstack_controller_internal_host }}:8000/v1"
+  admin: "http://{{ openstack_controller_internal_host }}:8000/v1"
 
 heat_keystone_user: heat
 heat_keystone_password: heat

@@ -23,9 +23,10 @@ neutron_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
 neutron_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
 
 # Keystone configuration
-keystone_endpoint_network_public: "http://{{ openstack_controller_public_host }}:9696"
-keystone_endpoint_network_internal: "http://{{ openstack_controller_internal_host }}:9696"
-keystone_endpoint_network_admin: "http://{{ openstack_controller_internal_host }}:9696"
+neutron_keystone_network_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:9696"
+  internal: "http://{{ openstack_controller_internal_host }}:9696"
+  admin: "http://{{ openstack_controller_internal_host }}:9696"
 
 neutron_keystone_user: neutron
 neutron_keystone_password: neutron
