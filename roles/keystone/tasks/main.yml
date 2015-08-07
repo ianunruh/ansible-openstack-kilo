@@ -11,13 +11,54 @@
     - keystone
     - keystone-install
 
+- name: disable eventlet service
+  service:
+    name: keystone
+    state: stopped
+    enabled: no
+  tags:
+    - keystone
+    - keystone-configure
+
 - name: configure keystone
   template:
     src: keystone.conf.j2
     dest: /etc/keystone/keystone.conf
   notify:
     - sync keystone db
-    - restart keystone
+    - restart apache2
+  tags:
+    - keystone
+    - keystone-configure
+
+- name: copy keystone-admin shim
+  copy:
+    src: keystone-admin.py
+    dest: /var/www/keystone-admin.py
+    owner: keystone
+    group: keystone
+    mode: 0755
+  tags:
+    - keystone
+    - keystone-configure
+
+- name: copy keystone-public shim
+  copy:
+    src: keystone-public.py
+    dest: /var/www/keystone-public.py
+    owner: keystone
+    group: keystone
+    mode: 0755
+  tags:
+    - keystone
+    - keystone-configure
+
+- name: configure apache2
+  copy:
+    src: wsgi-keystone.conf
+    dest: /etc/apache2/sites-enabled/wsgi-keystone.conf
+  notify:
+    - restart apache2
   tags:
     - keystone
     - keystone-configure

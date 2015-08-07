@@ -5,3 +5,11 @@
   tags:
     - apache2
     - apache2-install
+
+- name: install wsgi module
+  apt:
+    pkg: libapache2-mod-wsgi
+    state: present
+  tags:
+    - apache2
+    - apache2-install

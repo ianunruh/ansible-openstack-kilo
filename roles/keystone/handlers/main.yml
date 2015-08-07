@@ -1,7 +1,2 @@
 - name: sync keystone db
   command: keystone-manage db_sync
-
-- name: restart keystone
-  service:
-    name: keystone
-    state: restarted
