@@ -9,3 +9,4 @@ servers = {{ keystone_memcache_servers|join(',') }}
 
 [token]
 driver = keystone.token.persistence.backends.memcache.Token
+provider = keystone.token.providers.pkiz.Provider
