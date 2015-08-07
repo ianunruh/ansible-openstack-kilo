@@ -1,0 +1,13 @@
+midonet_configure_keystone: "{{ openstack_role_controller }}"
+
+# Keystone configuration
+midonet_keystone_midonet_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8080/midonet-api"
+  internal: "http://{{ openstack_controller_internal_host }}:8080/midonet-api"
+  admin: "http://{{ openstack_controller_internal_host }}:8080/midonet-api"
+
+midonet_keystone_user: midonet
+midonet_keystone_password: midonet
+midonet_keystone_project: service
+midonet_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000/v2.0"
+midonet_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"

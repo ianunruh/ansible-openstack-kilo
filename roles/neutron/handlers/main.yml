@@ -1,7 +1,7 @@
 - name: sync neutron db
   command: >
-    neutron-db-manage --config-file /etc/neutron/neutron.conf 
-      --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
+    neutron-db-manage --config-file /etc/neutron/neutron.conf
+      --config-file {{ neutron_plugin_paths[neutron_plugin] }} upgrade head
   when: neutron_component_server
 
 - name: restart neutron-server

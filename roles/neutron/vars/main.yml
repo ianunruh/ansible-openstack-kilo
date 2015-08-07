@@ -1,0 +1,13 @@
+neutron_plugins:
+  ml2: ml2
+  midonet: neutron.plugins.midonet.plugin.MidonetPluginV2
+
+neutron_plugin_paths:
+  ml2: /etc/neutron/plugins/ml2/ml2_conf.ini
+  midonet: /etc/neutron/plugins/midonet/midonet.ini
+
+neutron_plugin_lbaas_service_providers:
+  ml2:
+    - LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+  midonet:
+    - LOADBALANCER:Midonet:midonet.neutron.services.loadbalancer.driver.MidonetLoadbalancerDriver:default

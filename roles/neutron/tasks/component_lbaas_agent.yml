@@ -13,12 +13,3 @@
     - restart neutron-lbaas-agent
   tags:
     - neutron-configure
-
-- name: configure neutron lbass
-  template:
-    src: neutron_lbaas.conf.j2
-    dest: /etc/neutron/neutron_lbaas.conf
-  notify:
-    - restart neutron-lbaas-agent
-  tags:
-    - neutron-configure

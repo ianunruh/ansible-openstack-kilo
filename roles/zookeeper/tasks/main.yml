@@ -1,0 +1,7 @@
+- name: install zookeeper
+  apt:
+    pkg: zookeeperd
+    state: present
+  tags:
+    - zookeeper
+    - zookeeper-install

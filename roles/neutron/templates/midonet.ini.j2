@@ -1,0 +1,4 @@
+[DATABASE]
+sql_connection = mysql://{{ neutron_mysql_user }}:{{ neutron_mysql_password }}@{{ neutron_mysql_host }}/{{ neutron_mysql_db }}
+
+{% include "midonet-common.j2" %}

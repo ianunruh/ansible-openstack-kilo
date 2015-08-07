@@ -20,13 +20,15 @@
     - neutron
     - neutron-install
 
-- name: install neutron-plugin-ml2
-  apt:
-    pkg: neutron-plugin-ml2
-    state: present
+- include: plugin_ml2.yml
+  when: neutron_plugin == "ml2"
   tags:
     - neutron
-    - neutron-install
+
+- include: plugin_midonet.yml
+  when: neutron_plugin == "midonet"
+  tags:
+    - neutron
 
 - include: component_server.yml
   when: neutron_component_server
@@ -74,18 +76,13 @@
     - neutron
     - neutron-configure
 
-- name: configure ml2 plugin
+- name: configure neutron lbass
   template:
-    src: ml2_conf.ini.j2
-    dest: /etc/neutron/plugins/ml2/ml2_conf.ini
+    src: neutron_lbaas.conf.j2
+    dest: /etc/neutron/neutron_lbaas.conf
   notify:
-    - sync neutron db
     - restart neutron-server
-    - restart neutron-dhcp-agent
-    - restart neutron-l3-agent
     - restart neutron-lbaas-agent
-    - restart neutron-metadata-agent
-    - restart neutron-plugin-openvswitch-agent
   tags:
     - neutron
     - neutron-configure

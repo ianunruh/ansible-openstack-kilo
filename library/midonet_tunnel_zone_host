@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+from midonetclient.client import MidonetClient
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            host=dict(required=True),
+            tunnel_zone=dict(required=True),
+            address=dict(),
+            state=dict(choices=['present', 'absent'], default='present'),
+
+            login_url=dict(),
+            login_username=dict(),
+            login_password=dict(),
+            login_project_name=dict(),
+        ),
+    )
+
+    host_name = module.params['host']
+    tunnel_zone_name = module.params['tunnel_zone']
+    address = module.params['address']
+    state = module.params['state']
+
+    login_url = module.params['login_url']
+    login_username = module.params['login_username']
+    login_password = module.params['login_password']
+    login_project_name = module.params['login_project_name']
+
+    client = MidonetClient(login_url, login_username, login_password, login_project_name)
+
+    changed = False
+
+    hosts = client.get_hosts(filters=dict(name=host_name))
+    if hosts:
+        host = hosts[0]
+    else:
+        module.fail_json(msg='Could not find host by name')
+
+    tunnel_zones = client.get_tunnel_zones(filters=dict(name=tunnel_zone_name))
+    if tunnel_zones:
+        tunnel_zone = tunnel_zones[0]
+    else:
+        module.fail_json(msg='Could not find tunnel zone by name')
+
+    try:
+        tz_host = client.get_tunnel_zone_host(tunnel_zone['id'], host['id'])
+    except:
+        tz_host = None
+
+    if state == 'present':
+        if not tz_host:
+            # http://docs.midonet.org/docs/latest/rest-api/content/tunnel-zone-host.html
+            client.create_tunnel_zone_host(dict(tunnelZoneId=tunnel_zone['id'], hostId=host['id'], ipAddress=address))
+            changed = True
+    elif tz_host:
+        client.delete_tunnel_zone_host(tunnel_zone['id'], host['id'])
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+from midonetclient.client import MidonetClient
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            name=dict(required=True),
+            type=dict(default='vxlan'),
+            state=dict(choices=['present', 'absent'], default='present'),
+
+            login_url=dict(),
+            login_username=dict(),
+            login_password=dict(),
+            login_project_name=dict(),
+        ),
+    )
+
+    name = module.params['name']
+    type = module.params['type']
+    state = module.params['state']
+
+    login_url = module.params['login_url']
+    login_username = module.params['login_username']
+    login_password = module.params['login_password']
+    login_project_name = module.params['login_project_name']
+
+    client = MidonetClient(login_url, login_username, login_password, login_project_name)
+
+    changed = False
+
+    tunnel_zones = client.get_tunnel_zones(filters=dict(name=name))
+    if tunnel_zones:
+        tunnel_zone = tunnel_zones[0]
+    else:
+        tunnel_zone = None
+
+    if state == 'present':
+        if not tunnel_zone:
+            # http://docs.midonet.org/docs/latest/rest-api/content/tunnel-zone.html
+            client.create_tunnel_zone(dict(name=name, type=type))
+            changed = True
+    elif tunnel_zone:
+        client.delete_tunnel_zone(tunnel_zone['id'])
+        changed = True
+
+    module.exit_json(changed=changed)
+
+from ansible.module_utils.basic import *
+main()

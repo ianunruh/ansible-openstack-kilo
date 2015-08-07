@@ -1,0 +1,42 @@
+- name: add apt key
+  apt_key:
+    id: B999A372
+    url: http://debian.datastax.com/debian/repo_key
+  tags:
+    - cassandra
+    - cassandra-install
+
+- name: add apt repository
+  apt_repository:
+    repo: deb http://debian.datastax.com/community stable main
+    update_cache: yes
+  tags:
+    - cassandra
+    - cassandra-install
+
+- name: install cassandra
+  apt:
+    pkg: cassandra=2.0.10 # Required version for Midonet
+    state: present
+  tags:
+    - cassandra
+    - cassandra-install
+
+- name: configure cassandra
+  template:
+    src: cassandra.yaml.j2
+    dest: /etc/cassandra/cassandra.yaml
+  notify:
+    - restart cassandra
+  tags:
+    - cassandra
+    - cassandra-configure
+
+- meta: flush_handlers
+
+- name: ensure cassandra started
+  service:
+    name: cassandra
+    state: started
+  tags:
+    - cassandra

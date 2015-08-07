@@ -42,7 +42,9 @@ neutron_nova_password: nova
 neutron_nova_project: service
 
 # Neutron configuration
-neutron_core_plugin: ml2
+neutron_plugin: ml2
+
+neutron_core_plugin: "{{ neutron_plugins[neutron_plugin] }}"
 neutron_service_plugins:
   - router
   - lbaas
@@ -92,5 +94,4 @@ neutron_nova_metadata_ip: "{{ openstack_controller_internal_host }}"
 neutron_l3_agent_mode: legacy
 
 # LBaaS configuration
-neutron_lbaas_service_providers:
-  - LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+neutron_lbaas_service_providers: "{{ neutron_plugin_lbaas_service_providers[neutron_plugin] }}"

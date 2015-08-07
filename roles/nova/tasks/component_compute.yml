@@ -6,10 +6,38 @@
   tags:
     - nova-install
 
+# Installed to provide network rootwrap filters for Midonet
+- name: install nova-network
+  apt:
+    pkg: nova-network
+    state: present
+  when: nova_midonet_integration
+  tags:
+    - nova-install
+
+- name: ensure nova-network stopped and disabled
+  service:
+    name: nova-network
+    state: stopped
+    enabled: no
+  when: nova_midonet_integration
+  tags:
+    - nova-install
+
 - name: configure libvirtd
   template:
     src: libvirtd.conf.j2
     dest: /etc/libvirt/libvirtd.conf
+  notify:
+    - restart libvirtd
+  tags:
+    - nova-configure
+
+- name: configure libvirtd qemu
+  copy:
+    src: midonet-qemu.conf
+    dest: /etc/libvirt/qemu.conf
+  when: nova_midonet_integration
   notify:
     - restart libvirtd
   tags:

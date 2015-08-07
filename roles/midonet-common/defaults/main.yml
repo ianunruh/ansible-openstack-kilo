@@ -1,0 +1,5 @@
+midonet_cassandra_hosts:
+  - "{{ openstack_controller_internal_host }}"
+
+midonet_zookeeper_hosts:
+  - "{{ openstack_controller_internal_host }}:2181"

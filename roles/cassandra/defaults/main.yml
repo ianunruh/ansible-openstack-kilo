@@ -1,0 +1,8 @@
+cassandra_listen_address: 127.0.0.1
+cassandra_rpc_address: 127.0.0.1
+cassandra_broadcast_address: null
+
+cassandra_seeds:
+  - 127.0.0.1
+
+cassandra_cluster_name: midonet

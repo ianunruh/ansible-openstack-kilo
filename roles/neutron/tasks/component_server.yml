@@ -1,6 +1,16 @@
 - name: install neutron-server
   apt:
     pkg: neutron-server
+    install_recommends: no
     state: present
   tags:
     - neutron-install
+
+- name: configure neutron-server defaults
+  template:
+    src: neutron-server.j2
+    dest: /etc/default/neutron-server
+  notify:
+    - restart neutron-server
+  tags:
+    - neutron-configure

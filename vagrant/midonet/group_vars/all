@@ -1,0 +1,27 @@
+openstack_role_compute: true
+openstack_role_controller: true
+openstack_role_network: true
+openstack_role_storage: true
+
+openstack_controller_internal_host: 10.0.44.10
+openstack_controller_public_host: 10.0.44.10
+
+openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
+
+neutron_ml2_flat_networks:
+  - external
+
+neutron_ml2_vxlan_ranges:
+  - 10000:20000
+
+neutron_ovs_bridge_mappings:
+  - external:br-ex
+
+neutron_plugin: midonet
+
+# Disable for Midonet integration
+neutron_component_lbaas_agent: false
+neutron_component_l3_agent: false
+neutron_component_ovs_agent: false
+
+nova_midonet_integration: true

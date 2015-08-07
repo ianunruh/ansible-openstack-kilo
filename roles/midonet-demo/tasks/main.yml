@@ -1,0 +1,26 @@
+- name: ensure default tunnel zone
+  midonet_tunnel_zone:
+    name: tz
+    type: vxlan
+    state: present
+
+    login_url: http://localhost:8080/midonet-api
+    login_username: admin
+    login_password: password
+    login_project_name: admin
+  tags:
+    - midonet-demo
+
+- name: ensure controller in default tunnel zone
+  midonet_tunnel_zone_host:
+    host: controller
+    tunnel_zone: tz
+    address: 10.0.44.10
+    state: present
+
+    login_url: http://localhost:8080/midonet-api
+    login_username: admin
+    login_password: password
+    login_project_name: admin
+  tags:
+    - midonet-demo

@@ -1,6 +1,9 @@
 dependencies:
   - role: openstack-common
 
+  - role: midonet-common
+    when: neutron_plugin == "midonet"
+
   - role: openstack/keystone-service
     service_name: neutron
     service_type: network

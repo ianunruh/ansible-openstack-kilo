@@ -1,0 +1,12 @@
+- name: install midolman
+  apt:
+    pkg: midolman
+    state: present
+  tags:
+    - midonet
+    - midonet-install
+
+- name: ensure midolman started
+  service:
+    name: midolman
+    state: started

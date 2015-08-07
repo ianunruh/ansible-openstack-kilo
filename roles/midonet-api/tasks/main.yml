@@ -1,0 +1,66 @@
+- name: install midonet-api
+  apt:
+    pkg: midonet-api
+    state: present
+  tags:
+    - midonet
+    - midonet-install
+
+- name: install python midonet client
+  apt:
+    pkg: python-midonetclient
+    state: present
+  tags:
+    - midonet
+    - midonet-install
+
+- name: install tomcat
+  apt:
+    pkg: tomcat7
+    state: present
+  tags:
+    - midonet
+    - midonet-install
+
+- name: configure midonet-api
+  template:
+    src: web.xml.j2
+    dest: /usr/share/midonet-api/WEB-INF/web.xml
+  notify:
+    - restart tomcat
+  tags:
+    - midonet
+    - midonet-configure
+
+- name: configure tomcat
+  copy:
+    src: server.xml
+    dest: /etc/tomcat7/server.xml
+  notify:
+    - restart tomcat
+  tags:
+    - midonet
+    - midonet-configure
+
+- name: configure tomcat context
+  copy:
+    src: midonet-api.xml
+    dest: /etc/tomcat7/Catalina/localhost/midonet-api.xml
+  notify:
+    - restart tomcat
+  tags:
+    - midonet
+    - midonet-configure
+
+- meta: flush_handlers
+
+- name: configure midonet client
+  template:
+    src: midonetrc.j2
+    dest: /root/.midonetrc
+    owner: root
+    group: root
+    mode: 0640
+  tags:
+    - midonet
+    - midonet-configure

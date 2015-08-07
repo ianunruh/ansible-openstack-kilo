@@ -1,0 +1,19 @@
+- hosts: all
+  roles:
+    - apt
+
+- hosts: all
+  roles:
+    - mysql
+    - rabbitmq
+    - memcached
+    - keystone
+    - glance
+    - nova
+    - cassandra
+    - zookeeper
+    - midonet-api
+    - midolman
+    - neutron
+    - horizon
+    - midonet-demo

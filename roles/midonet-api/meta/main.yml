@@ -1,0 +1,19 @@
+dependencies:
+  - role: midonet-common
+
+  - role: openstack/keystone-service
+    service_name: midonet
+    service_type: midonet
+    service_endpoints: "{{ midonet_keystone_midonet_endpoints }}"
+    when: midonet_configure_keystone
+    tags:
+      - midonet
+
+  - role: openstack/keystone-service-user
+    user: "{{ midonet_keystone_user }}"
+    password: "{{ midonet_keystone_password }}"
+    project: "{{ midonet_keystone_project }}"
+    when: midonet_configure_keystone
+    tags:
+      - midonet
+

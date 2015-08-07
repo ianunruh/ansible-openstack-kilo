@@ -1,0 +1,24 @@
+- name: add apt key
+  apt_key:
+    id: 50F18FCF
+    url: http://repo.midonet.org/packages.midokura.key
+
+- name: add midonet repo
+  apt_repository:
+    repo: deb http://repo.midonet.org/midonet/v2015.06 stable main
+  notify:
+    - update apt cache
+
+- name: add midonet openstack repo
+  apt_repository:
+    repo: deb http://repo.midonet.org/openstack-kilo stable main
+  notify:
+    - update apt cache
+
+- name: add midonet tools repo
+  apt_repository:
+    repo: deb http://repo.midonet.org/misc stable main
+  notify:
+    - update apt cache
+
+- meta: flush_handlers

@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
+
+  config.vm.hostname = "controller"
+
+  config.vm.network "private_network", ip: "10.0.44.10"
+  config.vm.network "private_network", ip: "10.0.55.10", auto_config: false
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 6144
+    vb.cpus = 4
+
+    # Workaround for slow DNS resolution on OS X host
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
+    # Enable promiscuous mode
+    vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+    vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+  end
+
+  config.vm.provider "vmware_fusion" do |v|
+    v.vmx["memsize"] = 6144
+    v.vmx["numvcpus"] = 4
+  end
+
+  config.vm.provision "ansible" do |a|
+    a.sudo = true
+    a.playbook = "playbook.yml"
+  end
+end

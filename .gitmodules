@@ -7,3 +7,6 @@
 [submodule "roles/bind"]
 	path = roles/bind
 	url = git@github.com:ianunruh/ansible-role-bind.git
+[submodule "roles/java"]
+	path = roles/java
+	url = git@github.com:ianunruh/ansible-role-java.git

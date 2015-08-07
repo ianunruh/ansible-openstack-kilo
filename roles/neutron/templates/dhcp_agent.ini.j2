@@ -2,3 +2,7 @@
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
 dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
 dhcp_delete_namespaces = True
+
+{% if neutron_plugin == "midonet" %}
+{% include "midonet-common.j2" %}
+{% endif %}

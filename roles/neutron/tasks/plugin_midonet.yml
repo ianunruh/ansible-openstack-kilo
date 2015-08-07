@@ -1,0 +1,23 @@
+- name: install midonet plugin
+  apt:
+    pkg: python-neutron-plugin-midonet
+    state: present
+  tags:
+    - neutron-install
+
+- name: ensure plugin config directory
+  file:
+    path: /etc/neutron/plugins/midonet
+    state: directory
+  tags:
+    - neutron-install
+
+- name: configure midonet plugin
+  template:
+    src: midonet.ini.j2
+    dest: /etc/neutron/plugins/midonet/midonet.ini
+  notify:
+    - sync neutron db
+    - restart neutron-server
+  tags:
+    - neutron-configure
