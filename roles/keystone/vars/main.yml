@@ -1,0 +1,5 @@
+keystone_token_provider_drivers:
+  fernet: keystone.token.providers.fernet.Provider
+  pki: keystone.token.providers.pki.Provider
+  pkiz: keystone.token.providers.pkiz.Provider
+  uuid: keystone.token.providers.uuid.Provider

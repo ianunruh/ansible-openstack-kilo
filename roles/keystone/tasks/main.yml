@@ -20,6 +20,15 @@
     - keystone
     - keystone-configure
 
+- name: generate fernet keys
+  command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+  args:
+    creates: /etc/keystone/fernet-keys
+  when: keystone_token_provider == "fernet"
+  tags:
+    - keystone
+    - keystone-configure
+
 - name: configure keystone
   template:
     src: keystone.conf.j2
