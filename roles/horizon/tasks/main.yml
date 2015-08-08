@@ -1,15 +1,28 @@
-- name: install horizon
-  apt:
-    pkg: openstack-dashboard
-    state: present
+- name: ensure config directory
+  file:
+    path: /etc/openstack-dashboard
+    state: directory
   tags:
     - horizon
     - horizon-install
 
-- name: remove ubuntu theme
-  apt:
-    pkg: openstack-dashboard-ubuntu-theme
-    state: absent
+- name: check if docker container exists
+  command: docker ps -aq -f name=horizon
+  register: result
+  changed_when: false
+  tags:
+    - horizon
+    - horizon-install
+
+# TODO https://github.com/ansible/ansible-modules-core/issues/522
+#      The Docker module in the latest stable Ansible release does 
+#      not handle volume bindings correctly
+- name: create docker container
+  command: >
+    docker create --name=horizon --restart=always -p 3000:80
+      -v /etc/openstack-dashboard:/etc/openstack-dashboard
+      ianunruh/horizon
+  when: not result.stdout
   tags:
     - horizon
     - horizon-install
@@ -19,9 +32,22 @@
     src: local_settings.py.j2
     dest: /etc/openstack-dashboard/local_settings.py
   notify:
-    - restart apache2
+    - restart horizon
   tags:
     - horizon
     - horizon-configure
 
 - meta: flush_handlers
+
+- name: check if docker container running
+  command: docker ps -q -f name=horizon
+  register: result
+  changed_when: false
+  tags:
+    - horizon
+
+- name: start docker container
+  command: docker start horizon
+  when: not result.stdout
+  tags:
+    - horizon
