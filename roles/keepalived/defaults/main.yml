@@ -1,0 +1,4 @@
+kad_interface: eth0
+kad_virtual_router_id: 50
+kad_auth_pass: secret
+kad_vip: null

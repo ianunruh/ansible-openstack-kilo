@@ -1,0 +1,23 @@
+vrrp_script haproxy {
+  script "killall -0 haproxy"
+  interval 2
+}
+
+vrrp_instance haproxy {
+  state EQUAL
+  priority 100
+  interface {{ kad_interface }}
+  virtual_router_id {{ kad_virtual_router_id }}
+  advert_int 1
+  nopreempt
+  authentication {
+    auth_type PASS
+    auth_pass {{ kad_auth_pass }}
+  }
+  virtual_ipaddress {
+    {{ kad_vip }}
+  }
+  track_script {
+    haproxy
+  }
+}
