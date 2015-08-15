@@ -28,3 +28,11 @@ dependencies:
     when: designate_configure_mysql
     tags:
       - designate
+
+- role: openstack/messaging
+  vhost: "{{ designate_rabbitmq_vhost }}"
+  user: "{{ designate_rabbitmq_user }}"
+  password: "{{ designate_rabbitmq_password }}"
+  when: designate_configure_rabbitmq
+  tags:
+    - designate

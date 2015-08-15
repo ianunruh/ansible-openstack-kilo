@@ -28,3 +28,11 @@ dependencies:
     when: neutron_configure_mysql
     tags:
       - neutron
+
+  - role: openstack/messaging
+    vhost: "{{ neutron_rabbitmq_vhost }}"
+    user: "{{ neutron_rabbitmq_user }}"
+    password: "{{ neutron_rabbitmq_password }}"
+    when: neutron_configure_rabbitmq
+    tags:
+      - neutron

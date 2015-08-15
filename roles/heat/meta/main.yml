@@ -36,3 +36,11 @@ dependencies:
     when: heat_configure_mysql
     tags:
       - heat
+
+  - role: openstack/messaging
+    vhost: "{{ heat_rabbitmq_vhost }}"
+    user: "{{ heat_rabbitmq_user }}"
+    password: "{{ heat_rabbitmq_password }}"
+    when: heat_configure_rabbitmq
+    tags:
+      - heat

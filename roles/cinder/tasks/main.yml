@@ -1,8 +1,3 @@
-- include: configure_rabbitmq.yml
-  when: cinder_configure_rabbitmq
-  tags:
-    - cinder
-
 - name: install cinder-common
   apt:
     pkg: cinder-common
