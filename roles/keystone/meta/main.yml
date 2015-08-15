@@ -4,12 +4,12 @@ dependencies:
   - role: apache2
 
   - role: openstack/database
-    database_name: "{{ keystone_mysql_db }}"
-    database_user: "{{ keystone_mysql_user }}"
-    database_password: "{{ keystone_mysql_password }}"
-    database_login_host: "{{ keystone_mysql_host }}"
-    database_login_user: root
-    database_login_password: "{{ keystone_mysql_login_password }}"
+    name: "{{ keystone_mysql_db }}"
+    user: "{{ keystone_mysql_user }}"
+    password: "{{ keystone_mysql_password }}"
+    login_host: "{{ keystone_mysql_host }}"
+    login_user: root
+    login_password: "{{ keystone_mysql_login_password }}"
     when: keystone_configure_mysql
     tags:
       - keystone

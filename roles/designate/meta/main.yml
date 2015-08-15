@@ -19,12 +19,12 @@ dependencies:
       - designate
 
   - role: openstack/database
-    database_name: "{{ designate_mysql_db }}"
-    database_user: "{{ designate_mysql_user }}"
-    database_password: "{{ designate_mysql_password }}"
-    database_login_host: "{{ designate_mysql_host }}"
-    database_login_user: root
-    database_login_password: "{{ designate_mysql_login_password }}"
+    name: "{{ designate_mysql_db }}"
+    user: "{{ designate_mysql_user }}"
+    password: "{{ designate_mysql_password }}"
+    login_host: "{{ designate_mysql_host }}"
+    login_user: root
+    login_password: "{{ designate_mysql_login_password }}"
     when: designate_configure_mysql
     tags:
       - designate

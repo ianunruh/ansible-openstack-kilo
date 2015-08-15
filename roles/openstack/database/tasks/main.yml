@@ -1,20 +1,20 @@
 - name: ensure mysql db
   mysql_db:
-    name: "{{ database_name }}"
+    name: "{{ database }}"
     state: present
 
-    login_host: "{{ database_login_host }}"
-    login_user: "{{ database_login_user }}"
-    login_password: "{{ database_login_password }}"
+    login_host: "{{ login_host }}"
+    login_user: "{{ login_user }}"
+    login_password: "{{ login_password }}"
 
 - name: ensure mysql user
   mysql_user:
-    name: "{{ database_user }}"
+    name: "{{ user }}"
     host: "%"
-    password: "{{ database_password }}"
-    priv: "{{ database_name }}.*:ALL"
+    password: "{{ password }}"
+    priv: "{{ database }}.*:ALL"
     state: present
 
-    login_host: "{{ database_login_host }}"
-    login_user: "{{ database_login_user }}"
-    login_password: "{{ database_login_password }}"
+    login_host: "{{ login_host }}"
+    login_user: "{{ login_user }}"
+    login_password: "{{ login_password }}"

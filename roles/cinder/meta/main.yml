@@ -27,12 +27,12 @@ dependencies:
       - cinder
 
   - role: openstack/database
-    database_name: "{{ cinder_mysql_db }}"
-    database_user: "{{ cinder_mysql_user }}"
-    database_password: "{{ cinder_mysql_password }}"
-    database_login_host: "{{ cinder_mysql_host }}"
-    database_login_user: root
-    database_login_password: "{{ cinder_mysql_login_password }}"
+    name: "{{ cinder_mysql_db }}"
+    user: "{{ cinder_mysql_user }}"
+    password: "{{ cinder_mysql_password }}"
+    login_host: "{{ cinder_mysql_host }}"
+    login_user: root
+    login_password: "{{ cinder_mysql_login_password }}"
     when: cinder_configure_mysql
     tags:
       - cinder

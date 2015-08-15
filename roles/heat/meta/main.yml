@@ -27,12 +27,12 @@ dependencies:
       - heat
 
   - role: openstack/database
-    database_name: "{{ heat_mysql_db }}"
-    database_user: "{{ heat_mysql_user }}"
-    database_password: "{{ heat_mysql_password }}"
-    database_login_host: "{{ heat_mysql_host }}"
-    database_login_user: root
-    database_login_password: "{{ heat_mysql_login_password }}"
+    name: "{{ heat_mysql_db }}"
+    user: "{{ heat_mysql_user }}"
+    password: "{{ heat_mysql_password }}"
+    login_host: "{{ heat_mysql_host }}"
+    login_user: root
+    login_password: "{{ heat_mysql_login_password }}"
     when: heat_configure_mysql
     tags:
       - heat
