@@ -1,5 +1,6 @@
 dependencies:
   - role: openstack-common
+  - role: ubuntu-cloud-archive
 
   - role: openstack/keystone-service
     service_name: nova

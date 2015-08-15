@@ -1,3 +1,4 @@
 dependencies:
   - role: openstack-common
+  - role: ubuntu-cloud-archive
   - role: apache2

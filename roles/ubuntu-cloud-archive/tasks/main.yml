@@ -7,8 +7,3 @@
   apt_repository:
     repo: "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main"
     update_cache: yes
-
-- name: install openstack client
-  apt:
-    pkg: python-openstackclient
-    state: present
