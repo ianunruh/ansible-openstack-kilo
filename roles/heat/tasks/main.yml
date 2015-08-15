@@ -1,8 +1,3 @@
-- include: configure_mysql.yml
-  when: heat_configure_mysql
-  tags:
-    - heat
-
 - include: configure_rabbitmq.yml
   when: heat_configure_rabbitmq
   tags:

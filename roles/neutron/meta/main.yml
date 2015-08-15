@@ -17,3 +17,14 @@ dependencies:
     when: neutron_configure_keystone
     tags:
       - neutron
+
+  - role: openstack/database
+    database_name: "{{ neutron_mysql_db }}"
+    database_user: "{{ neutron_mysql_user }}"
+    database_password: "{{ neutron_mysql_password }}"
+    database_login_host: "{{ neutron_mysql_host }}"
+    database_login_user: root
+    database_login_password: "{{ neutron_mysql_login_password }}"
+    when: neutron_configure_mysql
+    tags:
+      - neutron

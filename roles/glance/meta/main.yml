@@ -17,3 +17,14 @@ dependencies:
     when: glance_configure_keystone
     tags:
       - glance
+
+  - role: openstack/database
+    database_name: "{{ glance_mysql_db }}"
+    database_user: "{{ glance_mysql_user }}"
+    database_password: "{{ glance_mysql_password }}"
+    database_login_host: "{{ glance_mysql_host }}"
+    database_login_user: root
+    database_login_password: "{{ glance_mysql_login_password }}"
+    when: glance_configure_mysql
+    tags:
+      - glance

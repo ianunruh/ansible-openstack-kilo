@@ -1,8 +1,3 @@
-- include: configure_mysql.yml
-  when: designate_configure_mysql
-  tags:
-    - designate
-
 - include: configure_rabbitmq.yml
   when: designate_configure_rabbitmq
   tags:
