@@ -1,25 +1,12 @@
-- name: install heat-common
-  apt:
-    pkg: heat-common
-    state: present
+- name: install heat
+  apt: pkg={{ item }} state=present
+  items:
+    - heat-api
+    - heat-api-cfn
+    - heat-engine
   tags:
     - heat
     - heat-install
-
-- include: component_api.yml
-  when: heat_component_api
-  tags:
-    - heat
-
-- include: component_api_cfn.yml
-  when: heat_component_api_cfn
-  tags:
-    - heat
-
-- include: component_engine.yml
-  when: heat_component_engine
-  tags:
-    - heat
 
 - name: configure heat
   template:

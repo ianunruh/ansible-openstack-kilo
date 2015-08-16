@@ -1,6 +1,0 @@
-- name: install heat-engine
-  apt:
-    pkg: heat-engine
-    state: present
-  tags:
-    - heat-install

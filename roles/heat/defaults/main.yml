@@ -2,10 +2,6 @@ heat_configure_keystone: "{{ openstack_role_controller }}"
 heat_configure_mysql: "{{ openstack_role_controller }}"
 heat_configure_rabbitmq: "{{ openstack_role_controller }}"
 
-heat_component_api: "{{ openstack_role_controller }}"
-heat_component_api_cfn: "{{ openstack_role_controller }}"
-heat_component_engine: "{{ openstack_role_controller }}"
-
 # MySQL configuration
 heat_mysql_user: heat
 heat_mysql_password: heat

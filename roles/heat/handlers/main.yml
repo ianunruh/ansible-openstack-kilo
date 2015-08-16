@@ -1,21 +1,17 @@
 - name: sync heat db
   command: heat-manage db_sync
-  when: heat_component_api
 
 - name: restart heat-api
   service:
     name: heat-api
     state: restarted
-  when: heat_component_api
 
 - name: restart heat-api-cfn
   service:
     name: heat-api-cfn
     state: restarted
-  when: heat_component_api_cfn
 
 - name: restart heat-engine
   service:
     name: heat-engine
     state: restarted
-  when: heat_component_engine
