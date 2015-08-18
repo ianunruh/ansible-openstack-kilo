@@ -40,7 +40,12 @@
     - keystone
     - ceph-client
     - glance
-    - cinder
-    - nova
-    - neutron
+    - cinder-controller
+    - cinder-volume
+    - nova-controller
+    - nova-compute
+    - neutron-server
+    - neutron-network
+    - heat
     - horizon
+    - openstack-demo

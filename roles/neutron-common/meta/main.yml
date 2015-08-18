@@ -1,0 +1,31 @@
+dependencies:
+  - role: openstack-common
+  - role: ubuntu-cloud-archive
+
+  - role: openstack/keystone-service
+    service_name: neutron
+    service_type: network
+    service_endpoints: "{{ neutron_keystone_network_endpoints }}"
+    tags:
+      - neutron
+
+  - role: openstack/keystone-service-user
+    user: "{{ neutron_keystone_user }}"
+    password: "{{ neutron_keystone_password }}"
+    project: "{{ neutron_keystone_project }}"
+    tags:
+      - neutron
+
+  - role: openstack/database
+    database: "{{ neutron_mysql_db }}"
+    user: "{{ neutron_mysql_user }}"
+    password: "{{ neutron_mysql_password }}"
+    tags:
+      - neutron
+
+  - role: openstack/messaging
+    vhost: "{{ neutron_rabbitmq_vhost }}"
+    user: "{{ neutron_rabbitmq_user }}"
+    password: "{{ neutron_rabbitmq_password }}"
+    tags:
+      - neutron

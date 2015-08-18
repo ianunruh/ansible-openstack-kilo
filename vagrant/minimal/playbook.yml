@@ -37,7 +37,9 @@
     - memcached
     - keystone
     - glance
-    - nova
-    - neutron
+    - nova-controller
+    - nova-compute
+    - neutron-server
+    - neutron-network
     - horizon
     - openstack-demo

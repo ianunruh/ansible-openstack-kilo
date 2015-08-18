@@ -1,0 +1,35 @@
+- name: install swift-proxy
+  apt:
+    pkg: swift-proxy
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: install python swift client
+  apt:
+    pkg: python-swiftclient
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure swift-proxy
+  template:
+    src: proxy-server.conf.j2
+    dest: /etc/swift/proxy-server.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- name: configure dispersion
+  template:
+    src: dispersion.conf.j2
+    dest: /etc/swift/dispersion.conf
+  tags:
+    - swift
+    - swift-configure
+
+- meta: flush_handlers

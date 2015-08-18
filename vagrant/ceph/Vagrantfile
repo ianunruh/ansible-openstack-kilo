@@ -2,10 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
 
   config.vm.network "private_network", ip: "10.0.44.10"
   config.vm.network "private_network", ip: "10.0.55.10", auto_config: false
+
+  config.vm.hostname = "openstack"
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 8192
@@ -19,13 +21,19 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
   end
 
+  config.vm.provider "vmware_fusion" do |v|
+    v.vmx["memsize"] = 8192
+    v.vmx["numvcpus"] = 2
+  end
+
   config.vm.provision "ansible" do |a|
-    a.sudo = true
     a.playbook = "playbook.yml"
 
     a.groups = {
-      "ceph-mon" => ["default"],
+      "controller" => ["default"],
+      "rabbitmq:children" => ["controller"],
+      "mysql:children" => ["controller"],
+      "ceph-mon:children" => ["controller"],
     }
   end
 end
-

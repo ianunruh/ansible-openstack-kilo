@@ -1,0 +1,37 @@
+[ml2]
+type_drivers = {{ neutron_ml2_type_drivers|join(',') }}
+tenant_network_types = {{ neutron_ml2_tenant_network_types|join(',') }}
+mechanism_drivers = {{ neutron_ml2_mechanism_drivers|join(',') }}
+
+[ml2_type_flat]
+flat_networks = {{ neutron_ml2_flat_networks|join(',') }}
+
+[ml2_type_vlan]
+network_vlan_ranges = {{ neutron_ml2_vlan_ranges|join(',') }}
+
+[ml2_type_gre]
+tunnel_id_ranges = {{ neutron_ml2_gre_ranges|join(',') }}
+
+[ml2_type_vxlan]
+vni_ranges = {{ neutron_ml2_vxlan_ranges|join(',') }}
+{% if neutron_ml2_vxlan_group %}
+vxlan_group = {{ neutron_ml2_vxlan_group }}
+{% endif %}
+
+[securitygroup]
+enable_security_group = True
+enable_ipset = True
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+
+[ovs]
+local_ip = {{ neutron_ovs_local_ip }}
+bridge_mappings = {{ neutron_ovs_bridge_mappings|join(',') }}
+
+[agent]
+tunnel_types = {{ neutron_ovs_tunnel_types|join(',') }}
+{% if neutron_ovs_distributed_routing %}
+enable_distributed_routing = True
+{% endif %}
+{% if neutron_ovs_l2_population %}
+l2_population = True
+{% endif %}

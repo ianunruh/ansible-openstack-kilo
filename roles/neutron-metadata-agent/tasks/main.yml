@@ -1,0 +1,19 @@
+- name: install neutron-metadata-agent
+  apt:
+    pkg: neutron-metadata-agent
+    state: present
+  tags:
+    - neutron
+    - neutron-install
+
+- name: configure neutron-metadata-agent
+  template:
+    src: metadata_agent.ini.j2
+    dest: /etc/neutron/metadata_agent.ini
+  notify:
+    - restart neutron-metadata-agent
+  tags:
+    - neutron
+    - neutron-configure
+
+- meta: flush_handlers

@@ -1,20 +1,14 @@
 - name: ensure mysql db
+  delegate_to: "{{ groups[openstack_group_mysql][0] }}"
   mysql_db:
     name: "{{ database }}"
     state: present
 
-    login_host: "{{ login_host }}"
-    login_user: "{{ login_user }}"
-    login_password: "{{ login_password }}"
-
 - name: ensure mysql user
+  delegate_to: "{{ groups[openstack_group_mysql][0] }}"
   mysql_user:
     name: "{{ user }}"
     host: "%"
     password: "{{ password }}"
     priv: "{{ database }}.*:ALL"
     state: present
-
-    login_host: "{{ login_host }}"
-    login_user: "{{ login_user }}"
-    login_password: "{{ login_password }}"

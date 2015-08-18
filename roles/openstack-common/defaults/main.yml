@@ -1,10 +1,5 @@
 openstack_region: RegionOne
 
-openstack_role_compute: false
-openstack_role_controller: false
-openstack_role_network: false
-openstack_role_storage: false
-
 openstack_internal_host: "{{ ansible_default_ipv4.address }}"
 
 openstack_controller_internal_host: localhost
@@ -27,3 +22,10 @@ keystone_admin_email: admin@example.com
 keystone_admin_password: password
 
 openstack_metadata_proxy_shared_secret: secret
+
+openstack_group_compute: compute
+openstack_group_controller: controller
+openstack_group_mysql: mysql
+openstack_group_rabbitmq: rabbitmq
+
+keystone_force_change_password: false

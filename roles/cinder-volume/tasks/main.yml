@@ -1,0 +1,14 @@
+- name: install cinder-volume
+  apt:
+    pkg: cinder-volume
+    state: present
+  tags:
+    - cinder
+    - cinder-install
+
+- include: configure_ceph.yml
+  when: cinder_configure_ceph
+  tags:
+    - cinder
+
+- meta: flush_handlers

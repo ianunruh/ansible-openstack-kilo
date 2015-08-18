@@ -1,6 +1,0 @@
-- name: install cinder-volume
-  apt:
-    pkg: cinder-volume
-    state: present
-  tags:
-    - cinder-install

@@ -1,6 +1,0 @@
-- name: install cinder-backup
-  apt:
-    pkg: cinder-backup
-    state: present
-  tags:
-    - cinder-install

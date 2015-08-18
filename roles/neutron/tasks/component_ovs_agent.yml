@@ -1,6 +1,0 @@
-- name: install neutron-plugin-openvswitch-agent
-  apt:
-    pkg: neutron-plugin-openvswitch-agent
-    state: present
-  tags:
-    - neutron-install

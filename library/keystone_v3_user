@@ -53,6 +53,7 @@ def main():
         if user:
             if force:
                 client.users.update(user, password=password)
+                changed = True
         else:
             if not module.check_mode:
                 user = client.users.create(name=name, email=email, password=password,

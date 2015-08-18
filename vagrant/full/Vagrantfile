@@ -2,10 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
 
   config.vm.network "private_network", ip: "10.0.44.10"
   config.vm.network "private_network", ip: "10.0.55.10", auto_config: false
+
+  config.vm.hostname = "openstack"
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 6144
@@ -17,18 +19,20 @@ Vagrant.configure(2) do |config|
     # Enable promiscuous mode
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
     vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+  end
 
-    # Add disk for Cinder storage
-    vb.customize ["createhd", "--filename", "cinder.vdi", "--size", 20 * 1024]
-    vb.customize ["storageattach", :id, "--storagectl", "SATAController", "--port", 1, "--device", 0, "--type", "hdd", "--medium", "cinder.vdi"]
-
-    # Add disk for Swift storage
-    vb.customize ["createhd", "--filename", "swift.vdi", "--size", 20 * 1024]
-    vb.customize ["storageattach", :id, "--storagectl", "SATAController", "--port", 2, "--device", 0, "--type", "hdd", "--medium", "swift.vdi"]
+  config.vm.provider "vmware_fusion" do |v|
+    v.vmx["memsize"] = 6144
+    v.vmx["numvcpus"] = 2
   end
 
   config.vm.provision "ansible" do |a|
-    a.sudo = true
     a.playbook = "playbook.yml"
+
+    a.groups = {
+      "controller" => ["default"],
+      "rabbitmq:children" => ["controller"],
+      "mysql:children" => ["controller"],
+    }
   end
 end

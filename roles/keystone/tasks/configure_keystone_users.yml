@@ -3,6 +3,7 @@
     name: admin
     email: "{{ keystone_admin_email }}"
     password: "{{ keystone_admin_password }}"
+    force: "{{ keystone_force_change_password }}"
     state: present
 
     endpoint: "{{ keystone_admin_endpoint }}"

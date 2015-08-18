@@ -1,0 +1,21 @@
+- name: disable reverse path filtering
+  sysctl:
+    name: "{{ item }}"
+    value: "0"
+    sysctl_set: yes
+  with_items:
+    - net.ipv4.conf.all.rp_filter
+    - net.ipv4.conf.default.rp_filter
+  tags:
+    - neutron
+    - neutron-configure
+
+- name: install neutron-plugin-openvswitch-agent
+  apt:
+    pkg: neutron-plugin-openvswitch-agent
+    state: present
+  tags:
+    - neutron
+    - neutron-install
+
+- meta: flush_handlers

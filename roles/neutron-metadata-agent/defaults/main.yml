@@ -1,0 +1,2 @@
+neutron_metadata_proxy_shared_secret: "{{ openstack_metadata_proxy_shared_secret }}"
+neutron_nova_metadata_ip: "{{ openstack_controller_internal_host }}"

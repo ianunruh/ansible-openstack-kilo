@@ -1,0 +1,131 @@
+- name: ensure cache directory
+  file:
+    path: /var/cache/swift
+    owner: swift
+    group: swift
+    state: directory
+  tags:
+    - swift
+    - swift-install
+
+- name: ensure data directory
+  file:
+    path: /var/lib/swift
+    owner: swift
+    group: swift
+    recurse: yes
+    state: directory
+  tags:
+    - swift
+    - swift-install
+
+- name: install rsync
+  apt:
+    pkg: rsync
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure rsync
+  template:
+    src: rsyncd.conf.j2
+    dest: /etc/rsyncd.conf
+  notify:
+    - restart rsync
+  tags:
+    - swift
+    - swift-configure
+
+- name: configure rsync defaults
+  copy:
+    src: rsync
+    dest: /etc/default/rsync
+  notify:
+    - restart rsync
+  tags:
+    - swift
+    - swift-configure
+
+- name: install swift-account
+  apt:
+    pkg: swift-account
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure account-server
+  template:
+    src: account-server.conf.j2
+    dest: /etc/swift/account-server.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift-configure
+
+- name: install swift-container
+  apt:
+    pkg: swift-container
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure container-reconciler
+  template:
+    src: container-reconciler.conf.j2
+    dest: /etc/swift/container-reconciler.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- name: configure container-server
+  template:
+    src: container-server.conf.j2
+    dest: /etc/swift/container-server.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- name: install swift-object
+  apt:
+    pkg: swift-object
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure object-server
+  template:
+    src: object-server.conf.j2
+    dest: /etc/swift/object-server.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- name: install swift-object-expirer
+  apt:
+    pkg: swift-object-expirer
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: configure object-expirer
+  template:
+    src: object-expirer.conf.j2
+    dest: /etc/swift/object-expirer.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- meta: flush_handlers

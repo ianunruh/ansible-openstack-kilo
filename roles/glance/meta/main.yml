@@ -6,7 +6,6 @@ dependencies:
     service_name: glance
     service_type: image
     service_endpoints: "{{ glance_keystone_image_endpoints }}"
-    when: glance_configure_keystone
     tags:
       - glance
 
@@ -14,17 +13,12 @@ dependencies:
     user: "{{ glance_keystone_user }}"
     password: "{{ glance_keystone_password }}"
     project: "{{ glance_keystone_project }}"
-    when: glance_configure_keystone
     tags:
       - glance
 
   - role: openstack/database
-    name: "{{ glance_mysql_db }}"
+    database: "{{ glance_mysql_db }}"
     user: "{{ glance_mysql_user }}"
     password: "{{ glance_mysql_password }}"
-    login_host: "{{ glance_mysql_host }}"
-    login_user: root
-    login_password: "{{ glance_mysql_login_password }}"
-    when: glance_configure_mysql
     tags:
       - glance

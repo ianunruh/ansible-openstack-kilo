@@ -1,3 +1,4 @@
 lvm_filters:
   - a/sd/
+  - a/loop/
   - r/.*/

@@ -1,0 +1,5 @@
+dependencies:
+  - role: neutron-ovs-agent
+  - role: neutron-dhcp-agent
+  - role: neutron-l3-agent
+  - role: neutron-lbaas-agent

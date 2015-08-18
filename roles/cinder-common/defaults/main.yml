@@ -1,0 +1,46 @@
+cinder_configure_ceph: false
+
+# MySQL configuration
+cinder_mysql_user: cinder
+cinder_mysql_password: cinder
+cinder_mysql_db: cinder
+cinder_mysql_host: "{{ openstack_mysql_host }}"
+
+# RabbitMQ configuration
+cinder_rabbitmq_user: cinder
+cinder_rabbitmq_password: cinder
+cinder_rabbitmq_vhost: "{{ openstack_rabbitmq_vhost }}"
+cinder_rabbitmq_hosts: "{{ openstack_rabbitmq_hosts }}"
+
+# Keystone configuration
+cinder_keystone_volume_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8776/v2/%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8776/v2/%(tenant_id)s"
+
+cinder_keystone_user: cinder
+cinder_keystone_password: cinder
+cinder_keystone_project: service
+cinder_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+cinder_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Cinder configuration
+cinder_host: "{{ ansible_hostname }}"
+cinder_my_ip: "{{ openstack_internal_host }}"
+
+cinder_glance_host: "{{ openstack_controller_internal_host }}"
+
+cinder_api_workers: 2
+
+cinder_az: nova
+
+# Backup configuration
+cinder_backup_driver: cinder.backup.drivers.swift
+
+# Volume configuration
+cinder_backends:
+  lvm:
+    volume_driver: cinder.volume.drivers.lvm.LVMVolumeDriver
+    volume_group: cinder-volumes
+    iscsi_protocol: iscsi
+    iscsi_helper: tgtadm

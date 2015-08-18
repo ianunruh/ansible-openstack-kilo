@@ -1,0 +1,30 @@
+# Keystone configuration
+swift_keystone_objectstore_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8080/v1/AUTH_%(tenant_id)s"
+  internal: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
+  admin: "http://{{ openstack_controller_internal_host }}:8080/v1/AUTH_%(tenant_id)s"
+
+swift_keystone_user: swift
+swift_keystone_password: swift
+swift_keystone_project: service
+swift_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+swift_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Memcache configuration
+swift_memcache_servers: "{{ openstack_memcache_hosts }}"
+
+# Swift configuration
+swift_management_ip: "{{ ansible_default_ipv4.address }}"
+
+swift_part_power: 10
+swift_replicas: 3
+swift_min_part_hours: 1
+
+swift_account_devices: []
+swift_container_devices: []
+swift_object_devices: []
+
+swift_hash_path_prefix: changeme
+swift_hash_path_suffix: changeme
+
+swift_force_rebalance: false

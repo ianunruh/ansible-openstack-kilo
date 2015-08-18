@@ -1,13 +1,15 @@
 - name: ensure keystone service
+  delegate_to: "{{ groups[openstack_group_controller][0] }}"
   keystone_v3_service:
     name: "{{ service_name }}"
     type: "{{ service_type }}"
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
 - name: ensure keystone endpoints
+  delegate_to: "{{ groups[openstack_group_controller][0] }}"
   keystone_v3_endpoint:
     service: "{{ service_name }}"
     region: "{{ openstack_region }}"

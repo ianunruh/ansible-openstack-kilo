@@ -1,0 +1,60 @@
+- name: install neutron-common
+  apt:
+    pkg: neutron-common
+    state: present
+  tags:
+    - neutron
+    - neutron-install
+
+- name: install neutron-plugin-ml2
+  apt:
+    pkg: neutron-plugin-ml2
+    state: present
+  tags:
+    - neutron
+    - neutron-install
+
+- name: configure neutron
+  template:
+    src: neutron.conf.j2
+    dest: /etc/neutron/neutron.conf
+  notify:
+    - sync neutron db
+    - restart neutron-server
+    - restart neutron-dhcp-agent
+    - restart neutron-l3-agent
+    - restart neutron-lbaas-agent
+    - restart neutron-metadata-agent
+    - restart neutron-plugin-openvswitch-agent
+  tags:
+    - neutron
+    - neutron-configure
+
+- name: configure neutron lbass
+  template:
+    src: neutron_lbaas.conf.j2
+    dest: /etc/neutron/neutron_lbaas.conf
+  notify:
+    - restart neutron-server
+    - restart neutron-lbaas-agent
+  tags:
+    - neutron
+    - neutron-configure
+
+- name: configure ml2 plugin
+  template:
+    src: ml2_conf.ini.j2
+    dest: /etc/neutron/plugins/ml2/ml2_conf.ini
+  notify:
+    - sync neutron db
+    - restart neutron-server
+    - restart neutron-dhcp-agent
+    - restart neutron-l3-agent
+    - restart neutron-lbaas-agent
+    - restart neutron-metadata-agent
+    - restart neutron-plugin-openvswitch-agent
+  tags:
+    - neutron
+    - neutron-configure
+
+- meta: flush_handlers

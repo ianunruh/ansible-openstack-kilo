@@ -1,0 +1,33 @@
+- name: install swift
+  apt:
+    pkg: swift
+    state: present
+  tags:
+    - swift
+    - swift-install
+
+- name: ensure config directory
+  file:
+    path: /etc/swift
+    state: directory
+  tags:
+    - swift
+    - swift-install
+
+- name: configure swift
+  template:
+    src: swift.conf.j2
+    dest: /etc/swift/swift.conf
+  notify:
+    - restart swift services
+  tags:
+    - swift
+    - swift-configure
+
+- include: build_rings.yml
+  tags:
+    - swift
+    - swift-configure
+    - swift-build-rings
+
+- meta: flush_handlers

@@ -108,19 +108,6 @@
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
 
-- name: upload cirros image
-  glance_image:
-    name: cirros-0.3.4-i386
-    copy_from: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-i386-disk.img
-    disk_format: raw
-    container_format: bare
-    is_public: true
-    state: present
-
-    login_username: admin
-    login_password: "{{ keystone_admin_password }}"
-    login_tenant_name: admin
-
 - name: configure demo environment script
   template:
     src: openrc-demo.j2

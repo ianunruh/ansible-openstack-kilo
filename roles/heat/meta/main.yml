@@ -6,7 +6,6 @@ dependencies:
     service_name: heat
     service_type: orchestration
     service_endpoints: "{{ heat_keystone_orchestration_endpoints }}"
-    when: heat_configure_keystone
     tags:
       - heat
 
@@ -14,7 +13,6 @@ dependencies:
     service_name: heat-cfn
     service_type: cloudformation
     service_endpoints: "{{ heat_keystone_cloudformation_endpoints }}"
-    when: heat_configure_keystone
     tags:
       - heat
 
@@ -22,18 +20,13 @@ dependencies:
     user: "{{ heat_keystone_user }}"
     password: "{{ heat_keystone_password }}"
     project: "{{ heat_keystone_project }}"
-    when: heat_configure_keystone
     tags:
       - heat
 
   - role: openstack/database
-    name: "{{ heat_mysql_db }}"
+    database: "{{ heat_mysql_db }}"
     user: "{{ heat_mysql_user }}"
     password: "{{ heat_mysql_password }}"
-    login_host: "{{ heat_mysql_host }}"
-    login_user: root
-    login_password: "{{ heat_mysql_login_password }}"
-    when: heat_configure_mysql
     tags:
       - heat
 
@@ -41,6 +34,5 @@ dependencies:
     vhost: "{{ heat_rabbitmq_vhost }}"
     user: "{{ heat_rabbitmq_user }}"
     password: "{{ heat_rabbitmq_password }}"
-    when: heat_configure_rabbitmq
     tags:
       - heat

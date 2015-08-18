@@ -1,0 +1,5 @@
+{% if openstack_group_compute in groups %}
+{% for host in groups[openstack_group_compute] %}
+{{ hostvars[host].nova_user.ssh_public_key }}
+{% endfor %}
+{% endif %}

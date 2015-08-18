@@ -6,7 +6,6 @@ dependencies:
     service_name: designate
     service_type: dns
     service_endpoints: "{{ designate_keystone_dns_endpoints }}"
-    when: designate_configure_keystone
     tags:
       - designate
 
@@ -14,25 +13,19 @@ dependencies:
     user: "{{ designate_keystone_user }}"
     password: "{{ designate_keystone_password }}"
     project: "{{ designate_keystone_project }}"
-    when: designate_configure_keystone
     tags:
       - designate
 
   - role: openstack/database
-    name: "{{ designate_mysql_db }}"
+    database: "{{ designate_mysql_db }}"
     user: "{{ designate_mysql_user }}"
     password: "{{ designate_mysql_password }}"
-    login_host: "{{ designate_mysql_host }}"
-    login_user: root
-    login_password: "{{ designate_mysql_login_password }}"
-    when: designate_configure_mysql
     tags:
       - designate
 
-- role: openstack/messaging
-  vhost: "{{ designate_rabbitmq_vhost }}"
-  user: "{{ designate_rabbitmq_user }}"
-  password: "{{ designate_rabbitmq_password }}"
-  when: designate_configure_rabbitmq
-  tags:
-    - designate
+  - role: openstack/messaging
+    vhost: "{{ designate_rabbitmq_vhost }}"
+    user: "{{ designate_rabbitmq_user }}"
+    password: "{{ designate_rabbitmq_password }}"
+    tags:
+      - designate

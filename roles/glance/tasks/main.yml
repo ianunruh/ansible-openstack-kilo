@@ -33,10 +33,3 @@
     - glance-configure
 
 - meta: flush_handlers
-
-- name: ensure sqlite db absent
-  file:
-    path: /var/lib/glance/glance.sqlite
-    state: absent
-  tags:
-    - glance

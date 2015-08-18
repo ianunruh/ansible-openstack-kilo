@@ -1,6 +1,0 @@
-- name: install cinder-scheduler
-  apt:
-    pkg: cinder-scheduler
-    state: present
-  tags:
-    - cinder-install

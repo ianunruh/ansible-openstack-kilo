@@ -1,12 +1,3 @@
-designate_configure_keystone: "{{ openstack_role_controller }}"
-designate_configure_mysql: "{{ openstack_role_controller }}"
-designate_configure_rabbitmq: "{{ openstack_role_controller }}"
-
-designate_component_api: "{{ openstack_role_controller }}"
-designate_component_central: "{{ openstack_role_controller }}"
-designate_component_mdns: "{{ openstack_role_controller }}"
-designate_component_pool_manager: "{{ openstack_role_controller }}"
-
 # MySQL configuration
 designate_mysql_user: designate
 designate_mysql_password: designate

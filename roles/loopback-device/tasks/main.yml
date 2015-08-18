@@ -1,0 +1,14 @@
+- name: create device image
+  command: truncate -s {{ device_size }} {{ device_file }} creates={{ device_file }}
+
+- name: configure upstart script
+  template:
+    src: losetup.conf.j2
+    dest: /etc/init/losetup-{{ device_name }}.conf
+  register: result
+
+- name: setup loopback device
+  service:
+    name: losetup-{{ device_name }}
+    state: started
+  when: result|changed

@@ -1,9 +1,11 @@
 - name: ensure rabbitmq vhost
+  delegate_to: "{{ groups[openstack_group_rabbitmq][0] }}"
   rabbitmq_vhost:
     name: "{{ vhost }}"
     state: present
 
 - name: ensure rabbitmq user
+  delegate_to: "{{ groups[openstack_group_rabbitmq][0] }}"
   rabbitmq_user:
     user: "{{ user }}"
     password: "{{ password }}"

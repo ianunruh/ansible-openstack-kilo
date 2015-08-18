@@ -3,6 +3,14 @@
     - apt
     - openvswitch
     - lvm
+    - role: loopback-device
+      device_name: loop0
+      device_file: /srv/loop0.img
+      device_size: 5GB
+    - role: loopback-device
+      device_name: loop1
+      device_file: /srv/loop1.img
+      device_size: 5GB
 
   post_tasks:
     - name: configure eth2
@@ -28,13 +36,13 @@
         state: present
 
     - name: check physical volume for cinder
-      command: pvdisplay /dev/sdb
+      command: pvdisplay /dev/loop0
       failed_when: false
       changed_when: false
       register: result
 
     - name: create physical volume for cinder
-      command: pvcreate /dev/sdb
+      command: pvcreate /dev/loop0
       when: result.rc == 5
 
     - name: check volume group for cinder
@@ -44,7 +52,7 @@
       register: result
 
     - name: create volume group for cinder
-      command: vgcreate cinder-volumes /dev/sdb
+      command: vgcreate cinder-volumes /dev/loop0
       when: result.rc == 5
 
     - name: install xfs
@@ -54,13 +62,13 @@
 
     - name: ensure swift device has xfs filesystem
       filesystem:
-        dev: /dev/sdc
+        dev: /dev/loop1
         fstype: xfs
 
     - name: ensure swift device is mounted
       mount:
-        src: /dev/sdc
-        name: /var/lib/swift/sdc
+        src: /dev/loop1
+        name: /var/lib/swift/loop1
         fstype: xfs
         opts: noatime,nodiratime,nobarrier,logbufs=8
         state: mounted
@@ -76,10 +84,14 @@
     - memcached
     - keystone
     - glance
-    - cinder
-    - swift
-    - nova
-    - neutron
+    - cinder-controller
+    - cinder-volume
+    - swift-proxy
+    - swift-storage
+    - nova-controller
+    - nova-compute
+    - neutron-server
+    - neutron-network
     - heat
     - horizon
     - bind

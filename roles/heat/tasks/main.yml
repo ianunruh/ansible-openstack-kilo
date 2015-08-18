@@ -1,9 +1,23 @@
-- name: install heat
-  apt: pkg={{ item }} state=present
-  items:
-    - heat-api
-    - heat-api-cfn
-    - heat-engine
+- name: install heat-api
+  apt:
+    pkg: heat-api
+    state: present
+  tags:
+    - heat
+    - heat-install
+
+- name: install heat-api-cfn
+  apt:
+    pkg: heat-api-cfn
+    state: present
+  tags:
+    - heat
+    - heat-install
+
+- name: install heat-engine
+  apt:
+    pkg: heat-engine
+    state: present
   tags:
     - heat
     - heat-install
@@ -22,10 +36,3 @@
     - heat-configure
 
 - meta: flush_handlers
-
-- name: ensure sqlite db absent
-  file:
-    path: /var/lib/heat/heat.sqlite
-    state: absent
-  tags:
-    - heat

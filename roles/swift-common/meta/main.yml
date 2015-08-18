@@ -1,0 +1,17 @@
+dependencies:
+  - role: openstack-common
+  - role: ubuntu-cloud-archive
+
+  - role: openstack/keystone-service
+    service_name: swift
+    service_type: object-store
+    service_endpoints: "{{ swift_keystone_objectstore_endpoints }}"
+    tags:
+      - swift
+
+  - role: openstack/keystone-service-user
+    user: "{{ swift_keystone_user }}"
+    password: "{{ swift_keystone_password }}"
+    project: "{{ swift_keystone_project }}"
+    tags:
+      - swift

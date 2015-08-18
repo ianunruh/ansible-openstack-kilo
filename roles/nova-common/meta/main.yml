@@ -1,0 +1,31 @@
+dependencies:
+  - role: openstack-common
+  - role: ubuntu-cloud-archive
+
+  - role: openstack/keystone-service
+    service_name: nova
+    service_type: compute
+    service_endpoints: "{{ nova_keystone_compute_endpoints }}"
+    tags:
+      - nova
+
+  - role: openstack/keystone-service-user
+    user: "{{ nova_keystone_user }}"
+    password: "{{ nova_keystone_password }}"
+    project: "{{ nova_keystone_project }}"
+    tags:
+      - nova
+
+  - role: openstack/database
+    database: "{{ nova_mysql_db }}"
+    user: "{{ nova_mysql_user }}"
+    password: "{{ nova_mysql_password }}"
+    tags:
+      - nova
+
+  - role: openstack/messaging
+    vhost: "{{ nova_rabbitmq_vhost }}"
+    user: "{{ nova_rabbitmq_user }}"
+    password: "{{ nova_rabbitmq_password }}"
+    tags:
+      - nova

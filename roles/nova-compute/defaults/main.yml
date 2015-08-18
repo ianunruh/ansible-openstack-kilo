@@ -1,0 +1,10 @@
+nova_configure_ceph: false
+
+nova_compute_libvirt_virt_type: qemu
+
+nova_reserved_host_disk_mb: 0
+nova_reserved_host_memory_mb: 512
+
+nova_rbd_secret_uuid: a0e9787e-2fcd-4172-a2dd-bd3139eabd14
+
+nova_compute_libvirt_images_type: default

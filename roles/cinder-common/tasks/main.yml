@@ -1,0 +1,23 @@
+- name: install cinder-common
+  apt:
+    pkg: cinder-common
+    state: present
+  tags:
+    - cinder
+    - cinder-install
+
+- name: configure cinder
+  template:
+    src: cinder.conf.j2
+    dest: /etc/cinder/cinder.conf
+  notify:
+    - sync cinder db
+    - restart cinder-api
+    - restart cinder-backup
+    - restart cinder-scheduler
+    - restart cinder-volume
+  tags:
+    - cinder
+    - cinder-configure
+
+- meta: flush_handlers

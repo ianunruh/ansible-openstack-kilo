@@ -1,6 +1,0 @@
-- name: install nova-consoleauth
-  apt:
-    pkg: nova-consoleauth
-    state: present
-  tags:
-    - nova-install

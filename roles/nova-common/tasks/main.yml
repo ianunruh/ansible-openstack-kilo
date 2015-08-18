@@ -1,0 +1,26 @@
+- name: install nova-common
+  apt:
+    pkg: nova-common
+    state: present
+  tags:
+    - nova
+    - nova-install
+
+- name: configure nova
+  template:
+    src: nova.conf.j2
+    dest: /etc/nova/nova.conf
+  notify:
+    - sync nova db
+    - restart nova-api
+    - restart nova-cert
+    - restart nova-compute
+    - restart nova-conductor
+    - restart nova-consoleauth
+    - restart nova-novncproxy
+    - restart nova-scheduler
+  tags:
+    - nova
+    - nova-configure
+
+- meta: flush_handlers

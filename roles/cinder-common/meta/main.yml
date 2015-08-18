@@ -1,0 +1,38 @@
+dependencies:
+  - role: openstack-common
+  - role: ubuntu-cloud-archive
+
+  - role: openstack/keystone-service
+    service_name: cinder
+    service_type: volume
+    service_endpoints: "{{ cinder_keystone_volume_endpoints }}"
+    tags:
+      - cinder
+
+  - role: openstack/keystone-service
+    service_name: cinderv2
+    service_type: volumev2
+    service_endpoints: "{{ cinder_keystone_volume_endpoints }}"
+    tags:
+      - cinder
+
+  - role: openstack/keystone-service-user
+    user: "{{ cinder_keystone_user }}"
+    password: "{{ cinder_keystone_password }}"
+    project: "{{ cinder_keystone_project }}"
+    tags:
+      - cinder
+
+  - role: openstack/database
+    database: "{{ cinder_mysql_db }}"
+    user: "{{ cinder_mysql_user }}"
+    password: "{{ cinder_mysql_password }}"
+    tags:
+      - cinder
+
+  - role: openstack/messaging
+    vhost: "{{ cinder_rabbitmq_vhost }}"
+    user: "{{ cinder_rabbitmq_user }}"
+    password: "{{ cinder_rabbitmq_password }}"
+    tags:
+      - cinder
