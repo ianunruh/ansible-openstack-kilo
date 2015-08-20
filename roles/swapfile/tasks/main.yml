@@ -1,0 +1,26 @@
+- name: create swap file
+  command: fallocate -l {{ swapfile_size }} {{ swapfile_path }} creates={{ swapfile_path }}
+  register: result
+  tags:
+    - swapfile
+
+- name: initialize swap file
+  command: mkswap {{ swapfile_path }}
+  when: result|changed
+  tags:
+    - swapfile
+
+- name: ensure swap file in fstab
+  mount:
+    src: "{{ swapfile_path }}"
+    name: none
+    fstype: swap
+    state: present
+  tags:
+    - swapfile
+
+- name: activate swap file
+  command: swapon -a
+  changed_when: false
+  tags:
+    - swapfile
