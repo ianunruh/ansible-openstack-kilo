@@ -1,5 +1,0 @@
-{% if openstack_group_compute in groups %}
-{% for host in groups[openstack_group_compute] %}
-{{ hostvars[host].openstack_internal_host }} ssh-rsa {{ hostvars[host].ansible_ssh_host_key_rsa_public }}
-{% endfor %}
-{% endif %}
