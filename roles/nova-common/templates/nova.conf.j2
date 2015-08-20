@@ -10,6 +10,8 @@ my_ip = {{ nova_my_ip }}
 
 host = {{ nova_host }}
 
+memcached_servers = {{ nova_memcache_servers|join(',' ) }}
+
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
