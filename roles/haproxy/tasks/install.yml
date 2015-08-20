@@ -1,0 +1,19 @@
+- name: add apt key
+  apt_key:
+    id: 1C61B9CD
+    keyserver: hkp://keyserver.ubuntu.com:80
+
+- name: add apt repository
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu trusty main
+    update_cache: yes
+
+- name: install haproxy
+  apt:
+    pkg: haproxy
+    state: present
+
+- name: ensure config fragment directory
+  file:
+    path: /etc/haproxy/cfg.d
+    state: directory

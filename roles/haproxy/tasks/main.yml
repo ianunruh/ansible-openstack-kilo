@@ -1,0 +1,14 @@
+- include: install.yml
+  tags:
+    - haproxy
+    - haproxy-install
+
+- name: configure haproxy
+  template:
+    src: common.cfg.j2
+    dest: /etc/haproxy/cfg.d/common.cfg
+  notify:
+    - assemble haproxy config
+  tags:
+    - haproxy
+    - haproxy-configure
