@@ -1,15 +1,17 @@
 - name: ensure admin project
+  run_once: true
   keystone_v3_project:
     name: admin
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
 - name: ensure service project
+  run_once: true
   keystone_v3_project:
     name: service
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"

@@ -1,4 +1,5 @@
 - name: ensure keystone region
+  run_once: true
   keystone_v3_region:
     id: "{{ openstack_region }}"
     state: present

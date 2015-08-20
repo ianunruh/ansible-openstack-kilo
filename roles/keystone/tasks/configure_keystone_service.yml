@@ -1,13 +1,15 @@
 - name: ensure keystone identity service
+  run_once: true
   keystone_v3_service:
     name: keystone
     type: identity
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
 - name: ensure keystone identity endpoints
+  run_once: true
   keystone_v3_endpoint:
     service: keystone
     region: "{{ openstack_region }}"
@@ -17,8 +19,4 @@
 
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
-  with_dict:
-    public: "{{ keystone_endpoint_identity_public }}"
-    internal: "{{ keystone_endpoint_identity_internal }}"
-    admin: "{{ keystone_endpoint_identity_admin }}"
   with_dict: "{{ keystone_identity_endpoints }}"

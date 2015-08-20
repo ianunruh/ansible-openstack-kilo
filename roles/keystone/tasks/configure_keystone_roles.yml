@@ -1,23 +1,26 @@
 - name: ensure admin role
+  run_once: true
   keystone_v3_role:
     name: admin
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
 - name: ensure user role
+  run_once: true
   keystone_v3_role:
     name: user
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
 
 - name: ensure reseller admin role
+  run_once: true
   keystone_v3_role:
     name: reseller_admin
     state: present
-      
+
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"

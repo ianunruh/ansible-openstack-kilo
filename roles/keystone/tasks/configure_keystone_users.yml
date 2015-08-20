@@ -1,4 +1,5 @@
 - name: ensure admin user
+  run_once: true
   keystone_v3_user:
     name: admin
     email: "{{ keystone_admin_email }}"
@@ -10,6 +11,7 @@
     token: "{{ keystone_admin_token }}"
 
 - name: ensure admin user has admin role on default domain
+  run_once: true
   keystone_v3_assignment:
     user: admin
     domain: default
@@ -20,6 +22,7 @@
     token: "{{ keystone_admin_token }}"
 
 - name: ensure admin user has admin role on admin project
+  run_once: true
   keystone_v3_assignment:
     user: admin
     project: admin
