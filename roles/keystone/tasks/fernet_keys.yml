@@ -1,0 +1,50 @@
+- name: ensure fetch directory
+  run_once: true
+  delegate_to: 127.0.0.1
+  sudo: no
+  file:
+    path: fetch
+    state: directory
+
+- name: generate fernet keys
+  command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+  args:
+    creates: /etc/keystone/fernet-keys
+  register: result
+  when: groups[openstack_group_controller][0] == inventory_hostname
+
+- name: rotate fernet keys
+  command: keystone-manage fernet_rotate --keystone-user keystone --keystone-group keystone
+  when: >
+    keystone_rotate_fernet_keys and
+      groups[openstack_group_controller][0] == inventory_hostname and
+      not result|changed
+
+- name: pull fernet keys
+  synchronize:
+    mode: pull
+    src: /etc/keystone/fernet-keys
+    dest: fetch
+    archive: false
+    delete: true
+    recursive: true
+    checksum: true
+  when: groups[openstack_group_controller][0] == inventory_hostname
+
+- name: push fernet keys
+  synchronize:
+    src: fetch/fernet-keys
+    dest: /etc/keystone
+    archive: false
+    delete: true
+    recursive: true
+    checksum: true
+  when: groups[openstack_group_controller][0] != inventory_hostname
+
+- name: ensure ownership of keys directory
+  file:
+    path: /etc/keystone/fernet-keys
+    owner: keystone
+    group: keystone
+    recurse: true
+    state: directory

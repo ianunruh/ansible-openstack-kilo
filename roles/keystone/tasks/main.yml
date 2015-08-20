@@ -15,14 +15,12 @@
     - keystone
     - keystone-configure
 
-- name: generate fernet keys
-  command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
-  args:
-    creates: /etc/keystone/fernet-keys
+- include: fernet_keys.yml
   when: keystone_token_provider == "fernet"
   tags:
     - keystone
     - keystone-configure
+    - keystone-fernet-keys
 
 - name: configure keystone
   template:
