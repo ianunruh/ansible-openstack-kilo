@@ -1,4 +1,5 @@
 - name: sync heat db
+  run_once: true
   command: heat-manage db_sync
 
 - name: restart heat-api

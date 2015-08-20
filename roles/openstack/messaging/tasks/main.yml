@@ -1,10 +1,12 @@
 - name: ensure rabbitmq vhost
+  run_once: true
   delegate_to: "{{ groups[openstack_group_rabbitmq][0] }}"
   rabbitmq_vhost:
     name: "{{ vhost }}"
     state: present
 
 - name: ensure rabbitmq user
+  run_once: true
   delegate_to: "{{ groups[openstack_group_rabbitmq][0] }}"
   rabbitmq_user:
     user: "{{ user }}"

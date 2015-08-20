@@ -1,4 +1,5 @@
 - name: ensure keystone service
+  run_once: true
   delegate_to: "{{ groups[openstack_group_controller][0] }}"
   keystone_v3_service:
     name: "{{ service_name }}"
@@ -9,6 +10,7 @@
     token: "{{ keystone_admin_token }}"
 
 - name: ensure keystone endpoints
+  run_once: true
   delegate_to: "{{ groups[openstack_group_controller][0] }}"
   keystone_v3_endpoint:
     service: "{{ service_name }}"

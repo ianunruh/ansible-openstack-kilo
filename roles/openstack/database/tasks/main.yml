@@ -1,10 +1,12 @@
 - name: ensure mysql db
+  run_once: true
   delegate_to: "{{ groups[openstack_group_mysql][0] }}"
   mysql_db:
     name: "{{ database }}"
     state: present
 
 - name: ensure mysql user
+  run_once: true
   delegate_to: "{{ groups[openstack_group_mysql][0] }}"
   mysql_user:
     name: "{{ user }}"
