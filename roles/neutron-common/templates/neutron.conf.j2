@@ -5,6 +5,7 @@ router_distributed = {{ neutron_router_distributed }}
 allow_overlapping_ips = True
 
 api_workers = {{ neutron_api_workers }}
+bind_host = {{ neutron_listen_address }}
 
 auth_strategy = keystone
 rpc_backend = rabbit

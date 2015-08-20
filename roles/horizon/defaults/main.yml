@@ -3,3 +3,5 @@ horizon_memcache_servers: "{{ openstack_memcache_hosts }}"
 
 # Horizon configuration
 horizon_secret_key: secret
+
+horizon_listen_address: 0.0.0.0

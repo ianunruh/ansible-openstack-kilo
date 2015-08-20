@@ -18,7 +18,9 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 enabled_apis = osapi_compute, metadata
+metadata_listen_address = {{ nova_listen_address }}
 metadata_workers = {{ nova_api_workers }}
+osapi_compute_listen = {{ nova_listen_address}}
 osapi_compute_workers = {{ nova_api_workers }}
 
 scheduler_default_filters = {{ nova_scheduler_default_filters|join(',') }}
@@ -26,6 +28,9 @@ cpu_allocation_ratio = {{ nova_cpu_allocation_ratio }}
 disk_allocation_ratio = {{ nova_disk_allocation_ratio }}
 ram_allocation_ratio = {{ nova_ram_allocation_ratio }}
 ram_weight_multiplier = {{ nova_ram_weight_multiplier }}
+
+# VNC options
+novncproxy_host = {{ nova_listen_address }}
 
 [conductor]
 workers = {{ nova_conductor_workers }}

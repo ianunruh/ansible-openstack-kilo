@@ -44,6 +44,8 @@ nova_novncproxy_base_url: "http://{{ openstack_controller_public_host }}:6080/vn
 nova_api_workers: 2
 nova_conductor_workers: 2
 
+nova_listen_address: 0.0.0.0
+
 # Scheduler configuration
 nova_scheduler_default_filters:
   - AggregateInstanceExtraSpecsFilter

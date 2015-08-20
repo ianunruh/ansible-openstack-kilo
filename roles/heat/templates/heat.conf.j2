@@ -9,6 +9,12 @@ stack_domain_admin = heat_domain_admin
 stack_domain_admin_password = {{ heat_keystone_password }}
 stack_user_domain_name = heat
 
+[heat_api]
+bind_host = {{ heat_listen_address }}
+
+[heat_api_cfn]
+bind_host = {{ heat_listen_address }}
+
 [database]
 connection = mysql://{{ heat_mysql_user }}:{{ heat_mysql_password }}@{{ heat_mysql_host }}/{{ heat_mysql_db }}
 

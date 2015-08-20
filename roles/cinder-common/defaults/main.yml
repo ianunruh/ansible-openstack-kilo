@@ -34,6 +34,8 @@ cinder_api_workers: 2
 
 cinder_az: nova
 
+cinder_listen_address: 0.0.0.0
+
 # Backup configuration
 cinder_backup_driver: cinder.backup.drivers.swift
 

@@ -15,11 +15,11 @@
     - horizon-install
 
 # TODO https://github.com/ansible/ansible-modules-core/issues/522
-#      The Docker module in the latest stable Ansible release does 
+#      The Docker module in the latest stable Ansible release does
 #      not handle volume bindings correctly
 - name: create docker container
   command: >
-    docker create --name=horizon --restart=always -p 3000:80
+    docker create --name=horizon --restart=always -p {{ horizon_listen_address }}:3000:80
       -v /etc/openstack-dashboard:/etc/openstack-dashboard
       ianunruh/horizon
   when: not result.stdout

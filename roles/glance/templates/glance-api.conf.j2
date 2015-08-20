@@ -1,7 +1,11 @@
 [DEFAULT]
+bind_host = {{ glance_listen_address }}
+
 workers = {{ glance_api_workers }}
 
 show_image_direct_url = True
+
+registry_host = {{ openstack_controller_internal_host }}
 
 [glance_store]
 stores = {{ glance_stores|join(',') }}

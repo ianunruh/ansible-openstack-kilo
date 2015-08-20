@@ -27,3 +27,5 @@ glance_default_store: file
 glance_stores:
   - file
   - http
+
+glance_listen_address: 0.0.0.0

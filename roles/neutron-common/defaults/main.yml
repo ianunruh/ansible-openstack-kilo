@@ -41,6 +41,8 @@ neutron_router_distributed: false
 
 neutron_api_workers: 2
 
+neutron_listen_address: 0.0.0.0
+
 # ML2 plugin configuration
 neutron_ml2_type_drivers:
   - flat
