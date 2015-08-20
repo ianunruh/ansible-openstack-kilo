@@ -1,2 +1,8 @@
 mysql_root_password: password
-mysql_max_connections: 1024
+mysql_bind_address: 0.0.0.0
+
+mysql_max_connections: 100
+
+# Galera configuration
+mysql_clustered: false
+mysql_group: mysql

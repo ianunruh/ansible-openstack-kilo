@@ -4,28 +4,3 @@
     dest: /etc/mysql/my.cnf
   notify:
     - restart mysql
-
-- meta: flush_handlers
-
-- name: update root password
-  mysql_user:
-    name: root
-    host: "{{ item }}"
-    password: "{{ mysql_root_password }}"
-  with_items:
-    - "{{ ansible_hostname }}"
-    - 127.0.0.1
-    - ::1
-    - localhost
-
-- name: configure mysql client
-  template:
-    src: client.cnf.j2
-    dest: /root/.my.cnf
-
-- name: allow root access from everywhere
-  mysql_user:
-    name: root
-    host: "%"
-    password: "{{ mysql_root_password }}"
-    priv: "*.*:ALL,GRANT"

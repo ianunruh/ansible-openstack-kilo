@@ -1,0 +1,25 @@
+- name: update root password
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_password }}"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: not mysql_clustered or groups[mysql_group][0] == inventory_hostname
+
+- name: configure mysql client
+  template:
+    src: client.cnf.j2
+    dest: /root/.my.cnf
+
+- name: remove anonymous accounts
+  mysql_user:
+    name: ""
+    host: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ ansible_hostname }}"
+    - localhost

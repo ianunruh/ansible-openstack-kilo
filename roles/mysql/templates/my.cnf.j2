@@ -10,35 +10,65 @@ nice = 0
 user = mysql
 socket = /var/run/mysqld/mysqld.sock
 pid-file = /var/run/mysqld/mysqld.pid
+port = 3306
 tmpdir = /tmp
 basedir = /usr
 datadir = /var/lib/mysql
-lc-messages-dir = /usr/share/mysql
-
-bind-address = 0.0.0.0
-port = 3306
-
+lc_messages_dir = /usr/share/mysql
+lc_messages = en_US
 skip-external-locking
 
-key_buffer = 16M
-max_allowed_packet = 16M
-thread_stack = 192K
-thread_cache_size = 8
-myisam-recover = BACKUP
+bind-address = {{ mysql_bind_address }}
+
 max_connections = {{ mysql_max_connections }}
-query_cache_limit = 1M
+connect_timeout = 5
+wait_timeout = 600
+max_allowed_packet = 16M
+thread_cache_size = 128
+sort_buffer_size = 4M
+bulk_insert_buffer_size = 8M
+tmp_table_size = 16M
+max_heap_table_size = 16M
+
+query_cache_limit = 128K
 query_cache_size = 16M
 
-log_error = /var/log/mysql/error.log
+log_warnings = 2
+log_error = /var/log/mysql/mysql.log
 
+sync_binlog = 1
 expire_logs_days = 10
 max_binlog_size = 100M
+binlog_format = ROW
+log_bin = /var/log/mysql/mysql-bin.log
 
-default-storage-engine = innodb
-innodb_file_per_table
+default_storage_engine = InnoDB
+innodb_buffer_pool_size = 64M
+innodb_log_buffer_size = 8M
+innodb_file_per_table = 1
+innodb_open_files = 400
+innodb_io_capacity = 400
+innodb_flush_method = O_DIRECT
+
 collation-server = utf8_general_ci
-init-connect = 'SET NAMES utf8'
+init-connect = "SET NAMES utf8"
 character-set-server = utf8
+
+{% if mysql_clustered %}
+innodb_autoinc_lock_mode = 2
+
+wsrep_on = ON
+wsrep_provider = /usr/lib/libgalera_smm.so
+wsrep_slave_threads = 8
+wsrep_cluster_address = gcomm://{% for host in groups[mysql_group] -%}
+{{ hostvars[host].ansible_hostname }}{% if not loop.last %},{% endif %}
+{% endfor %}
+
+wsrep_node_address = {{ ansible_hostname }}:4567
+
+wsrep_sst_method = rsync
+wsrep_sst_receive_address = {{ ansible_hostname }}
+{% endif %}
 
 [mysqldump]
 quick
@@ -47,5 +77,3 @@ max_allowed_packet = 16M
 
 [isamchk]
 key_buffer = 16M
-
-!includedir /etc/mysql/conf.d/

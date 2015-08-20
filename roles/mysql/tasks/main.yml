@@ -7,3 +7,25 @@
   tags:
     - mysql
     - mysql-configure
+
+- include: bootstrap_cluster.yml
+  when: mysql_clustered and groups[mysql_group][0] == inventory_hostname
+  register: mysql_bootstrap
+  tags:
+    - mysql
+    - mysql-bootstrap-cluster
+
+- meta: flush_handlers
+
+- name: wait for mysql
+  wait_for:
+    host: "{{ ansible_hostname }}"
+    port: 3306
+  tags:
+    - mysql
+    - mysql-configure
+
+- include: security.yml
+  tags:
+    - mysql
+    - mysql-configure
