@@ -11,6 +11,7 @@ use = egg:swift#proxy
 
 [filter:cache]
 use = egg:swift#memcache
+memcache_servers = {{ swift_memcache_servers|join(',') }}
 
 [filter:catch_errors]
 use = egg:swift#catch_errors

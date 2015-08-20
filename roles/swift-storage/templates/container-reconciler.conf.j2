@@ -10,6 +10,7 @@ use = egg:swift#proxy
 
 [filter:cache]
 use = egg:swift#memcache
+memcache_servers = {{ swift_memcache_servers|join(',') }}
 
 [filter:proxy-logging]
 use = egg:swift#proxy_logging
