@@ -14,8 +14,6 @@ swift_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35
 swift_memcache_servers: "{{ openstack_memcache_hosts }}"
 
 # Swift configuration
-swift_management_ip: "{{ ansible_default_ipv4.address }}"
-
 swift_part_power: 10
 swift_replicas: 3
 swift_min_part_hours: 1
@@ -28,3 +26,5 @@ swift_hash_path_prefix: changeme
 swift_hash_path_suffix: changeme
 
 swift_force_rebalance: false
+
+swift_listen_address: 0.0.0.0

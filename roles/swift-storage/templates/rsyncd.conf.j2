@@ -2,7 +2,7 @@ uid = swift
 gid = swift
 log file = /var/log/rsyncd.log
 pid file = /var/run/rsyncd.pid
-address = 0.0.0.0
+address = {{ swift_listen_address }}
 
 [account]
 max connections = 2
