@@ -3,7 +3,6 @@ designate_mysql_user: designate
 designate_mysql_password: designate
 designate_mysql_db: designate
 designate_mysql_host: "{{ openstack_mysql_host }}"
-designate_mysql_login_password: password
 
 # Keystone configuration
 designate_keystone_dns_endpoints:

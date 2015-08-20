@@ -3,7 +3,6 @@ heat_mysql_user: heat
 heat_mysql_password: heat
 heat_mysql_db: heat
 heat_mysql_host: "{{ openstack_mysql_host }}"
-heat_mysql_login_password: password
 
 # RabbitMQ configuration
 heat_rabbitmq_user: heat

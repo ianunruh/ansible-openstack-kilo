@@ -3,7 +3,6 @@ neutron_mysql_user: neutron
 neutron_mysql_password: neutron
 neutron_mysql_db: neutron
 neutron_mysql_host: "{{ openstack_mysql_host }}"
-neutron_mysql_login_password: password
 
 # RabbitMQ configuration
 neutron_rabbitmq_user: neutron

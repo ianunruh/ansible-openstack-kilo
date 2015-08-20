@@ -3,7 +3,6 @@ nova_mysql_user: nova
 nova_mysql_password: nova
 nova_mysql_db: nova
 nova_mysql_host: "{{ openstack_mysql_host }}"
-nova_mysql_login_password: password
 
 # RabbitMQ configuration
 nova_rabbitmq_user: nova

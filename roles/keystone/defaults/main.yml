@@ -3,7 +3,6 @@ keystone_mysql_user: keystone
 keystone_mysql_password: keystone
 keystone_mysql_db: keystone
 keystone_mysql_host: "{{ openstack_mysql_host }}"
-keystone_mysql_login_password: password
 
 # Memcached configuration
 keystone_memcache_servers: "{{ openstack_memcache_hosts }}"
