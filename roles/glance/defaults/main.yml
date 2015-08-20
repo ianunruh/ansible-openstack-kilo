@@ -28,4 +28,9 @@ glance_stores:
   - file
   - http
 
+glance_swift_auth_url: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
+glance_swift_user: "{{ glance_keystone_project }}:{{ glance_keystone_user }}"
+glance_swift_key: "{{ glance_keystone_password }}"
+glance_swift_region: "{{ openstack_region }}"
+
 glance_listen_address: 0.0.0.0

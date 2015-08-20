@@ -16,6 +16,12 @@ filesystem_store_datadir = /var/lib/glance/images
 rbd_store_user = glance
 rbd_store_pool = images
 
+swift_store_auth_address = {{ glance_swift_auth_url }}
+swift_store_user = {{ glance_swift_user }}
+swift_store_key = {{ glance_swift_key }}
+swift_store_region = {{ glance_swift_region }}
+swift_store_create_container_on_put = True
+
 [database]
 connection = mysql://{{ glance_mysql_user }}:{{ glance_mysql_password }}@{{ glance_mysql_host }}/{{ glance_mysql_db }}
 
