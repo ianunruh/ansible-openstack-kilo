@@ -9,8 +9,9 @@ keystone_mysql_login_password: password
 keystone_memcache_servers: "{{ openstack_memcache_hosts }}"
 
 # Keystone configuration
-keystone_endpoint_identity_public: "http://{{ openstack_controller_public_host }}:5000/v2.0"
-keystone_endpoint_identity_internal: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
-keystone_endpoint_identity_admin: "http://{{ openstack_controller_internal_host }}:35357/v2.0"
+keystone_identity_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:5000/v2.0"
+  internal: "http://{{ openstack_controller_internal_host }}:5000/v2.0"
+  admin: "http://{{ openstack_controller_internal_host }}:35357/v2.0"
 
 keystone_token_provider: fernet

@@ -21,3 +21,4 @@
     public: "{{ keystone_endpoint_identity_public }}"
     internal: "{{ keystone_endpoint_identity_internal }}"
     admin: "{{ keystone_endpoint_identity_admin }}"
+  with_dict: "{{ keystone_identity_endpoints }}"
