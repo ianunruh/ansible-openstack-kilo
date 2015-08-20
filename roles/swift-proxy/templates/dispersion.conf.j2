@@ -1,6 +1,6 @@
 [dispersion]
-auth_url = http://localhost:5000/v2.0
+auth_url = http://{{ openstack_controller_internal_host }}:5000/v2.0
 auth_user = {{ swift_keystone_project }}:{{ swift_keystone_user }}
 auth_key = {{ swift_keystone_password }}
 auth_version = 2.0
-endpoint_type = publicURL
+endpoint_type = internalURL
