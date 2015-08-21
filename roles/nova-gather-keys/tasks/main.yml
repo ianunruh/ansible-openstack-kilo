@@ -1,0 +1,53 @@
+- name: ensure fetch directory
+  delegate_to: 127.0.0.1
+  run_once: true
+  sudo: no
+  file:
+    path: fetch/nova-keys
+    state: directory
+  tags:
+    - nova
+    - nova-gather-ssh
+
+- name: ensure nova user has ssh key pair
+  user:
+    name: nova
+    generate_ssh_key: yes
+    ssh_key_type: ecdsa
+    ssh_key_bits: 256
+  tags:
+    - nova
+    - nova-gather-ssh
+
+- name: fetch nova ssh public key
+  fetch:
+    src: /var/lib/nova/.ssh/id_ecdsa.pub
+    dest: fetch/nova-keys/{{ ansible_fqdn }}.pub
+    flat: yes
+  tags:
+    - nova
+    - nova-gather-ssh
+
+- name: assemble ssh public keys
+  delegate_to: 127.0.0.1
+  run_once: true
+  sudo: no
+  assemble:
+    src: fetch/nova-keys
+    regexp: \.pub$
+    dest: fetch/nova-authorized-keys
+  tags:
+    - nova
+    - nova-gather-ssh
+
+- name: add host key to known hosts file
+  delegate_to: 127.0.0.1
+  sudo: no
+  lineinfile:
+    dest: fetch/nova-known-hosts
+    regexp: ^{{ ansible_hostname }} .*$
+    line: "{{ ansible_hostname }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
+    create: yes
+  tags:
+    - nova
+    - nova-gather-ssh

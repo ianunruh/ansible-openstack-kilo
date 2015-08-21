@@ -29,6 +29,7 @@
     - nova-configure
 
 - include: ssh.yml
+  when: nova_distribute_ssh_keys
   tags:
     - nova
     - nova-configure
