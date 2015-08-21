@@ -1,7 +1,6 @@
 [DEFAULT]
 core_plugin = {{ neutron_core_plugin }}
 service_plugins = {{ neutron_service_plugins|join(',') }}
-router_distributed = {{ neutron_router_distributed }}
 allow_overlapping_ips = True
 
 api_workers = {{ neutron_api_workers }}
@@ -11,6 +10,21 @@ auth_strategy = keystone
 rpc_backend = rabbit
 
 host = {{ neutron_host }}
+
+{% if neutron_l3_ha %}
+l3_ha = True
+{% endif %}
+{% if neutron_l3_auto_failover %}
+allow_automatic_l3agent_failover = True
+{% endif %}
+max_l3_agents_per_router = {{ neutron_l3_max_agents }}
+min_l3_agents_per_router = {{ neutron_l3_min_agents }}
+router_distributed = {{ neutron_l3_distributed }}
+
+dhcp_agents_per_network = {{ neutron_dhcp_agents }}
+{% if neutron_dhcp_auto_failover %}
+allow_automatic_dhcp_failover = True
+{% endif %}
 
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True

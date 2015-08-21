@@ -37,11 +37,20 @@ neutron_service_plugins:
 
 neutron_host: "{{ ansible_hostname }}"
 
-neutron_router_distributed: false
-
+# API configuration
 neutron_api_workers: 2
-
 neutron_listen_address: 0.0.0.0
+
+# DHCP configuration
+neutron_dhcp_agents: 1
+neutron_dhcp_auto_failover: true
+
+# L3 configuration
+neutron_l3_auto_failover: false
+neutron_l3_distributed: false
+neutron_l3_ha: false
+neutron_l3_max_agents: 3
+neutron_l3_min_agents: 2
 
 # ML2 plugin configuration
 neutron_ml2_type_drivers:
