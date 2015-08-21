@@ -1,0 +1,57 @@
+openstack_controller_internal_host: 10.0.44.100
+openstack_controller_public_host: 10.0.44.100
+
+openstack_internal_interface: eth1
+openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
+
+openstack_memcache_hosts:
+  - 10.0.44.101:11211
+  - 10.0.44.102:11211
+  - 10.0.44.103:11211
+
+openstack_rabbitmq_hosts:
+  - 10.0.44.101:5672
+  - 10.0.44.102:5672
+  - 10.0.44.103:5672
+
+neutron_ml2_flat_networks:
+  - external
+
+neutron_ml2_vxlan_ranges:
+  - 10000:20000
+
+neutron_ovs_bridge_mappings:
+  - external:br-ex
+
+keystone_listen_address: "{{ openstack_internal_host }}"
+glance_listen_address: "{{ openstack_internal_host }}"
+cinder_listen_address: "{{ openstack_internal_host }}"
+nova_listen_address: "{{ openstack_internal_host }}"
+neutron_listen_address: "{{ openstack_internal_host }}"
+heat_listen_address: "{{ openstack_internal_host }}"
+horizon_listen_address: "{{ openstack_internal_host }}"
+designate_listen_address: "{{ openstack_internal_host }}"
+swift_listen_address: "{{ openstack_internal_host }}"
+
+glance_default_store: swift
+
+glance_stores:
+  - swift
+  - http
+
+swift_replicas: 2
+
+swift_account_devices:
+  - r1z1-10.0.44.201:6002/loop1
+  - r1z1-10.0.44.202:6002/loop1
+
+swift_container_devices:
+  - r1z1-10.0.44.201:6001/loop1
+  - r1z1-10.0.44.202:6001/loop1
+
+swift_object_devices:
+  - r1z1-10.0.44.201:6000/loop1
+  - r1z1-10.0.44.202:6000/loop1
+
+neutron_l3_ha: true
+neutron_dhcp_agents: 2
