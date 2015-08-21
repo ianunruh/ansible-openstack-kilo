@@ -1,0 +1,6 @@
+- name: configure hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+  tags:
+    - hostsfile

@@ -1,0 +1,10 @@
+127.0.0.1 localhost
+
+::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+{% for host in groups['all'] %}
+{% set interface = 'ansible_' + hostvars[host].openstack_internal_interface|default('eth0') %}
+{{ hostvars[host][interface].ipv4.address }} {{ hostvars[host].ansible_hostname }}
+{% endfor %}
