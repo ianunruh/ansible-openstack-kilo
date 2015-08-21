@@ -67,6 +67,13 @@
 
 - meta: flush_handlers
 
+- name: ensure apache2 started
+  service:
+    name: apache2
+    state: started
+  tags:
+    - keystone
+
 - name: ensure sqlite db absent
   file:
     path: /var/lib/keystone/keystone.db
@@ -75,9 +82,12 @@
     - keystone
 
 - name: wait for keystone api
-  wait_for:
-    host: "{{ openstack_controller_internal_host }}"
-    port: 5000
+  command: curl -f {{ keystone_identity_endpoints.internal }}
+  register: result
+  changed_when: false
+  until: result|success
+  retries: 10
+  delay: 2
   tags:
     - keystone
     - keystone-configure
