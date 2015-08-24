@@ -74,13 +74,6 @@
   tags:
     - keystone
 
-- name: ensure sqlite db absent
-  file:
-    path: /var/lib/keystone/keystone.db
-    state: absent
-  tags:
-    - keystone
-
 - name: wait for keystone api
   command: curl -f {{ keystone_identity_endpoints.internal }}
   register: result
