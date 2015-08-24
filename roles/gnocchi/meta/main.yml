@@ -1,0 +1,24 @@
+dependencies:
+  - role: openstack-common
+  - role: docker
+
+  - role: openstack/keystone-service
+    service_name: gnocchi
+    service_type: metric
+    service_endpoints: "{{ gnocchi_keystone_metric_endpoints }}"
+    tags:
+      - gnocchi
+
+  - role: openstack/keystone-service-user
+    user: "{{ gnocchi_keystone_user }}"
+    password: "{{ gnocchi_keystone_password }}"
+    project: "{{ gnocchi_keystone_project }}"
+    tags:
+      - gnocchi
+
+  - role: openstack/database
+    database: "{{ gnocchi_mysql_db }}"
+    user: "{{ gnocchi_mysql_user }}"
+    password: "{{ gnocchi_mysql_password }}"
+    tags:
+      - gnocchi

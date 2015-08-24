@@ -1,0 +1,9 @@
+mysql_clustered: true
+mysql_bind_address: "{{ ansible_eth1.ipv4.address }}"
+
+rabbitmq_clustered: true
+
+kad_interface: "{{ openstack_internal_interface }}"
+kad_vip: "{{ openstack_controller_internal_host }}"
+
+gnocchi_storage_driver: swift

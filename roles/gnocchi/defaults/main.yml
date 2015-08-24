@@ -1,0 +1,44 @@
+# MySQL configuration
+gnocchi_mysql_user: gnocchi
+gnocchi_mysql_password: gnocchi
+gnocchi_mysql_db: gnocchi
+gnocchi_mysql_host: "{{ openstack_mysql_host }}"
+
+# Keystone configuration
+gnocchi_keystone_metric_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8041"
+  internal: "http://{{ openstack_controller_internal_host }}:8041"
+  admin: "http://{{ openstack_controller_internal_host }}:8041"
+
+gnocchi_keystone_user: gnocchi
+gnocchi_keystone_password: gnocchi
+gnocchi_keystone_project: service
+gnocchi_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000"
+gnocchi_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
+
+# Gnocchi configuration
+gnocchi_listen_address: 0.0.0.0
+
+gnocchi_default_aggregation_methods:
+  - mean
+  - min
+  - max
+  - sum
+  - std
+  - median
+  - count
+  - 95pct
+
+gnocchi_metricd_workers: null
+
+# Coordination
+gnocchi_coordination_url: null
+gnocchi_coordination_driver: file
+
+# Storage
+gnocchi_aggregation_workers: null
+
+gnocchi_storage_driver: file
+
+gnocchi_swift_auth_url: "http://{{ openstack_controller_internal_host }}:5000/v3"
+gnocchi_swift_container_prefix: gnocchi

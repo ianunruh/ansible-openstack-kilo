@@ -1,0 +1,79 @@
+- name: ensure config directory
+  file:
+    path: /etc/gnocchi
+    state: directory
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: ensure state directory
+  file:
+    path: /var/lib/gnocchi
+    state: directory
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: check if gnocchi-api container exists
+  command: docker ps -aq -f name=gnocchi-api
+  register: result
+  changed_when: false
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: create gnocchi-api container
+  command: >
+    docker create --name=gnocchi-api --restart=always
+      -p {{ gnocchi_listen_address }}:8041:80
+      -v /etc/gnocchi:/etc/gnocchi
+      -v /var/lib/gnocchi:/var/lib/gnocchi
+      ianunruh/gnocchi-api
+  when: not result.stdout
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: check if gnocchi-metricd container exists
+  command: docker ps -aq -f name=gnocchi-metricd
+  register: result
+  changed_when: false
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: create gnocchi-metricd container
+  command: >
+    docker create --name=gnocchi-metricd --restart=always
+      -v /etc/gnocchi:/etc/gnocchi
+      -v /var/lib/gnocchi:/var/lib/gnocchi
+      ianunruh/gnocchi-metricd
+  when: not result.stdout
+  tags:
+    - gnocchi
+    - gnocchi-install
+
+- name: configure policy
+  copy:
+    src: policy.json
+    dest: /etc/gnocchi/policy.json
+  notify:
+    - restart gnocchi-api
+    - restart gnocchi-metricd
+  tags:
+    - gnocchi
+    - gnocchi-configure
+
+- name: configure gnocchi
+  template:
+    src: gnocchi.conf.j2
+    dest: /etc/gnocchi/gnocchi.conf
+  notify:
+    - sync gnocchi db
+    - restart gnocchi-api
+    - restart gnocchi-metricd
+  tags:
+    - gnocchi
+    - gnocchi-configure
+
+- meta: flush_handlers

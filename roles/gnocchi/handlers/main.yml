@@ -1,0 +1,9 @@
+- name: sync gnocchi db
+  run_once: true
+  command: docker run --rm -v /etc/gnocchi:/etc/gnocchi ianunruh/gnocchi gnocchi-dbsync
+
+- name: restart gnocchi-api
+  command: docker restart gnocchi-api
+
+- name: restart gnocchi-metricd
+  command: docker restart gnocchi-metricd

@@ -1,0 +1,40 @@
+[DEFAULT]
+
+[archive_policy]
+default_aggregation_methods = {{ gnocchi_default_aggregation_methods|join(',') }}
+
+[indexer]
+url = mysql://{{ gnocchi_mysql_user }}:{{ gnocchi_mysql_password }}@{{ gnocchi_mysql_host }}/{{ gnocchi_mysql_db }}
+
+[keystone_authtoken]
+identity_uri = {{ gnocchi_keystone_identity_uri }}
+auth_uri = {{ gnocchi_keystone_auth_uri }}
+admin_user = {{ gnocchi_keystone_user }}
+admin_password = {{ gnocchi_keystone_password }}
+admin_tenant_name = {{ gnocchi_keystone_project }}
+
+[metricd]
+{% if gnocchi_metricd_workers %}
+workers = {{ gnocchi_metricd_workers }}
+{% endif %}
+
+[storage]
+{% if gnocchi_aggregation_workers %}
+aggregation_workers_number = {{ gnocchi_aggregation_workers }}
+{% endif %}
+
+driver = {{ gnocchi_storage_driver }}
+{% if gnocchi_coordination_url %}
+coordination_url = {{ gnocchi_coordination_url }}
+{% elif gnocchi_coordination_driver == 'file' %}
+coordination_url = file:///var/lib/gnocchi/locks
+{% endif %}
+
+file_basepath = /var/lib/gnocchi
+
+swift_auth_version = 3
+swift_authurl = {{ gnocchi_swift_auth_url }}
+swift_user = {{ gnocchi_keystone_project }}:{{ gnocchi_keystone_user }}
+swift_key = {{ gnocchi_keystone_password }}
+swift_tenant_name = {{ gnocchi_keystone_project }}
+swift_container_prefix = {{ gnocchi_swift_container_prefix }}

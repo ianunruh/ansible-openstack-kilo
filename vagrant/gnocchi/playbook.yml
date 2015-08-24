@@ -1,0 +1,118 @@
+- hosts: all
+  roles:
+    - hostsfile
+    - apt
+    - openvswitch
+    - swapfile
+
+  post_tasks:
+    - name: ensure include present in interfaces file
+      lineinfile:
+        dest: /etc/network/interfaces
+        line: source /etc/network/interfaces.d/*.cfg
+
+    - name: configure eth2
+      copy:
+        content: |
+          auto eth2
+          iface eth2 inet manual
+            up ip link set $IFACE up
+            down ip link set $IFACE down
+        dest: /etc/network/interfaces.d/eth2.cfg
+      notify:
+        - ifup eth2
+
+    - name: ensure br-ex
+      openvswitch_bridge:
+        bridge: br-ex
+        state: present
+
+    - name: ensure eth2 attached to br-ex
+      openvswitch_port:
+        bridge: br-ex
+        port: eth2
+        state: present
+
+  handlers:
+    - name: ifup eth2
+      command: ifup eth2
+
+- hosts: controller
+  serial: 1
+  roles:
+    - mysql
+    - rabbitmq
+
+- hosts: controller
+  roles:
+    - keepalived
+    - haproxy-openstack
+    - memcached
+    - keystone
+    - zookeeper
+    - gnocchi
+    - swift-proxy
+    - glance
+    - cinder-controller
+    - nova-controller
+    - neutron-server
+    - neutron-network
+    - heat
+    - horizon
+
+- hosts: compute
+  roles:
+    - role: loopback-device
+      device_name: loop0
+      device_file: /srv/loop0
+      device_size: 5G
+    - role: loopback-device
+      device_name: loop1
+      device_file: /srv/loop1
+      device_size: 1G
+  post_tasks:
+    - name: check physical volume for cinder
+      command: pvdisplay /dev/loop0
+      failed_when: false
+      changed_when: false
+      register: result
+
+    - name: create physical volume for cinder
+      command: pvcreate /dev/loop0
+      when: result.rc == 5
+
+    - name: check volume group for cinder
+      command: vgdisplay cinder-volumes
+      failed_when: false
+      changed_when: false
+      register: result
+
+    - name: create volume group for cinder
+      command: vgcreate cinder-volumes /dev/loop0
+      when: result.rc == 5
+
+    - name: install xfs
+      apt:
+        pkg: xfsprogs
+        state: present
+
+    - name: ensure swift device has xfs filesystem
+      filesystem:
+        dev: /dev/loop1
+        fstype: xfs
+
+    - name: ensure swift device is mounted
+      mount:
+        src: /dev/loop1
+        name: /var/lib/swift/loop1
+        fstype: xfs
+        opts: noatime,nodiratime,nobarrier,logbufs=8
+        state: mounted
+
+- hosts: compute
+  roles:
+    - cinder-volume
+    - nova-gather-keys
+    - nova-compute
+    - neutron-ovs-agent
+    - swift-storage
