@@ -1,0 +1,66 @@
+- name: ensure config directory
+  file:
+    path: /etc/zookeeper/conf
+    state: directory
+  tags:
+    - zookeeper
+    - zookeeper-install
+
+- name: ensure state directory
+  file:
+    path: /var/lib/zookeeper
+    state: directory
+  tags:
+    - zookeeper
+    - zookeeper-install
+
+- name: check if zookeeper container exists
+  command: docker ps -aq -f name=zookeeper
+  register: result
+  changed_when: false
+  tags:
+    - zookeeper
+    - zookeeper-install
+
+- name: create zookeeper container
+  command: >
+    docker create --name=zookeeper --restart=always --net=host
+      -v /var/lib/zookeeper:/var/lib/zookeeper
+      -v /etc/zookeeper/conf:/opt/zookeeper/conf
+      ianunruh/zookeeper
+  when: not result.stdout
+  tags:
+    - zookeeper
+    - zookeeper-install
+
+- name: configure id
+  template:
+    src: myid.j2
+    dest: /var/lib/zookeeper/myid
+  notify:
+    - restart zookeeper
+  tags:
+    - zookeeper
+    - zookeeper-configure
+
+- name: configure zookeeper
+  template:
+    src: zoo.cfg.j2
+    dest: /etc/zookeeper/conf/zoo.cfg
+  notify:
+    - restart zookeeper
+  tags:
+    - zookeeper
+    - zookeeper-configure
+
+- name: configure logging
+  copy:
+    src: log4j.properties
+    dest: /etc/zookeeper/conf/log4j.properties
+  notify:
+    - restart zookeeper
+  tags:
+    - zookeeper
+    - zookeeper-configure
+
+- meta: flush_handlers

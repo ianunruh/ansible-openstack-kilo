@@ -1,0 +1,2 @@
+- name: restart zookeeper
+  command: docker restart zookeeper

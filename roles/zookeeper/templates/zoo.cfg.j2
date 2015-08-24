@@ -1,0 +1,13 @@
+dataDir=/var/lib/zookeeper
+clientPort=2181
+
+tickTime={{ zookeeper_tick_time }}
+initLimit={{ zookeeper_init_limit }}
+syncLimit={{ zookeeper_sync_limit }}
+maxClientCnxns={{ zookeeper_max_connections }}
+
+{% if zookeeper_group in groups %}
+{% for host in groups[zookeeper_group] %}
+server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host].ansible_hostname }}:2888:3888
+{% endfor %}
+{% endif %}
