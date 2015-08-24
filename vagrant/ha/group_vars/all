@@ -55,3 +55,5 @@ swift_object_devices:
 
 neutron_l3_ha: true
 neutron_dhcp_agents: 2
+
+nova_distribute_ssh_keys: true

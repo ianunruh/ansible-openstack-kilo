@@ -9,4 +9,4 @@ nova_rbd_secret_uuid: a0e9787e-2fcd-4172-a2dd-bd3139eabd14
 
 nova_compute_libvirt_images_type: default
 
-nova_distribute_ssh_keys: true
+nova_distribute_ssh_keys: false
