@@ -20,7 +20,14 @@
   tags:
     - keystone
     - keystone-configure
-    - keystone-fernet-keys
+    - keystone-keys
+
+- include: pki_keys.yml
+  when: keystone_token_provider == "pki" or keystone_token_provider == "pkiz"
+  tags:
+    - keystone
+    - keystone-configure
+    - keystone-keys
 
 - name: configure keystone
   template:

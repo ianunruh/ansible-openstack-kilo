@@ -1,0 +1,36 @@
+- name: ensure fetch directory
+  run_once: true
+  delegate_to: 127.0.0.1
+  sudo: no
+  file:
+    path: fetch/keystone
+    state: directory
+
+- name: pull pki keys
+  synchronize:
+    mode: pull
+    src: /etc/keystone/ssl
+    dest: fetch/keystone
+    archive: false
+    delete: true
+    recursive: true
+    checksum: true
+  when: groups[openstack_group_controller][0] == inventory_hostname
+
+- name: push pki keys
+  synchronize:
+    src: fetch/keystone/ssl
+    dest: /etc/keystone
+    archive: false
+    delete: true
+    recursive: true
+    checksum: true
+  when: groups[openstack_group_controller][0] != inventory_hostname
+
+- name: ensure ownership of keys directory
+  file:
+    path: /etc/keystone/ssl
+    owner: keystone
+    group: keystone
+    recurse: true
+    state: directory

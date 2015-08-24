@@ -3,7 +3,7 @@
   delegate_to: 127.0.0.1
   sudo: no
   file:
-    path: fetch
+    path: fetch/keystone
     state: directory
 
 - name: generate fernet keys
@@ -24,7 +24,7 @@
   synchronize:
     mode: pull
     src: /etc/keystone/fernet-keys
-    dest: fetch
+    dest: fetch/keystone
     archive: false
     delete: true
     recursive: true
@@ -33,7 +33,7 @@
 
 - name: push fernet keys
   synchronize:
-    src: fetch/fernet-keys
+    src: fetch/keystone/fernet-keys
     dest: /etc/keystone
     archive: false
     delete: true
