@@ -1,0 +1,12 @@
+- name: configure {{ name }} on haproxy
+  template:
+    src: listen.cfg.j2
+    dest: /etc/haproxy/cfg.d/{{ name }}.cfg
+  when: openstack_configure_haproxy
+  notify:
+    - assemble haproxy config
+  tags:
+    - haproxy
+    - haproxy-configure
+
+- meta: flush_handlers

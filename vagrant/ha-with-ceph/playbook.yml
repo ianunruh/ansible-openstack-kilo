@@ -45,6 +45,7 @@
   roles:
     - ceph-osd
 
+# Prevent race conditions when bootstrapping MySQL Galera and RabbitMQ clusters
 - hosts: controller
   serial: 1
   roles:
@@ -54,7 +55,8 @@
 - hosts: controller
   roles:
     - keepalived
-    - haproxy-openstack
+    - haproxy
+    - haproxy-mysql
     - memcached
     - keystone
     - radosgw

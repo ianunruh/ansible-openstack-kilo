@@ -2,6 +2,22 @@ dependencies:
   - role: openstack-common
   - role: ubuntu-cloud-archive
 
+  - role: openstack/lb
+    name: heat-api
+    listen_port: 8004
+    options:
+      - httpchk
+    tags:
+      - heat
+
+  - role: openstack/lb
+    name: heat-api-cfn
+    listen_port: 8000
+    options:
+      - httpchk
+    tags:
+      - heat
+
   - role: openstack/keystone-service
     service_name: heat
     service_type: orchestration

@@ -1,2 +1,10 @@
 dependencies:
   - role: swift-common
+
+  - role: openstack/lb
+    name: swift-proxy
+    listen_port: 8080
+    options:
+      - httpchk HEAD /healthcheck
+    tags:
+      - swift

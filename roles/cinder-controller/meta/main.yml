@@ -1,2 +1,10 @@
 dependencies:
   - role: cinder-common
+
+  - role: openstack/lb
+    name: cinder-api
+    listen_port: 8776
+    options:
+      - httpchk
+    tags:
+      - cinder

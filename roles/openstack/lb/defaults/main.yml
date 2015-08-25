@@ -1,0 +1,12 @@
+name: null
+
+mode: http
+active_active: true
+balance: roundrobin
+
+listen_address: "{{ openstack_controller_internal_host }}"
+listen_port: null
+backend_group: controller
+backend_port: "{{ listen_port }}"
+
+options: []

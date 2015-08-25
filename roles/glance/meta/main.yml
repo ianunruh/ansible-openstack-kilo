@@ -2,6 +2,20 @@ dependencies:
   - role: openstack-common
   - role: ubuntu-cloud-archive
 
+  - role: openstack/lb
+    name: glance-api
+    listen_port: 9292
+    options:
+      - httpchk
+    tags:
+      - glance
+
+  - role: openstack/lb
+    name: glance-registry
+    listen_port: 9191
+    tags:
+      - glance
+
   - role: openstack/keystone-service
     service_name: glance
     service_type: image

@@ -1,0 +1,11 @@
+listen {{ name }} {{ listen_address }}:{{ listen_port }}
+  mode {{ mode }}
+  {% if active_active %}
+  balance {{ balance }}
+  {% endif %}
+  {% for option in options %}
+  option {{ option }}
+  {% endfor %}
+  {% for host in groups[backend_group] -%}
+  server {{ host }} {{ hostvars[host].ansible_hostname }}:{{ backend_port }}{% if not active_active and not loop.first %} backup{% endif %} check
+  {% endfor %}

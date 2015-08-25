@@ -1,0 +1,10 @@
+dependencies:
+  - role: openstack/lb
+    name: mysql
+    mode: tcp
+    listen_port: 3306
+    active_active: false
+    options:
+      - tcplog
+    tags:
+      - mysql

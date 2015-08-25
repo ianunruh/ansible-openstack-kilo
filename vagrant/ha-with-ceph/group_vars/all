@@ -37,6 +37,8 @@ neutron_dhcp_agents: 2
 
 nova_distribute_ssh_keys: true
 
+openstack_configure_haproxy: true
+
 # Ceph
 ceph_public_network: 10.0.44.0/24
 

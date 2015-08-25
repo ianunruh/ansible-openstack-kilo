@@ -3,6 +3,14 @@ dependencies:
   - role: apache2
   - role: ceph-client
 
+  - role: openstack/lb
+    name: radosgw
+    listen_port: 8080
+    options:
+      - httpchk HEAD /
+    tags:
+      - radosgw
+
   - role: openstack/keystone-service
     service_name: swift
     service_type: object-store

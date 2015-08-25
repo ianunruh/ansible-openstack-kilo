@@ -1,2 +1,8 @@
 dependencies:
   - role: docker
+
+  - role: openstack/lb
+    name: horizon
+    listen_port: 3000
+    tags:
+      - horizon

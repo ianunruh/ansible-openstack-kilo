@@ -45,3 +45,5 @@
   tags:
     - nova
     - nova-install
+
+- meta: flush_handlers

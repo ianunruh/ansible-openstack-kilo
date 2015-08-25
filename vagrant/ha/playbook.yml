@@ -37,6 +37,7 @@
     - name: ifup eth2
       command: ifup eth2
 
+# Prevent race conditions when bootstrapping MySQL Galera and RabbitMQ clusters
 - hosts: controller
   serial: 1
   roles:
@@ -46,7 +47,8 @@
 - hosts: controller
   roles:
     - keepalived
-    - haproxy-openstack
+    - haproxy
+    - haproxy-mysql
     - memcached
     - keystone
     - swift-proxy

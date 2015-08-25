@@ -1,2 +1,26 @@
 dependencies:
   - role: nova-common
+
+  - role: openstack/lb
+    name: nova-api
+    listen_port: 8774
+    options:
+      - httpchk
+    tags:
+      - nova
+
+  - role: openstack/lb
+    name: nova-api-metadata
+    listen_port: 8775
+    options:
+      - httpchk
+    tags:
+      - nova
+
+  - role: openstack/lb
+    name: nova-novncproxy
+    listen_port: 6080
+    options:
+      - httpchk HEAD /
+    tags:
+      - nova

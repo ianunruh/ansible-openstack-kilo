@@ -1,2 +1,10 @@
 dependencies:
   - role: neutron-common
+
+  - role: openstack/lb
+    name: neutron-api
+    listen_port: 9696
+    options:
+      - httpchk
+    tags:
+      - neutron

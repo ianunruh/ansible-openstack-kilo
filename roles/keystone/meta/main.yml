@@ -3,6 +3,22 @@ dependencies:
   - role: ubuntu-cloud-archive
   - role: apache2
 
+  - role: openstack/lb
+    name: keystone-public
+    listen_port: 5000
+    options:
+      - httpchk
+    tags:
+      - keystone
+
+  - role: openstack/lb
+    name: keystone-admin
+    listen_port: 35357
+    options:
+      - httpchk
+    tags:
+      - keystone
+
   - role: openstack/database
     database: "{{ keystone_mysql_db }}"
     user: "{{ keystone_mysql_user }}"
