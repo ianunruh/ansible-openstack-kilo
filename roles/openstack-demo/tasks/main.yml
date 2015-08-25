@@ -1,4 +1,5 @@
 - name: ensure demo user
+  run_once: true
   keystone_v3_user:
     name: demo
     password: demo
@@ -6,16 +7,22 @@
 
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
+  tags:
+    - openstack-demo
 
 - name: ensure demo project
+  run_once: true
   keystone_v3_project:
     name: demo
     state: present
 
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
+  tags:
+    - openstack-demo
 
 - name: ensure demo user has user role on demo project
+  run_once: true
   keystone_v3_assignment:
     user: demo
     project: demo
@@ -24,8 +31,11 @@
 
     endpoint: "{{ keystone_admin_endpoint }}"
     token: "{{ keystone_admin_token }}"
+  tags:
+    - openstack-demo
 
 - name: create external network
+  run_once: true
   quantum_network:
     name: ext-net
     router_external: true
@@ -37,8 +47,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: create external subnet
+  run_once: true
   quantum_subnet:
     name: ext-subnet
     network_name: ext-net
@@ -53,8 +67,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: create demo network
+  run_once: true
   quantum_network:
     name: demo-net
     tenant_name: demo
@@ -63,8 +81,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: create demo subnet
+  run_once: true
   quantum_subnet:
     name: demo-subnet
     network_name: demo-net
@@ -76,8 +98,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: create demo router
+  run_once: true
   quantum_router:
     name: demo-router
     tenant_name: demo
@@ -86,8 +112,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: attach demo router to demo subnet
+  run_once: true
   quantum_router_interface:
     router_name: demo-router
     subnet_name: demo-subnet
@@ -97,8 +127,12 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: set demo router gateway
+  run_once: true
   quantum_router_gateway:
     router_name: demo-router
     network_name: ext-net
@@ -107,6 +141,9 @@
     login_username: admin
     login_password: "{{ keystone_admin_password }}"
     login_tenant_name: admin
+    auth_url: "{{ keystone_auth_url }}"
+  tags:
+    - openstack-demo
 
 - name: configure demo environment script
   template:
