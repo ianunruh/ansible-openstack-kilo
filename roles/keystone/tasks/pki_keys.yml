@@ -15,6 +15,7 @@
     delete: true
     recursive: true
     checksum: true
+    rsync_path: sudo rsync
   when: groups[openstack_group_controller][0] == inventory_hostname
 
 - name: push pki keys
@@ -25,6 +26,7 @@
     delete: true
     recursive: true
     checksum: true
+    rsync_path: sudo rsync
   when: groups[openstack_group_controller][0] != inventory_hostname
 
 - name: ensure ownership of keys directory
