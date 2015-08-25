@@ -1,0 +1,79 @@
+- hosts: all
+  roles:
+    - hostsfile
+    - apt
+    - openvswitch
+    - swapfile
+
+  post_tasks:
+    - name: ensure include present in interfaces file
+      lineinfile:
+        dest: /etc/network/interfaces
+        line: source /etc/network/interfaces.d/*.cfg
+
+    - name: configure eth2
+      copy:
+        content: |
+          auto eth2
+          iface eth2 inet manual
+            up ip link set $IFACE up
+            down ip link set $IFACE down
+        dest: /etc/network/interfaces.d/eth2.cfg
+      notify:
+        - ifup eth2
+
+    - name: ensure br-ex
+      openvswitch_bridge:
+        bridge: br-ex
+        state: present
+
+    - name: ensure eth2 attached to br-ex
+      openvswitch_port:
+        bridge: br-ex
+        port: eth2
+        state: present
+
+  handlers:
+    - name: ifup eth2
+      command: ifup eth2
+
+- hosts: ceph-mon
+  roles:
+    - ceph-mon
+
+- hosts: compute
+  roles:
+    - ceph-osd
+
+- hosts: controller
+  serial: 1
+  roles:
+    - mysql
+    - rabbitmq
+
+- hosts: controller
+  roles:
+    - keepalived
+    - haproxy-openstack
+    - memcached
+    - keystone
+    - radosgw
+    - glance
+    - cinder-controller
+    - cinder-volume
+    - nova-controller
+    - neutron-server
+    - neutron-network
+    - heat
+    - horizon
+
+- hosts: compute
+  roles:
+    - ceph-client
+    - nova-gather-keys
+    - nova-compute
+    - neutron-ovs-agent
+
+- hosts: controller
+  roles:
+    - openstack-demo

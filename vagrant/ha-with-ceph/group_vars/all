@@ -1,0 +1,70 @@
+openstack_controller_internal_host: 10.0.44.100
+openstack_controller_public_host: 10.0.44.100
+
+openstack_internal_interface: eth1
+openstack_internal_host: "{{ ansible_eth1.ipv4.address }}"
+
+openstack_memcache_hosts:
+  - 10.0.44.101:11211
+  - 10.0.44.102:11211
+  - 10.0.44.103:11211
+
+openstack_rabbitmq_hosts:
+  - 10.0.44.101:5672
+  - 10.0.44.102:5672
+  - 10.0.44.103:5672
+
+neutron_ml2_flat_networks:
+  - external
+
+neutron_ml2_vxlan_ranges:
+  - 10000:20000
+
+neutron_ovs_bridge_mappings:
+  - external:br-ex
+
+keystone_listen_address: "{{ openstack_internal_host }}"
+glance_listen_address: "{{ openstack_internal_host }}"
+cinder_listen_address: "{{ openstack_internal_host }}"
+nova_listen_address: "{{ openstack_internal_host }}"
+neutron_listen_address: "{{ openstack_internal_host }}"
+heat_listen_address: "{{ openstack_internal_host }}"
+horizon_listen_address: "{{ openstack_internal_host }}"
+radosgw_listen_address: "{{ openstack_internal_host }}"
+
+neutron_l3_ha: true
+neutron_dhcp_agents: 2
+
+nova_distribute_ssh_keys: true
+
+# Ceph
+ceph_public_network: 10.0.44.0/24
+
+ceph_mon_interface: eth1
+
+# RGW auth currently does not work with Fernet tokens
+# http://tracker.ceph.com/issues/12761
+keystone_token_provider: pkiz
+
+# Ceph integration
+glance_configure_ceph: true
+cinder_configure_ceph: true
+nova_configure_ceph: true
+
+glance_default_store: rbd
+
+glance_stores:
+  - rbd
+  - http
+
+cinder_backends:
+  rbd:
+    volume_driver: cinder.volume.drivers.rbd.RBDDriver
+    rbd_ceph_conf: /etc/ceph/ceph.conf
+    rbd_user: cinder
+    rbd_pool: volumes
+    rbd_secret_uuid: a0e9787e-2fcd-4172-a2dd-bd3139eabd14
+
+cinder_backup_driver: cinder.backup.drivers.ceph
+
+nova_compute_libvirt_images_type: rbd
