@@ -42,3 +42,7 @@ ceph_mon_interface: eth1
 ceph_osd_directories:
   - /srv/ceph-osd-a
   - /srv/ceph-osd-b
+
+# RGW auth currently does not work with Fernet tokens
+# http://tracker.ceph.com/issues/12761
+keystone_token_provider: pkiz

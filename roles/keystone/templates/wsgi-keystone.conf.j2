@@ -7,6 +7,7 @@ Listen {{ keystone_listen_address }}:35357
     WSGIScriptAlias / /var/www/keystone-public.py
     WSGIApplicationGroup %{GLOBAL}
     WSGIPassAuthorization On
+    WSGIChunkedRequest On
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
@@ -21,6 +22,7 @@ Listen {{ keystone_listen_address }}:35357
     WSGIScriptAlias / /var/www/keystone-admin.py
     WSGIApplicationGroup %{GLOBAL}
     WSGIPassAuthorization On
+    WSGIChunkedRequest On
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>

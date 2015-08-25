@@ -1,0 +1,4 @@
+- name: restart radosgw
+  service:
+    name: radosgw-all
+    state: restarted

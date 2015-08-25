@@ -1,0 +1,12 @@
+[client.radosgw.gateway]
+  host = {{ ansible_hostname }}
+  keyring = /etc/ceph/ceph.client.radosgw.keyring
+  rgw socket path = ""
+  log file = /var/log/radosgw/client.radosgw.gateway.log
+  rgw frontends = fastcgi socket_port=9000 socket_host=127.0.0.1
+  rgw print continue = false
+
+  rgw s3 auth use keystone = true
+  rgw keystone url = {{ radosgw_keystone_url }}
+  rgw keystone admin token = {{ keystone_admin_token }}
+  rgw keystone accepted roles = {{ radosgw_keystone_accepted_roles|join(',') }}

@@ -1,0 +1,12 @@
+radosgw_listen_address: 0.0.0.0
+
+radosgw_keystone_objectstore_endpoints:
+  public: "http://{{ openstack_controller_public_host }}:8080/swift/v1"
+  internal: "http://{{ openstack_controller_internal_host }}:8080/swift/v1"
+  admin: "http://{{ openstack_controller_internal_host }}:8080/swift/v1"
+
+radosgw_keystone_url: "http://{{ openstack_controller_internal_host }}:5000"
+
+radosgw_keystone_accepted_roles:
+  - admin
+  - user

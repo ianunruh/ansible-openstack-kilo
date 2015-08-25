@@ -1,0 +1,11 @@
+dependencies:
+  - role: openstack-common
+  - role: apache2
+  - role: ceph-client
+
+  - role: openstack/keystone-service
+    service_name: swift
+    service_type: object-store
+    service_endpoints: "{{ radosgw_keystone_objectstore_endpoints }}"
+    tags:
+      - radosgw

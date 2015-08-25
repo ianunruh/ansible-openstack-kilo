@@ -39,6 +39,7 @@
     - memcached
     - keystone
     - ceph-client
+    - radosgw
     - glance
     - cinder-controller
     - cinder-volume

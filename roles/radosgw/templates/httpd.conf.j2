@@ -1,0 +1,15 @@
+Listen {{ radosgw_listen_address }}:8080
+
+<VirtualHost {{ radosgw_listen_address }}:8080>
+  DocumentRoot /var/www/html
+
+  ErrorLog /var/log/apache2/rgw_error.log
+  CustomLog /var/log/apache2/rgw_access.log combined
+
+  RewriteEngine On
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+  SetEnv proxy-nokeepalive 1
+
+  ProxyPass / fcgi://127.0.0.1:9000/
+</VirtualHost>

@@ -1,0 +1,86 @@
+- name: retrieve ceph radosgw client keyring
+  command: >
+    ceph auth get-or-create client.radosgw.gateway
+        mon 'allow rwx'
+        osd 'allow rwx'
+      -o /etc/ceph/ceph.client.radosgw.keyring
+  args:
+    creates: /etc/ceph/ceph.client.radosgw.keyring
+  tags:
+    - radosgw
+
+- name: install radosgw
+  apt:
+    pkg: radosgw
+    state: present
+  tags:
+    - radosgw
+    - radosgw-install
+
+- name: enable fcgi proxy module
+  apache2_module:
+    name: proxy_fcgi
+    state: present
+  notify:
+    - restart apache2
+  tags:
+    - radosgw
+    - radosgw-install
+
+- name: enable rewrite module
+  apache2_module:
+    name: rewrite
+    state: present
+  notify:
+    - restart apache2
+  tags:
+    - radosgw
+    - radosgw-install
+
+- name: ensure data directory
+  file:
+    path: /var/lib/ceph/radosgw/ceph-radosgw.gateway
+    state: directory
+  tags:
+    - radosgw
+    - radosgw-install
+
+- name: configure radosgw
+  template:
+    src: radosgw.conf.j2
+    dest: /etc/ceph/conf.d/50-radosgw.conf
+  notify:
+    - assemble ceph config
+    - restart radosgw
+  tags:
+    - radosgw
+    - radosgw-configure
+
+- name: configure apache2 for radosgw
+  template:
+    src: httpd.conf.j2
+    dest: /etc/apache2/sites-enabled/radosgw.conf
+  notify:
+    - restart apache2
+  tags:
+    - radosgw
+    - radosgw-configure
+
+- name: activate radosgw
+  file:
+    path: /var/lib/ceph/radosgw/ceph-radosgw.gateway/done
+    state: touch
+  changed_when: false
+  tags:
+    - radosgw
+    - radosgw-configure
+
+- meta: flush_handlers
+
+- name: ensure radosgw started
+  service:
+    name: radosgw
+    args: id=radosgw.gateway
+    state: started
+  tags:
+    - radosgw
