@@ -2,6 +2,8 @@
   apt_key:
     id: 2C52609D
     keyserver: hkp://p80.pool.sks-keyservers.net:80
+  register: result
+  until: result|success
 
 - name: add apt repository
   apt_repository:

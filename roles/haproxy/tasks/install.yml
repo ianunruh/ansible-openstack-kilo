@@ -2,6 +2,8 @@
   apt_key:
     id: 1C61B9CD
     keyserver: hkp://keyserver.ubuntu.com:80
+  register: result
+  until: result|success
 
 - name: add apt repository
   apt_repository:

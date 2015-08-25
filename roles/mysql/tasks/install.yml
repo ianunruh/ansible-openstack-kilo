@@ -2,6 +2,8 @@
   apt_key:
     id: CD2EFD2A
     url: https://www.percona.com/downloads/RPM-GPG-KEY-percona
+  register: result
+  until: result|success
 
 - name: add apt repository
   apt_repository:
