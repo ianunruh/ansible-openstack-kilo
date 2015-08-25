@@ -1,10 +1,12 @@
 - name: fetch osd bootstrap keyring
+  run_once: yes
   fetch:
     src: /var/lib/ceph/bootstrap-osd/ceph.keyring
     dest: fetch/ceph.client.bootstrap-osd.keyring
     flat: yes
 
 - name: fetch admin keyring
+  run_once: yes
   fetch:
     src: /etc/ceph/ceph.client.admin.keyring
     dest: fetch/ceph.client.admin.keyring
