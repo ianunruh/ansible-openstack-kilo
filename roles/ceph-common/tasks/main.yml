@@ -1,5 +1,6 @@
 - name: ensure fetch directory
   delegate_to: 127.0.0.1
+  run_once: true
   sudo: no
   file:
     path: fetch

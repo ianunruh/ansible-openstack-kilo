@@ -1,5 +1,6 @@
 - name: check if monitor keyring present
   delegate_to: 127.0.0.1
+  run_once: true
   sudo: no
   stat:
     path: fetch/ceph.mon.keyring

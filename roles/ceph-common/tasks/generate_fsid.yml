@@ -1,5 +1,6 @@
 - name: generate fsid
   delegate_to: 127.0.0.1
+  run_once: true
   sudo: no
   shell: uuidgen | tee fetch/ceph-fsid.txt
   args:
@@ -7,6 +8,7 @@
 
 - name: load fsid from file
   delegate_to: 127.0.0.1
+  run_once: true
   sudo: no
   command: cat fetch/ceph-fsid.txt
   register: result
