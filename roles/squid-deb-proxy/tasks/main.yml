@@ -1,0 +1,17 @@
+- name: update apt cache if stale
+  apt:
+    update_cache: yes
+    cache_valid_time: 7200
+
+- name: install squid-deb-proxy
+  apt:
+    pkg: squid-deb-proxy
+    install_recommends: no
+    state: present
+
+- name: configure squid-deb-proxy
+  template:
+    src: squid-deb-proxy.conf.j2
+    dest: /etc/squid-deb-proxy/squid-deb-proxy.conf
+  notify:
+    - reload squid-deb-proxy
