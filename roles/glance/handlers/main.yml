@@ -6,8 +6,10 @@
   service:
     name: glance-api
     state: restarted
+  failed_when: false
 
 - name: restart glance-registry
   service:
     name: glance-registry
     state: restarted
+  failed_when: false

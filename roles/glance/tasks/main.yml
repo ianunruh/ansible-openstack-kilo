@@ -1,6 +1,6 @@
-- name: install glance
+- name: install glance-common
   apt:
-    pkg: glance
+    pkg: glance-common
     state: present
   tags:
     - glance
@@ -33,3 +33,11 @@
     - glance-configure
 
 - meta: flush_handlers
+
+- name: install glance
+  apt:
+    pkg: glance
+    state: present
+  tags:
+    - glance
+    - glance-install
