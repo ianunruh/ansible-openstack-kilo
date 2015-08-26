@@ -33,4 +33,4 @@ glance_swift_user: "{{ glance_keystone_project }}:{{ glance_keystone_user }}"
 glance_swift_key: "{{ glance_keystone_password }}"
 glance_swift_region: "{{ openstack_region }}"
 
-glance_listen_address: 0.0.0.0
+glance_listen_address: "{{ openstack_listen_address }}"

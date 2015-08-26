@@ -41,10 +41,12 @@ nova_glance_host: "{{ openstack_controller_internal_host }}"
 
 nova_novncproxy_base_url: "http://{{ openstack_controller_public_host }}:6080/vnc_auto.html"
 
+# API configuration
 nova_api_workers: 2
-nova_conductor_workers: 2
+nova_listen_address: "{{ openstack_listen_address }}"
 
-nova_listen_address: 0.0.0.0
+# Conductor configuration
+nova_conductor_workers: 2
 
 # Scheduler configuration
 nova_scheduler_default_filters:

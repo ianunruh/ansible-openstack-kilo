@@ -23,15 +23,7 @@ neutron_ml2_vxlan_ranges:
 neutron_ovs_bridge_mappings:
   - external:br-ex
 
-keystone_listen_address: "{{ openstack_internal_host }}"
-glance_listen_address: "{{ openstack_internal_host }}"
-cinder_listen_address: "{{ openstack_internal_host }}"
-nova_listen_address: "{{ openstack_internal_host }}"
-neutron_listen_address: "{{ openstack_internal_host }}"
-heat_listen_address: "{{ openstack_internal_host }}"
-horizon_listen_address: "{{ openstack_internal_host }}"
-designate_listen_address: "{{ openstack_internal_host }}"
-swift_listen_address: "{{ openstack_internal_host }}"
+openstack_listen_address: "{{ openstack_internal_host }}"
 
 rabbitmq_clustered: true
 

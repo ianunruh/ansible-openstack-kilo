@@ -4,7 +4,7 @@ horizon_memcache_servers: "{{ openstack_memcache_hosts }}"
 # Horizon configuration
 horizon_secret_key: secret
 
-horizon_listen_address: 0.0.0.0
+horizon_listen_address: "{{ openstack_listen_address }}"
 
 horizon_feature_cinder_backup: true
 horizon_feature_neutron_l3_distributed: true

@@ -8,6 +8,8 @@ openstack_internal_host: "{{ ansible_default_ipv4.address }}"
 openstack_controller_internal_host: localhost
 openstack_controller_public_host: localhost
 
+openstack_listen_address: 0.0.0.0
+
 openstack_memcache_hosts:
   - "{{ openstack_controller_internal_host }}:11211"
 

@@ -28,4 +28,4 @@ heat_keystone_auth_uri: "http://{{ openstack_controller_public_host }}:5000/v2.0
 heat_keystone_identity_uri: "http://{{ openstack_controller_internal_host }}:35357"
 
 # Heat configuration
-heat_listen_address: 0.0.0.0
+heat_listen_address: "{{ openstack_listen_address }}"

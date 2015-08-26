@@ -39,7 +39,7 @@ neutron_host: "{{ ansible_hostname }}"
 
 # API configuration
 neutron_api_workers: 2
-neutron_listen_address: 0.0.0.0
+neutron_listen_address: "{{ openstack_listen_address }}"
 
 # DHCP configuration
 neutron_dhcp_agents: 1

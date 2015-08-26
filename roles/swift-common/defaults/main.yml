@@ -27,4 +27,4 @@ swift_hash_path_suffix: changeme
 
 swift_force_rebalance: false
 
-swift_listen_address: 0.0.0.0
+swift_listen_address: "{{ openstack_listen_address }}"

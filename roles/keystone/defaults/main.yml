@@ -15,6 +15,6 @@ keystone_identity_endpoints:
 
 keystone_token_provider: fernet
 
-keystone_listen_address: 0.0.0.0
+keystone_listen_address: "{{ openstack_listen_address }}"
 
 keystone_rotate_fernet_keys: false
