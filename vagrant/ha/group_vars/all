@@ -33,6 +33,8 @@ horizon_listen_address: "{{ openstack_internal_host }}"
 designate_listen_address: "{{ openstack_internal_host }}"
 swift_listen_address: "{{ openstack_internal_host }}"
 
+rabbitmq_clustered: true
+
 glance_default_store: swift
 
 glance_stores:

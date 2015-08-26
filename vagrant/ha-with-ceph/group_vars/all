@@ -32,6 +32,8 @@ heat_listen_address: "{{ openstack_internal_host }}"
 horizon_listen_address: "{{ openstack_internal_host }}"
 radosgw_listen_address: "{{ openstack_internal_host }}"
 
+rabbitmq_clustered: true
+
 neutron_l3_ha: true
 neutron_dhcp_agents: 2
 
