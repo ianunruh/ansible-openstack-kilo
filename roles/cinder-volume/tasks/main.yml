@@ -1,3 +1,11 @@
+- name: install cinder-backup
+  apt:
+    pkg: cinder-backup
+    state: present
+  tags:
+    - cinder
+    - cinder-install
+
 - name: install cinder-volume
   apt:
     pkg: cinder-volume

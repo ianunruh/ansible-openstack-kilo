@@ -6,14 +6,6 @@
     - cinder
     - cinder-install
 
-- name: install cinder-backup
-  apt:
-    pkg: cinder-backup
-    state: present
-  tags:
-    - cinder
-    - cinder-install
-
 - name: install cinder-scheduler
   apt:
     pkg: cinder-scheduler
