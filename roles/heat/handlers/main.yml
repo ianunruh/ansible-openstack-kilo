@@ -6,13 +6,16 @@
   service:
     name: heat-api
     state: restarted
+  failed_when: false
 
 - name: restart heat-api-cfn
   service:
     name: heat-api-cfn
     state: restarted
+  failed_when: false
 
 - name: restart heat-engine
   service:
     name: heat-engine
     state: restarted
+  failed_when: false
